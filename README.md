@@ -1,4 +1,4 @@
-#<GAME TITLE>
+#Match 3 Game
 
 Members:
 
