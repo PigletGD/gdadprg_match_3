@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "name": "Match3Game",
+  "description": "Match3Game",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/res/icon.png"
+  },
+  "developer": [
+  {
+    "name": "Lanz Santiago",
+  },
+  {
+    "name": "Jacob Manzano",
+  }
+  ],
+  "default_locale": "en",
+  "installs_allowed_from": [
+    "*"
+  ],
+  "orientation": "portrait-primary",
+  "fullscreen": "true"
+}
