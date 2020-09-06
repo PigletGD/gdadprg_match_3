@@ -1,4 +1,3 @@
-
 class MainMenuScene extends cc.Scene
 {
 	constructor()

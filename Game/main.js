@@ -108,10 +108,13 @@ cc.game.onStart = function()
     // The game will be resized when browser size change
     cc.view.resizeWithBrowserSize(true);
 
+    // Enable custom debug mode
+    cc.isDebugMode = true;
+
     //load resources
     cc.LoaderScene.preload(g_resources, function()
     {
-        cc.director.runScene(new MainMenuScene());
+        cc.director.runScene(new PrototypeScene());
     }, this);
 };
 cc.game.run();

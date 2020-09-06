@@ -30,7 +30,8 @@ var res =
         type: "font",
         name: "Pixel",
         srcs: ["res/fonts/slkscr.ttf"]
-    }
+    },
+    PrototypeSprite: "res/PrototypeTileSprite.png"
 };
 
 var g_resources = [];

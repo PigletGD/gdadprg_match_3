@@ -15,9 +15,14 @@
         "src/**/*.js"
     ],
     "jsList": [
+        "src/Entities/Board.js",
+        "src/Entities/SquareBoard.js",
+        "src/Entities/Tile.js",
         "src/Layers/MainMenuLayer.js",
+        "src/Layers/PrototypeLayer.js",
         "src/resource.js",
         "src/Scenes/MainMenuScene.js",
+        "src/Scenes/PrototypeScene.js",
         "src/Utils.js"
     ]
 }
