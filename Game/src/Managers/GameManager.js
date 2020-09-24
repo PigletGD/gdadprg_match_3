@@ -1,5 +1,7 @@
 
-
+/********************************
+GameManager manages the state of the game
+********************************/
 class GameManager
 {
 	static getInstance()

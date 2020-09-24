@@ -17,6 +17,9 @@
   "jsList": [
     ".es5/Components/CountdownComponent.js",
     ".es5/Components/TimerComponent.js",
+    ".es5/Entities/Board/Board.js",
+    ".es5/Entities/Board/BoardFactory.js",
+    ".es5/Entities/Board/SquareBoard.js",
     ".es5/Entities/Board.js",
     ".es5/Entities/SquareBoard.js",
     ".es5/Entities/Tile.js",

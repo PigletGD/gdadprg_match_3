@@ -33,8 +33,6 @@ var PrototypeLayer = function (_cc$LayerColor) {
 			_get(PrototypeLayer.prototype.__proto__ || Object.getPrototypeOf(PrototypeLayer.prototype), "onEnter", this).call(this);
 			this.scheduleUpdate();
 
-			GameManager.getInstance().test();
-
 			// let board = boardManager.createBoard();
 			// board.x = this.getContentSize().width / 2 - board.width / 2;
 			// board.y = this.getContentSize().height / 2 - board.height / 2;

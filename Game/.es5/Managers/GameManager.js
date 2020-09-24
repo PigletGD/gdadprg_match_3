@@ -4,15 +4,28 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/********************************
+GameManager manages the state of the game
+********************************/
 var GameManager = function () {
 	function GameManager() {
 		_classCallCheck(this, GameManager);
 	}
 
 	_createClass(GameManager, [{
-		key: "test",
-		value: function test() {
-			console.log("Test");;
+		key: "pauseGame",
+		value: function pauseGame() {
+			this._isPaused = true;
+		}
+	}, {
+		key: "resumeGame",
+		value: function resumeGame() {
+			this._isPaused = false;
+		}
+	}, {
+		key: "isPaused",
+		value: function isPaused() {
+			return this._isPaused;
 		}
 	}], [{
 		key: "getInstance",
