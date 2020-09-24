@@ -12,7 +12,9 @@ class Tile extends cc.DrawNode
 		this.id = currentID;
 		this.isSelected = false;
 		currentID++;
-		console.log(this);
+		// console.log(this);
+
+		// GameManager.getInstance().test();
 
 		this.sprite = new cc.Sprite(spriteFilepath);
 		this.sprite.setAnchorPoint(0.0, 0.0);

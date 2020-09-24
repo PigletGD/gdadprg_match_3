@@ -1,31 +1,32 @@
 {
-    "project_type": "javascript",
-    "debugMode": 1,
-    "showFPS": true,
-    "frameRate": 60,
-    "noCache": false,
-    "id": "gameCanvas",
-    "renderMode": 0,
-    "engineDir": "frameworks/cocos2d-html5",
-    "modules": [
-        "cocos2d",
-        "extensions"
-    ],
-    "jsListOrder": [
-        "src/**/*.js"
-    ],
-    "jsList": [
-        "src/Components/CountdownComponent.js",
-        "src/Components/TimerComponent.js",
-        "src/Entities/Board.js",
-        "src/Entities/SquareBoard.js",
-        "src/Entities/Tile.js",
-        "src/Layers/MainMenuLayer.js",
-        "src/Layers/PrototypeLayer.js",
-        "src/Managers/BoardManager.js",
-        "src/resource.js",
-        "src/Scenes/MainMenuScene.js",
-        "src/Scenes/PrototypeScene.js",
-        "src/Utils.js"
-    ]
+  "project_type": "javascript",
+  "debugMode": 1,
+  "showFPS": true,
+  "frameRate": 60,
+  "noCache": false,
+  "id": "gameCanvas",
+  "renderMode": 0,
+  "engineDir": "frameworks/cocos2d-html5",
+  "modules": [
+    "cocos2d",
+    "extensions"
+  ],
+  "jsListOrder": [
+    "src/**/*.js"
+  ],
+  "jsList": [
+    ".es5/Components/CountdownComponent.js",
+    ".es5/Components/TimerComponent.js",
+    ".es5/Entities/Board.js",
+    ".es5/Entities/SquareBoard.js",
+    ".es5/Entities/Tile.js",
+    ".es5/Layers/MainMenuLayer.js",
+    ".es5/Layers/PrototypeLayer.js",
+    ".es5/Managers/BoardManager.js",
+    ".es5/Managers/GameManager.js",
+    ".es5/resource.js",
+    ".es5/Scenes/MainMenuScene.js",
+    ".es5/Scenes/PrototypeScene.js",
+    ".es5/Utils.js"
+  ]
 }

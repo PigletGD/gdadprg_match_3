@@ -45,17 +45,6 @@ var Board = function (_cc$DrawNode) {
 
 			this.drawRect(cc.p(0, 0), cc.p(totalWidth, totalHeight), cc.color("#000000"));
 
-			for (var row = 0; row < this._boardSize.height; row++) {
-				for (var col = 0; col < this._boardSize.width; col++) {
-					var tilePosition = cc.p(col * this._tileSize.width, row * this._tileSize.height);
-
-					var tile = new Tile(res.PrototypeSprite, tilePosition, this._tileSize, cc.color("#222222"));
-
-					this._array[row * this._boardSize.height + col] = tile;
-					this.addChild(tile);
-				}
-			}
-
 			if (cc.isDebugMode) {
 				var debugDot = new cc.DrawNode();
 				debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff0000"));
@@ -68,6 +57,16 @@ var Board = function (_cc$DrawNode) {
 			var prevItem = this._array[row * this._boardSize.height + column];
 			this._array[row * this._boardSize.height + column] = item;
 			return prevItem;
+		}
+	}, {
+		key: "addTile",
+		value: function addTile(tile, x, y) {
+			var tilePosition = cc.p(x * this._tileSize.width, y * this._tileSize.height);
+
+			var newTile = new Tile(tile.sprite, tilePosition, this._tileSize, tile.bgColor);
+
+			this._array[y * this._boardSize.height + x] = newTile;
+			this.addChild(newTile);
 		}
 	}, {
 		key: "width",

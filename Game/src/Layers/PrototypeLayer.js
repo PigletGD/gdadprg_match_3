@@ -15,10 +15,11 @@ class PrototypeLayer extends cc.LayerColor
 		super.onEnter();
 		this.scheduleUpdate();
 
-		let board = boardManager.createBoard();
-		board.x = this.getContentSize().width / 2 - board.width / 2;
-		board.y = this.getContentSize().height / 2 - board.height / 2;
 
-		this.addChild(board);
+		// let board = boardManager.createBoard();
+		// board.x = this.getContentSize().width / 2 - board.width / 2;
+		// board.y = this.getContentSize().height / 2 - board.height / 2;
+
+		// this.addChild(board);
 	}
 }

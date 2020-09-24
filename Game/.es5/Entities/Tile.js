@@ -25,8 +25,11 @@ var Tile = function (_cc$DrawNode) {
 		_this.size = size;
 		_this.bgColor = color;
 		_this.id = currentID;
+		_this.isSelected = false;
 		currentID++;
-		console.log(_this);
+		// console.log(this);
+
+		// GameManager.getInstance().test();
 
 		_this.sprite = new cc.Sprite(spriteFilepath);
 		_this.sprite.setAnchorPoint(0.0, 0.0);
