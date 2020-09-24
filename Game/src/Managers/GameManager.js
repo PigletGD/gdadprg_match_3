@@ -12,8 +12,19 @@ class GameManager
 		return GameManager._sharedInstance;
 	}
 
-	test()
+	pauseGame()
 	{
-		console.log("Test");;
+		this._isPaused = true;
 	}
+
+	resumeGame()
+	{
+		this._isPaused = false;
+	}
+
+	isPaused()
+	{
+		return this._isPaused;
+	}
+
 }
