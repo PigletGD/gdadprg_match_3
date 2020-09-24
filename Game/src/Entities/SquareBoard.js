@@ -4,6 +4,4 @@ class SquareBoard extends Board
 	{
 		super("SquareBoard", cc.size(squareSize, squareSize), cc.size(tileSize, tileSize));
 	}
-
-
 }

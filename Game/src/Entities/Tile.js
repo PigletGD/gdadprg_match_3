@@ -10,11 +10,12 @@ class Tile extends cc.DrawNode
 		this.size = size;
 		this.bgColor = color;
 		this.id = currentID;
+		this.isSelected = false;
 		currentID++;
 		console.log(this);
 
 		this.sprite = new cc.Sprite(spriteFilepath);
-		this.sprite.setAnchorPoint(0.0, 1.0);
+		this.sprite.setAnchorPoint(0.0, 0.0);
 		let originalSize = this.sprite.getContentSize();
 		this.sprite.setScale(size.width / originalSize.height, size.height / originalSize.height);
 	}
@@ -25,7 +26,7 @@ class Tile extends cc.DrawNode
 
 		this.drawRect(
 			cc.p(0, 0),
-			cc.p(this.size.width, -this.size.height),
+			cc.p(this.size.width, this.size.height),
 			this.bgColor);
 
 		this.addChild(this.sprite);
@@ -37,7 +38,7 @@ class Tile extends cc.DrawNode
 		if (cc.isDebugMode)
 		{
 			let debugDot = new cc.DrawNode();
-			debugDot.drawDot(this.getPosition(), 5, cc.color("#ff0000"));
+			debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff00ff"));
 			this.addChild(debugDot);
 		}
 	}

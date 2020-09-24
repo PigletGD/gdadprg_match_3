@@ -1,6 +1,9 @@
-# <GAME TITLE>
+# Match 3 Game
 
-Lanz Santiago
-Jacob Manzano
+Members:
+
+* Lanz Santiago
+
+* Jacob Manzano
 
 <SOURCE CODE LINK>

@@ -1,10 +1,12 @@
+
+
 class PrototypeLayer extends cc.LayerColor
 {
 	constructor(gameSize = cc.winSize, bgColor = cc.color("#ff00ff"))
 	{
 		super(bgColor, gameSize.width, gameSize.height);
 		this.setName("PrototypeLayer");
-
+		cc.winSize;
 
 	}
 
@@ -13,9 +15,9 @@ class PrototypeLayer extends cc.LayerColor
 		super.onEnter();
 		this.scheduleUpdate();
 
-		let board = new Board("Board", cc.size(1, 1), cc.size(64, 64));
-		// board.x = this.getContentSize().width / 2 - board.width / 2;
-		board.y = this.getContentSize().height;
+		let board = boardManager.createBoard();
+		board.x = this.getContentSize().width / 2 - board.width / 2;
+		board.y = this.getContentSize().height / 2 - board.height / 2;
 
 		this.addChild(board);
 	}

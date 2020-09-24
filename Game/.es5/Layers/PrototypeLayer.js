@@ -10,6 +10,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var boardManager = new BoardManager();
+
 var PrototypeLayer = function (_cc$LayerColor) {
 	_inherits(PrototypeLayer, _cc$LayerColor);
 
@@ -22,8 +24,8 @@ var PrototypeLayer = function (_cc$LayerColor) {
 		var _this = _possibleConstructorReturn(this, (PrototypeLayer.__proto__ || Object.getPrototypeOf(PrototypeLayer)).call(this, bgColor, gameSize.width, gameSize.height));
 
 		_this.setName("PrototypeLayer");
+		cc.winSize;
 
-		_this.addChild(new SquareBoard(8, 16));
 		return _this;
 	}
 
@@ -32,6 +34,13 @@ var PrototypeLayer = function (_cc$LayerColor) {
 		value: function onEnter() {
 			_get(PrototypeLayer.prototype.__proto__ || Object.getPrototypeOf(PrototypeLayer.prototype), "onEnter", this).call(this);
 			this.scheduleUpdate();
+
+			//let board = new Board("Board", cc.size(8, 7), cc.size(64, 64));
+			//board.x = this.getContentSize().width / 2 - board.width / 2;
+			//board.y = this.getContentSize().height / 2 - board.height / 2;
+
+			//this.addChild(board);
+			this.addChild(boardManager.getInstance().createBoard());
 		}
 	}]);
 

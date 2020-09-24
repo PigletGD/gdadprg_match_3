@@ -15,16 +15,7 @@ var SquareBoard = function (_Board) {
 
 		_classCallCheck(this, SquareBoard);
 
-		var _this = _possibleConstructorReturn(this, (SquareBoard.__proto__ || Object.getPrototypeOf(SquareBoard)).call(this, "SquareBoard", squareSize, tileSize));
-
-		for (var row = 0; row < _this._boardSize.height; row++) {
-			for (var col = 0; col < _this._boardSize.width; col++) {
-				var tile = new Tile(cc.p(row * _this._tileSize.height, col * _this._tileSize.width), _this._tileSize, cc.color("#ff0000"));
-
-				_this._array[row * _this._boardSize.width + col] = tile;
-			}
-		}
-		return _this;
+		return _possibleConstructorReturn(this, (SquareBoard.__proto__ || Object.getPrototypeOf(SquareBoard)).call(this, "SquareBoard", cc.size(squareSize, squareSize), cc.size(tileSize, tileSize)));
 	}
 
 	return SquareBoard;

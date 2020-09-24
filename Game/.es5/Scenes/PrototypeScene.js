@@ -24,7 +24,7 @@ var PrototypeScene = function (_cc$Scene) {
 		value: function onEnter() {
 			_get(PrototypeScene.prototype.__proto__ || Object.getPrototypeOf(PrototypeScene.prototype), "onEnter", this).call(this);
 
-			var prototypeLayer = new PrototypeLayer(cc.size(500, 500), cc.color("#2255dd"));
+			var prototypeLayer = new PrototypeLayer(cc.size(550, 550), cc.color("#2255dd"));
 
 			// TODO: Refactor into LayerResizer that can be anchored in a particular location
 			prototypeLayer.x = cc.winSize.width / 2 - prototypeLayer.width / 2;

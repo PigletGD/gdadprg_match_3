@@ -10,51 +10,65 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var currentID = 0;
+// Time is in seconds
+var CountdownComponent = function (_cc$Component) {
+	_inherits(CountdownComponent, _cc$Component);
 
-var Tile = function (_cc$DrawNode) {
-	_inherits(Tile, _cc$DrawNode);
+	function CountdownComponent() {
+		var startingTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 180.0;
 
-	function Tile(spriteFilepath, position, size, color) {
-		_classCallCheck(this, Tile);
+		_classCallCheck(this, CountdownComponent);
 
-		var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).call(this));
+		var _this = _possibleConstructorReturn(this, (CountdownComponent.__proto__ || Object.getPrototypeOf(CountdownComponent)).call(this));
 
-		_this.setAnchorPoint(1.0, 1.0);
-		_this.setPosition(position);
-		_this.size = size;
-		_this.bgColor = color;
-		_this.id = currentID;
-		currentID++;
-		console.log(_this);
-
-		_this.sprite = new cc.Sprite(spriteFilepath);
-		_this.sprite.setAnchorPoint(0.0, 0.0);
-		var originalSize = _this.sprite.getContentSize();
-		_this.sprite.setScale(size.width / originalSize.height, size.height / originalSize.height);
+		_this._startingTime = startingTime;
+		_this._currentTime = startingTime;
+		_this.setName("CountdownComponent");
+		_this._isCountingDown = false;
 		return _this;
 	}
 
-	_createClass(Tile, [{
+	_createClass(CountdownComponent, [{
 		key: "onEnter",
 		value: function onEnter() {
-			_get(Tile.prototype.__proto__ || Object.getPrototypeOf(Tile.prototype), "onEnter", this).call(this);
-
-			this.drawRect(cc.p(0, 0), cc.p(this.size.width, this.size.height), this.bgColor);
-
-			this.addChild(this.sprite);
-
-			var idText = new cc.LabelTTF(this.id.toString(), "Arial", 32);
-			idText.setAnchorPoint(0, 0);
-			this.addChild(idText);
-
-			if (cc.isDebugMode) {
-				var debugDot = new cc.DrawNode();
-				debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff00ff"));
-				this.addChild(debugDot);
+			_get(CountdownComponent.prototype.__proto__ || Object.getPrototypeOf(CountdownComponent.prototype), "onEnter", this).call(this);
+		}
+	}, {
+		key: "update",
+		value: function update(delta) {
+			_get(CountdownComponent.prototype.__proto__ || Object.getPrototypeOf(CountdownComponent.prototype), "update", this).call(this, delta);
+			if (this._isCountingDown === true && this._currentTime > 0.0) {
+				this._currentTime -= delta;
 			}
+		}
+	}, {
+		key: "start",
+		value: function start() {
+			this._isCountingDown = true;
+			this._currentTime = this._startingTime;
+		}
+	}, {
+		key: "pause",
+		value: function pause() {
+			this._isCountingDown = false;
+		}
+	}, {
+		key: "stop",
+		value: function stop() {
+			this._isCountingDown = false;
+			this._currentTime = 0.0;
+		}
+	}, {
+		key: "reset",
+		value: function reset() {
+			this._currentTime = this._startingTime;
+		}
+	}, {
+		key: "remainingSeconds",
+		get: function get() {
+			return this._currentTime;
 		}
 	}]);
 
-	return Tile;
-}(cc.DrawNode);
+	return CountdownComponent;
+}(cc.Component);

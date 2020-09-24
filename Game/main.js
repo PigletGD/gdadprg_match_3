@@ -116,5 +116,7 @@ cc.game.onStart = function()
     {
         cc.director.runScene(new PrototypeScene());
     }, this);
+
+    // Construct all singletons needed
 };
 cc.game.run();

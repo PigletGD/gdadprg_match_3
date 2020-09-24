@@ -13,7 +13,7 @@ class Board extends cc.DrawNode
 	{
 		super();
 		this.setName(name);
-		// this.setAnchorPoint(0.0, 1.0);
+		this.setAnchorPoint(0.0, 0.0);
 
 		this._array = new Array(boardSize.width * boardSize.height);
 		this._boardSize = boardSize;
@@ -32,31 +32,10 @@ class Board extends cc.DrawNode
 			cc.p(totalWidth, totalHeight),
 			cc.color("#000000"));
 
-
-		for (let row = 0; row < this._boardSize.height; row++)
-		{
-			for (let col = 0; col < this._boardSize.width; col++)
-			{
-				let tilePosition = cc.p(
-					col * this._tileSize.width,
-					row * this._tileSize.height
-				);
-
-				let tile = new Tile(
-					res.PrototypeSprite,
-					tilePosition,
-					this._tileSize,
-					cc.color("#222222"));
-
-				this._array[row * this._boardSize.height + col] = tile;
-				this.addChild(tile);
-			}
-		}
-
 		if (cc.isDebugMode)
 		{
 			let debugDot = new cc.DrawNode();
-			debugDot.drawDot(this.getPosition(), 5, cc.color("#ff0000"));
+			debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff0000"));
 			this.addChild(debugDot);
 		}
 	}
@@ -86,6 +65,23 @@ class Board extends cc.DrawNode
 		let prevItem = this._array[row * this._boardSize.height + column];
 		this._array[row * this._boardSize.height + column] = item;
 		return prevItem;
+	}
+
+	addTile(tile, x, y)
+	{
+		let tilePosition = cc.p(
+			x * this._tileSize.width,
+			y * this._tileSize.height
+		);
+
+		let newTile = new Tile(
+			tile.sprite,
+			tilePosition,
+			this._tileSize,
+			tile.bgColor);
+
+		this._array[y * this._boardSize.height + x] = newTile;
+		this.addChild(newTile);
 	}
 
 }
