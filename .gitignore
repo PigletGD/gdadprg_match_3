@@ -1,4 +1,5 @@
-node_modules
+Backend/node_modules
+Game/node_modules
 .vscode
-frameworks
+Game/frameworks
 CMakeLists.txt

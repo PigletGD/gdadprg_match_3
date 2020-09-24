@@ -1,0 +1,35 @@
+{
+    "project_type": "javascript",
+    "debugMode": 1,
+    "showFPS": true,
+    "frameRate": 60,
+    "noCache": false,
+    "id": "gameCanvas",
+    "renderMode": 0,
+    "engineDir": "frameworks/cocos2d-html5",
+    "modules": [
+        "cocos2d",
+        "extensions"
+    ],
+    "jsListOrder": [
+        "src/**/*.js"
+    ],
+    "jsList": [
+        "src/Components/CountdownComponent.js",
+        "src/Entities/Boards/Board.js",
+        "src/Entities/Boards/BoardFactory.js",
+        "src/Entities/Boards/SquareBoard.js",
+        "src/Entities/Tiles/Tile.js",
+        "src/Entities/TimerEntity.js",
+        "src/Layers/MainGameLayer.js",
+        "src/Layers/MainMenuLayer.js",
+        "src/Layers/PrototypeLayer.js",
+        "src/Managers/BoardManager.js",
+        "src/Managers/GameManager.js",
+        "src/resource.js",
+        "src/Scenes/MainGameScene.js",
+        "src/Scenes/MainMenuScene.js",
+        "src/Scenes/PrototypeScene.js",
+        "src/Utils.js"
+    ]
+}
