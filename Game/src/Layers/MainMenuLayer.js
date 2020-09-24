@@ -9,7 +9,8 @@ class MainMenuLayer extends ccui.VBox
 	{
 		super.onEnter();
 		this.scheduleUpdate();
-		console.log("Test");
+		let timer = new Timer();
+		this.addChild(timer);
 	}
 
 }

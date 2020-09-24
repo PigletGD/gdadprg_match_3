@@ -10,24 +10,31 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainMenuLayer = function (_ccui$VBox) {
-	_inherits(MainMenuLayer, _ccui$VBox);
+var Timer = function (_cc$DrawNode) {
+	_inherits(Timer, _cc$DrawNode);
 
-	function MainMenuLayer() {
-		_classCallCheck(this, MainMenuLayer);
+	function Timer() {
+		_classCallCheck(this, Timer);
 
-		return _possibleConstructorReturn(this, (MainMenuLayer.__proto__ || Object.getPrototypeOf(MainMenuLayer)).call(this, cc.winSize));
+		var _this = _possibleConstructorReturn(this, (Timer.__proto__ || Object.getPrototypeOf(Timer)).call(this));
+
+		_this.scheduleUpdate();
+		return _this;
 	}
 
-	_createClass(MainMenuLayer, [{
+	_createClass(Timer, [{
 		key: "onEnter",
 		value: function onEnter() {
-			_get(MainMenuLayer.prototype.__proto__ || Object.getPrototypeOf(MainMenuLayer.prototype), "onEnter", this).call(this);
-			this.scheduleUpdate();
-			var timer = new Timer();
-			this.addChild(timer);
+			_get(Timer.prototype.__proto__ || Object.getPrototypeOf(Timer.prototype), "onEnter", this).call(this);
+			console.log("Timer initialized");
+		}
+	}, {
+		key: "update",
+		value: function update(timestep) {
+			_get(Timer.prototype.__proto__ || Object.getPrototypeOf(Timer.prototype), "update", this).call(this, timestep);
+			console.log("Timer");
 		}
 	}]);
 
-	return MainMenuLayer;
-}(ccui.VBox);
+	return Timer;
+}(cc.DrawNode);

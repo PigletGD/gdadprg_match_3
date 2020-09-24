@@ -10,24 +10,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainMenuLayer = function (_ccui$VBox) {
-	_inherits(MainMenuLayer, _ccui$VBox);
+var MainGameScene = function (_cc$Scene) {
+	_inherits(MainGameScene, _cc$Scene);
 
-	function MainMenuLayer() {
-		_classCallCheck(this, MainMenuLayer);
+	function MainGameScene() {
+		_classCallCheck(this, MainGameScene);
 
-		return _possibleConstructorReturn(this, (MainMenuLayer.__proto__ || Object.getPrototypeOf(MainMenuLayer)).call(this, cc.winSize));
+		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
 	}
 
-	_createClass(MainMenuLayer, [{
+	_createClass(MainGameScene, [{
 		key: "onEnter",
 		value: function onEnter() {
-			_get(MainMenuLayer.prototype.__proto__ || Object.getPrototypeOf(MainMenuLayer.prototype), "onEnter", this).call(this);
-			this.scheduleUpdate();
-			var timer = new Timer();
-			this.addChild(timer);
+			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+			this.addChild(new MainGameLayer());
 		}
 	}]);
 
-	return MainMenuLayer;
-}(ccui.VBox);
+	return MainGameScene;
+}(cc.Scene);

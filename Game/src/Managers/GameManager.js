@@ -14,6 +14,18 @@ class GameManager
 		return GameManager._sharedInstance;
 	}
 
+	get score()
+	{
+		return this._score;
+	}
+
+	set score(val)
+	{
+		this._score = val;
+	}
+
+
+
 	pauseGame()
 	{
 		this._isPaused = true;

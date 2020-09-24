@@ -1,3 +1,16 @@
+// TODO: Generate board based on an texture file
+
+/**
+ *
+Example:
+
+Input:
+a texture that is 8 x 8
+
+if color == white -> possible tile location
+
+if color == black -> tile cannot be placed
+ */
 
 // CONSTANTS
 const MIN_BOARD_SIZE = 8;

@@ -10,24 +10,54 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainMenuLayer = function (_ccui$VBox) {
-	_inherits(MainMenuLayer, _ccui$VBox);
+var currentID = 0;
 
-	function MainMenuLayer() {
-		_classCallCheck(this, MainMenuLayer);
+var Tile = function (_cc$DrawNode) {
+	_inherits(Tile, _cc$DrawNode);
 
-		return _possibleConstructorReturn(this, (MainMenuLayer.__proto__ || Object.getPrototypeOf(MainMenuLayer)).call(this, cc.winSize));
+	function Tile(spriteFilepath, position, size, color) {
+		_classCallCheck(this, Tile);
+
+		var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).call(this));
+
+		_this.setAnchorPoint(1.0, 1.0);
+		_this.setPosition(position);
+		_this.size = size;
+		_this.bgColor = color;
+		_this.id = currentID;
+		_this.isSelected = false;
+		currentID++;
+		// console.log(this);
+
+		// GameManager.getInstance().test();
+
+		_this.sprite = new cc.Sprite(spriteFilepath);
+		_this.sprite.setAnchorPoint(0.0, 0.0);
+		var originalSize = _this.sprite.getContentSize();
+		_this.sprite.setScale(size.width / originalSize.height, size.height / originalSize.height);
+		return _this;
 	}
 
-	_createClass(MainMenuLayer, [{
+	_createClass(Tile, [{
 		key: "onEnter",
 		value: function onEnter() {
-			_get(MainMenuLayer.prototype.__proto__ || Object.getPrototypeOf(MainMenuLayer.prototype), "onEnter", this).call(this);
-			this.scheduleUpdate();
-			var timer = new Timer();
-			this.addChild(timer);
+			_get(Tile.prototype.__proto__ || Object.getPrototypeOf(Tile.prototype), "onEnter", this).call(this);
+
+			this.drawRect(cc.p(0, 0), cc.p(this.size.width, this.size.height), this.bgColor);
+
+			this.addChild(this.sprite);
+
+			var idText = new cc.LabelTTF(this.id.toString(), "Arial", 32);
+			idText.setAnchorPoint(0, 0);
+			this.addChild(idText);
+
+			if (cc.isDebugMode) {
+				var debugDot = new cc.DrawNode();
+				debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff00ff"));
+				this.addChild(debugDot);
+			}
 		}
 	}]);
 
-	return MainMenuLayer;
-}(ccui.VBox);
+	return Tile;
+}(cc.DrawNode);

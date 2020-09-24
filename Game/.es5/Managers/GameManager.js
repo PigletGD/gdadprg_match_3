@@ -27,6 +27,14 @@ var GameManager = function () {
 		value: function isPaused() {
 			return this._isPaused;
 		}
+	}, {
+		key: "score",
+		get: function get() {
+			return this._score;
+		},
+		set: function set(val) {
+			this._score = val;
+		}
 	}], [{
 		key: "getInstance",
 		value: function getInstance() {
