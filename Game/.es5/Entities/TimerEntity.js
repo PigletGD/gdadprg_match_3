@@ -14,10 +14,13 @@ var TimerEntity = function (_cc$DrawNode) {
 	_inherits(TimerEntity, _cc$DrawNode);
 
 	function TimerEntity() {
+		var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "TimerEntity";
+
 		_classCallCheck(this, TimerEntity);
 
 		var _this = _possibleConstructorReturn(this, (TimerEntity.__proto__ || Object.getPrototypeOf(TimerEntity)).call(this));
 
+		_this.setName(name);
 		_this.scheduleUpdate();
 		return _this;
 	}
@@ -27,12 +30,18 @@ var TimerEntity = function (_cc$DrawNode) {
 		value: function onEnter() {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "onEnter", this).call(this);
 			console.log("Timer initialized");
+
+			var countdownComponent = new CountdownComponent(180.0);
+			this.addComponent(countdownComponent);
 		}
 	}, {
 		key: "update",
 		value: function update(timestep) {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "update", this).call(this, timestep);
-			console.log("Timer");
+
+			var countdownComponent = this.getComponent("CountdownComponent");
+
+			console.log(this.getName() + " " + countdownComponent.remainingSeconds);
 		}
 	}]);
 

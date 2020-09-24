@@ -21,9 +21,10 @@ var CountdownComponent = function (_cc$Component) {
 
 		var _this = _possibleConstructorReturn(this, (CountdownComponent.__proto__ || Object.getPrototypeOf(CountdownComponent)).call(this));
 
+		_this.setName("CountdownComponent");
+
 		_this._startingTime = startingTime;
 		_this._currentTime = startingTime;
-		_this.setName("CountdownComponent");
 		_this._isCountingDown = false;
 		return _this;
 	}

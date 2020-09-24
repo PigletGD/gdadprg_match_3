@@ -5,9 +5,10 @@ class CountdownComponent extends cc.Component
 	constructor(startingTime = 180.0)
 	{
 		super();
+		this.setName("CountdownComponent");
+
 		this._startingTime = startingTime;
 		this._currentTime = startingTime;
-		this.setName("CountdownComponent");
 		this._isCountingDown = false;
 	}
 
@@ -30,6 +31,11 @@ class CountdownComponent extends cc.Component
 	{
 		this._isCountingDown = true;
 		this._currentTime = this._startingTime;
+	}
+
+	resume()
+	{
+		this._isCountingDown = true;
 	}
 
 	pause()

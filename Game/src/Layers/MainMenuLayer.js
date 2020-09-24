@@ -1,4 +1,4 @@
-class MainMenuLayer extends ccui.VBox
+class MainMenuLayer extends cc.LayerColor
 {
 	constructor()
 	{
@@ -9,8 +9,9 @@ class MainMenuLayer extends ccui.VBox
 	{
 		super.onEnter();
 		this.scheduleUpdate();
-		let timer = new Timer();
+		let timer = new TimerEntity();
 		this.addChild(timer);
 	}
+
 
 }
