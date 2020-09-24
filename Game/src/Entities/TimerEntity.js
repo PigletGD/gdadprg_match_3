@@ -1,4 +1,4 @@
-class TimerEntity extends cc.DrawNode
+class TimerEntity extends cc.Node
 {
 	constructor(name = "TimerEntity", startTime = 180)
 	{
@@ -12,10 +12,8 @@ class TimerEntity extends cc.DrawNode
 	{
 		super.onEnter();
 		console.log("Timer initialized");
-
 		this._countdownComponent = new CountdownComponent(this._startingTime);
 		this.addComponent(this._countdownComponent);
-		this._countdownComponent.start();
 	}
 
 	update(timestep)

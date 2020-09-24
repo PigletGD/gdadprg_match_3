@@ -49,6 +49,11 @@ var CountdownComponent = function (_cc$Component) {
 			this._currentTime = this._startingTime;
 		}
 	}, {
+		key: "resume",
+		value: function resume() {
+			this._isCountingDown = true;
+		}
+	}, {
 		key: "pause",
 		value: function pause() {
 			this._isCountingDown = false;

@@ -15,6 +15,7 @@ var TimerEntity = function (_cc$DrawNode) {
 
 	function TimerEntity() {
 		var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "TimerEntity";
+		var startTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 180;
 
 		_classCallCheck(this, TimerEntity);
 
@@ -22,6 +23,7 @@ var TimerEntity = function (_cc$DrawNode) {
 
 		_this.setName(name);
 		_this.scheduleUpdate();
+		_this._startingTime = startTime;
 		return _this;
 	}
 
@@ -31,17 +33,58 @@ var TimerEntity = function (_cc$DrawNode) {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "onEnter", this).call(this);
 			console.log("Timer initialized");
 
-			var countdownComponent = new CountdownComponent(180.0);
-			this.addComponent(countdownComponent);
+			this._countdownComponent = new CountdownComponent(this._startingTime);
+			this.addComponent(this._countdownComponent);
+			this._countdownComponent.start();
 		}
 	}, {
 		key: "update",
 		value: function update(timestep) {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "update", this).call(this, timestep);
+			console.log(this.getName() + " " + this.remainingSeconds);
+		}
+	}, {
+		key: "startCountdown",
+		value: function startCountdown() {
+			this._countdownComponent.start();
+		}
+	}, {
+		key: "pauseCountdown",
+		value: function pauseCountdown() {
+			this._countdownComponent.pause();
+		}
+	}, {
+		key: "resumeCountdown",
+		value: function resumeCountdown() {
+			this._countdownComponent.resume();
+		}
+	}, {
+		key: "stopCountdown",
+		value: function stopCountdown() {
+			this._countdownComponent.stop();
+		}
+	}, {
+		key: "resetCountdown",
+		value: function resetCountdown() {
+			this._countdownComponent.reset();
+		}
+	}, {
+		key: "setStartingTime",
+		value: function setStartingTime() {
+			var startTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 180.0;
 
-			var countdownComponent = this.getComponent("CountdownComponent");
-
-			console.log(this.getName() + " " + countdownComponent.remainingSeconds);
+			this._startingTime = startTime;
+			this._countdownComponent = new CountdownComponent(startTime);
+		}
+	}, {
+		key: "remainingSeconds",
+		get: function get() {
+			return this._countdownComponent.remainingSeconds;
+		}
+	}, {
+		key: "startTime",
+		get: function get() {
+			return this._startingTime;
 		}
 	}]);
 
