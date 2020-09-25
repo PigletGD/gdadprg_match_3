@@ -12,18 +12,27 @@
         "extensions"
     ],
     "jsListOrder": [
+        "src/Components/Layout/ResizeListener.js",
         "src/**/*.js"
     ],
     "jsList": [
         "src/Components/CountdownComponent.js",
+        "src/Components/Layout/ResizeListener.js",
+        "src/Components/Layout/EnableOnLandscape.js",
+        "src/Components/Layout/EnableOnPortrait.js",
+        "src/Components/Layout/FitToParent.js",
+        "src/Components/Layout/FitToWindow.js",
         "src/Entities/Boards/Board.js",
         "src/Entities/Boards/BoardFactory.js",
         "src/Entities/Boards/SquareBoard.js",
         "src/Entities/Tiles/Tile.js",
+        "src/Entities/Background.js",
         "src/Entities/TimerEntity.js",
         "src/Layers/MainGameLayer.js",
         "src/Layers/MainMenuLayer.js",
         "src/Layers/PrototypeLayer.js",
+        "src/Layouts/TitleLandscapeLayout.js",
+        "src/Layouts/TitlePortraitLayout.js",
         "src/Managers/BoardManager.js",
         "src/Managers/GameManager.js",
         "src/resource.js",
