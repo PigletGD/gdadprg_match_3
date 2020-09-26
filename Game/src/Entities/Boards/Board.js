@@ -87,14 +87,22 @@ class Board extends cc.DrawNode
 			y * this._tileSize.height
 		);
 
-		let newTile = new Tile(
+		// let newTile = new Tile(
+		// 	tile.sprite,
+		// 	tilePosition,
+		// 	this._tileSize,
+		// 	tile.bgColor);
+
+		let newTileButtonTest = new TileButton(
 			tile.sprite,
+			res.Button9Slice_png,
+			res.Button9SliceSelected_png,
 			tilePosition,
 			this._tileSize,
 			tile.bgColor);
 
-		this._array[y * this._boardSize.height + x] = newTile;
-		this.addChild(newTile);
+		this._array[y * this._boardSize.height + x] = newTileButtonTest;
+		this.addChild(newTileButtonTest);
 	}
 
 }

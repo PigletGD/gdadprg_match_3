@@ -39,25 +39,36 @@ class BoardManager
 	// 	return instance;
 	// }
 
-	// addTileType(tile)
-	// {
-	// 	this._tileTypes.push(tile);
-	// }
+	addTileType(tile)
+	{
+		this._tileTypes.push(tile);
+	}
+
+	testInitializeTileTypes(){
+		this._tileTypes = new Array();
+
+		this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ffff00")));
+		this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff00ff")));
+		this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ffff")));
+		this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff0000")));
+		this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#0000ff")));
+		this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ff00")));	
+	}
 
 	// //TODO: BoardFactory
-	// createBoard()
-	// {
-	// 	// this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
+	createBoard()
+	{
+		this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
 
-	// 	for (let row = 0; row < this.board.boardSize.height; row++)
-	// 	{
-	// 		for (let col = 0; col < this.board.boardSize.width; col++)
-	// 		{
-	// 			let tile = this._tileTypes[getRandomInt(0, this._tileTypes.length - 1)];
-	// 			this.board.addTile(tile, col, row);
-	// 		}
-	// 	}
+		for (let row = 0; row < this.board.boardSize.height; row++)
+		{
+			for (let col = 0; col < this.board.boardSize.width; col++)
+			{
+				let tile = this._tileTypes[getRandomInt(0, this._tileTypes.length - 1)];
+				this.board.addTile(tile, col, row);
+			}
+		}
 
-	// 	return this.board;
-	// }
+		return this.board;
+	}
 }
