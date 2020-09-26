@@ -41,8 +41,8 @@ class TitleLandscapeLayout extends ccui.Layout{
         this.addChild(buttonLayout);
 
         // Creates three vertical layouts to divide the buttons
-        for(let i = 0; i < 3; i++){
-            this.createVerticalLayout(buttonLayout, i, 3);
+        for(let i = 0; i < 2; i++){
+            this.createVerticalLayout(buttonLayout, i, 2);
         }
     }
 
@@ -67,9 +67,6 @@ class TitleLandscapeLayout extends ccui.Layout{
                 break;
             case 1:
                 this.createButton(vertLayout, "RULES", this.onClickRules);
-                break;
-            case 2:
-                this.createButton(vertLayout, "QUIT", this.onClickQuit);
                 break;
             default:
                 console.log("ERROR: Invalid Index");
@@ -105,7 +102,7 @@ class TitleLandscapeLayout extends ccui.Layout{
     // Goes to play scene
     onClickPlay(){
         console.log("play");
-        cc.director.runScene(new PrototypeScene());
+        cc.director.runScene(new MainGameScene());
     }
 
     // Goes to rule scene

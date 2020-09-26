@@ -3,6 +3,7 @@ class ResizeListener extends cc.Component {
         super();
         // if(new.target === ResizeListener)
         //     throw new TypeError("Cannot construct Abstract instances directly");
+        this.isResizeContent = true; // Changed to true to resize once in scene, avoiding weird layouts
     }
 
     onEnter(){
@@ -13,7 +14,7 @@ class ResizeListener extends cc.Component {
             callback: this.onCanvasResize.bind(this)
         });
         cc.eventManager.addListener(this.listener, this.getOwner());
-        this.isResizeContent = true; // Changed to true to resize once in scene, avoiding weird layouts
+        // this.isResizeContent = true; // Changed to true to resize once in scene, avoiding weird layouts
     }
 
     onCanvasResize(){

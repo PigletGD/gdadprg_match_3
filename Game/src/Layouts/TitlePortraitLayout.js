@@ -90,7 +90,6 @@ class TitlePortraitLayout extends ccui.RelativeBox{
         // Creates the three buttons to be attached to the vertical layout with functions to be binded
         this.createButton(vertLayout, "PLAY", this.onClickPlay);
         this.createButton(vertLayout, "RULES", this.onClickRules);
-        this.createButton(vertLayout, "QUIT", this.onClickQuit);
     }
 
     // Create a button
@@ -120,7 +119,7 @@ class TitlePortraitLayout extends ccui.RelativeBox{
     // Goes to play scene
     onClickPlay(){
         console.log("play");
-        cc.director.runScene(new PrototypeScene());
+        cc.director.runScene(new MainGameScene());
     }
 
     // Goes to rule scene
