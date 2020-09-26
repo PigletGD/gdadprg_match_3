@@ -1,9 +1,8 @@
 class Background extends cc.Sprite
 {
-    constructor(spriteFilePath){
+    constructor(name, spriteFilePath){
         super(spriteFilePath);
+        this.setName(name);
         this.setAnchorPoint(0.0, 0.0);
-
-        this.addComponent(new FitToWindow());
     }
 }

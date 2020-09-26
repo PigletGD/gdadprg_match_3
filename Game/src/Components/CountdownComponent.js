@@ -1,4 +1,3 @@
-
 // Time is in seconds
 class CountdownComponent extends cc.Component
 {

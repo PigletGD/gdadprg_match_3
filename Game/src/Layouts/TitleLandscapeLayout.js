@@ -105,11 +105,12 @@ class TitleLandscapeLayout extends ccui.Layout{
     // Goes to play scene
     onClickPlay(){
         console.log("play");
+        cc.director.runScene(new PrototypeScene());
     }
 
     // Goes to rule scene
     onClickRules(){
-        console.log("rules");
+        cc.director.runScene(new RulesScene());
     }
 
     // Creates pop-up quit confirmation menu

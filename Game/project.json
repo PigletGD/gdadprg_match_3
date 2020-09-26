@@ -31,6 +31,9 @@
         "src/Layers/MainGameLayer.js",
         "src/Layers/MainMenuLayer.js",
         "src/Layers/PrototypeLayer.js",
+        "src/Layers/RulesLayer.js",
+        "src/Layouts/RulesLandscapeLayout.js",
+        "src/Layouts/RulesPortraitLayout.js",
         "src/Layouts/TitleLandscapeLayout.js",
         "src/Layouts/TitlePortraitLayout.js",
         "src/Managers/BoardManager.js",
@@ -39,6 +42,7 @@
         "src/Scenes/MainGameScene.js",
         "src/Scenes/MainMenuScene.js",
         "src/Scenes/PrototypeScene.js",
+        "src/Scenes/RulesScene.js",
         "src/Utils.js"
     ]
 }

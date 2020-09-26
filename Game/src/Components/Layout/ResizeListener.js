@@ -13,7 +13,7 @@ class ResizeListener extends cc.Component {
             callback: this.onCanvasResize.bind(this)
         });
         cc.eventManager.addListener(this.listener, this.getOwner());
-        this.isResizeContent = false;
+        this.isResizeContent = true; // Changed to true to resize once in scene, avoiding weird layouts
     }
 
     onCanvasResize(){

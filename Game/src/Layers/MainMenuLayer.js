@@ -10,7 +10,7 @@ class MainMenuLayer extends cc.LayerColor
 		super.onEnter();
 		this.scheduleUpdate();
 
-		let titleBackground = new Background(res.TitleBackground_png);
+		let titleBackground = new Background("TitleBackground", res.TitleBackground_png);
 		this.addChild(titleBackground);
 
 		let titleLandscapeLayout = new TitleLandscapeLayout();
@@ -24,6 +24,4 @@ class MainMenuLayer extends cc.LayerColor
 		//let timer = new TimerEntity();
 		//this.addChild(timer);
 	}
-
-
 }
