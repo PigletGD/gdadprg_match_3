@@ -55,8 +55,6 @@ var RulesLandscapeLayout = function (_ccui$RelativeBox) {
             rulesLayout.setPositionPercent(cc.p(0.5, 0.7));
             rulesLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
             rulesLayout.setSizePercent(cc.p(0.9, 0.8));
-            //rulesLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-            //rulesLayout.setBackGroundColor(cc.color(0, 150, 0, 255));
             rulesLayout.addComponent(new FitToParent());
 
             var layoutParameter = new ccui.RelativeLayoutParameter();
@@ -66,7 +64,11 @@ var RulesLandscapeLayout = function (_ccui$RelativeBox) {
             parent.addChild(rulesLayout);
 
             var rules = "RULES:\n\n1.) Click on two adjacent \ntiles to swap their places\n\n2.) Match three or more adjacent \nsame type tiles to earn points\n\n3.) Gain as much points as \npossible within two minutes";
-            this.createTextPercent(rulesLayout, "RulesText", rules, 0.5, 0.5, 48);
+
+            rulesLayout.addChild(new Text("Rules", rules, res.PixelFont.name, 48, cc.p(0.5, 0.5), {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 4
+            }));
         }
 
         // Create a button

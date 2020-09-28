@@ -88,16 +88,6 @@ var TileButton = function (_ccui$Button) {
 			_get(TileButton.prototype.__proto__ || Object.getPrototypeOf(TileButton.prototype), "onEnter", this).call(this);
 
 			this.addChild(this.sprite);
-
-			var idText = new cc.LabelTTF(this.id.toString(), "Arial", 32);
-			idText.setAnchorPoint(0, 0);
-			this.addChild(idText);
-
-			if (cc.isDebugMode) {
-				var debugDot = new cc.DrawNode();
-				debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff00ff"));
-				this.addChild(debugDot);
-			}
 		}
 	}, {
 		key: "update",

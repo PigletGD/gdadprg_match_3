@@ -78,17 +78,6 @@ class TileButton extends ccui.Button
 		super.onEnter();
 
 		this.addChild(this.sprite);
-
-		let idText = new cc.LabelTTF(this.id.toString(), "Arial", 32);
-		idText.setAnchorPoint(0, 0);
-		this.addChild(idText);
-
-		if (cc.isDebugMode)
-		{
-			let debugDot = new cc.DrawNode();
-			debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff00ff"));
-			this.addChild(debugDot);
-		}
 	}
 
 	update(timestep)

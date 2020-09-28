@@ -38,17 +38,6 @@ var MainGamePortraitLayout = function (_ccui$RelativeBox) {
             this.addComponent(new EnableOnPortrait());
         }
     }, {
-        key: "createTextPercent",
-        value: function createTextPercent(parent, name, message, x, y, size) {
-            var text = new ccui.Text(message, "Pixel", size);
-            text.setName(name);
-            text.setPositionType(ccui.Widget.POSITION_PERCENT);
-            text.setPositionPercent(cc.p(x, y));
-            text.enableOutline(cc.color(0, 0, 0, 255), 4);
-            parent.addChild(text);
-            text.addComponent(new FitToParent());
-        }
-    }, {
         key: "createStatsText",
         value: function createStatsText(parent) {
             // let statsLayout = new ccui.Layout(cc.winSize);
@@ -76,19 +65,23 @@ var MainGamePortraitLayout = function (_ccui$RelativeBox) {
             // vertLayout.setSizePercent(cc.p(0.7, 0.7));
             // uiContainer.addChild(vertLayout);
 
-            this.timeText = new ccui.Text("Time", "Pixel", 36);
-            this.timeText.setName("Time");
+            this.timeText = new Text("Time", "Time", res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 2
+            });
+
             this.timeText.setAnchorPoint(0.0, 0.0);
-            this.timeText.enableOutline(cc.color(0, 0, 0, 255), 2);
             var timeLayoutParameter = new ccui.RelativeLayoutParameter();
             timeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_LEFT);
             timeLayoutParameter.setMargin(20, 0, 0, 0);
             this.timeText.setLayoutParameter(timeLayoutParameter);
             parent.addChild(this.timeText);
 
-            this.scoreText = new ccui.Text("Score", "Pixel", 36);
-            this.scoreText.setName("Score");
-            this.scoreText.enableOutline(cc.color(0, 0, 0, 255), 2);
+            this.scoreText = new Text("Score", "Score", res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 2
+            });
+
             var scoreLayoutParameter = new ccui.RelativeLayoutParameter();
             scoreLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_RIGHT);
             scoreLayoutParameter.setMargin(0, 0, 20, 0);
@@ -151,6 +144,7 @@ var MainGamePortraitLayout = function (_ccui$RelativeBox) {
         value: function update(timestep) {
             _get(MainGamePortraitLayout.prototype.__proto__ || Object.getPrototypeOf(MainGamePortraitLayout.prototype), "update", this).call(this, timestep);
             this.updateTimeText();
+            this.updateScoreText();
         }
     }, {
         key: "updateTimeText",

@@ -36,17 +36,6 @@ var RulesPortraitLayout = function (_ccui$RelativeBox) {
             this.addComponent(new EnableOnPortrait());
         }
     }, {
-        key: "createTextPercent",
-        value: function createTextPercent(parent, name, message, x, y, size) {
-            var text = new ccui.Text(message, "Pixel", size);
-            text.setName(name);
-            text.setPositionType(ccui.Widget.POSITION_PERCENT);
-            text.setPositionPercent(cc.p(x, y));
-            text.enableOutline(cc.color(0, 0, 0, 255), 4);
-            parent.addChild(text);
-            text.addComponent(new FitToParent());
-        }
-    }, {
         key: "createRulesText",
         value: function createRulesText(parent) {
             var rulesLayout = new ccui.Layout(cc.winSize);
@@ -66,7 +55,11 @@ var RulesPortraitLayout = function (_ccui$RelativeBox) {
             parent.addChild(rulesLayout);
 
             var rules = "RULES:\n\n1.) Click on two\nadjacent tiles to\nswap their places\n\n2.) Match three or\nmore adjacent same\ntype tiles to earn\npoints\n\n3.) Gain as much\npoints as possible\nwithin two minutes";
-            this.createTextPercent(rulesLayout, "RulesText", rules, 0.5, 0.5, 48);
+
+            rulesLayout.addChild(new Text("Rules", rules, res.PixelFont.name, 48, cc.p(0.5, 0.5), {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 4
+            }));
         }
 
         // Create a button

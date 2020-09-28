@@ -31,13 +31,6 @@ class Board extends cc.DrawNode
 			cc.p(0, 0),
 			cc.p(totalWidth, totalHeight),
 			cc.color("#000000"));
-
-		if (cc.isDebugMode)
-		{
-			let debugDot = new cc.DrawNode();
-			debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff0000"));
-			this.addChild(debugDot);
-		}
 	}
 
 	get width()
