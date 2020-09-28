@@ -19,11 +19,11 @@
         "src/Components/Layout/ResizeListener.js",
         "src/Components/CountdownComponent.js",
         "src/Components/GameLayerResizerAnchorLeft.js",
-        "src/Components/SpriteResizer.js",
         "src/Components/Layout/EnableOnLandscape.js",
         "src/Components/Layout/EnableOnPortrait.js",
         "src/Components/Layout/FitToParent.js",
         "src/Components/Layout/FitToWindow.js",
+        "src/Components/SpriteResizer.js",
         "src/Entities/Background.js",
         "src/Entities/Boards/Board.js",
         "src/Entities/Boards/SquareBoard.js",
@@ -51,6 +51,7 @@
         "src/Scenes/MainMenuScene.js",
         "src/Scenes/PrototypeScene.js",
         "src/Scenes/RulesScene.js",
+        "src/UIElements/Text.js",
         "src/Utils.js"
     ]
 }

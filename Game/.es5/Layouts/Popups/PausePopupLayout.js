@@ -114,17 +114,25 @@ var PausePopupLayout = function (_ccui$Layout) {
         }, {
                 key: "onClickResume",
                 value: function onClickResume() {
-                        var scaleTo = new cc.ScaleTo(0.2, 0.0);
-                        var callFunc = new cc.callFunc(this.onFinish, this);
-                        scaleTo = new cc.EaseBackIn(scaleTo);
-                        this.popUp.runAction(new cc.sequence(scaleTo, callFunc));
+                        if (GameManager.getInstance().isPaused()) {
+                                var scaleTo = new cc.ScaleTo(0.2, 0.0);
+                                var callFunc = new cc.callFunc(this.onFinish, this);
+                                scaleTo = new cc.EaseBackIn(scaleTo);
+                                this.popUp.runAction(new cc.sequence(scaleTo, callFunc));
+                        }
                 }
         }, {
                 key: "onFinish",
                 value: function onFinish() {
                         // Unpause Game Here
 
-                        this.getParent().removeChild(this);
+                        GameManager.getInstance().resumeGame();
+
+                        var parent = this.getParent();
+                        parent.getChildByName("MainGameLandscapeLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
+                        parent.getChildByName("MainGamePortraitLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
+
+                        parent.removeChild(this);
                 }
         }, {
                 key: "onClickMainMenu",

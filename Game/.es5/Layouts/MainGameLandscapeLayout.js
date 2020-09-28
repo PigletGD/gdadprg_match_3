@@ -79,6 +79,7 @@ var MainGameLandscapeLayout = function (_ccui$RelativeBox) {
             // TODO: make ir into a class
             this.timeText = new ccui.Text("Time", "Pixel", 100);
             this.timeText.setName("Time");
+            this.timeText.setAnchorPoint(0.0, 0.0);
             this.timeText.enableOutline(cc.color(0, 0, 0, 255), 8);
             var timeLayoutParameter = new ccui.LinearLayoutParameter();
             timeLayoutParameter.setGravity(ccui.LinearLayoutParameter.LEFT);
@@ -89,6 +90,7 @@ var MainGameLandscapeLayout = function (_ccui$RelativeBox) {
             // TODO: make ir into a class
             this.scoreText = new ccui.Text("Score", "Pixel", 100);
             this.scoreText.setName("Score");
+            this.scoreText.setAnchorPoint(0.0, 0.0);
             this.scoreText.enableOutline(cc.color(0, 0, 0, 255), 8);
             var scoreLayoutParameter = new ccui.LinearLayoutParameter();
             scoreLayoutParameter.setGravity(ccui.LinearLayoutParameter.LEFT);
@@ -103,6 +105,7 @@ var MainGameLandscapeLayout = function (_ccui$RelativeBox) {
         key: "createButton",
         value: function createButton(parent, text, bindingFunction) {
             var buttonLayout = new ccui.Layout(cc.winSize);
+            buttonLayout.setName("Button Layout");
             buttonLayout.setAnchorPoint(0.5, 0.5);
             buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
             buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
@@ -139,7 +142,35 @@ var MainGameLandscapeLayout = function (_ccui$RelativeBox) {
     }, {
         key: "onClickPause",
         value: function onClickPause() {
-            this.getParent().addChild(new PausePopupLayout());
+            if (!GameManager.getInstance().isPaused()) {
+                this.getParent().addChild(new PausePopupLayout());
+                GameManager.getInstance().pauseGame();
+                this.getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(false);
+            }
+            console.log(GameManager.getInstance().isPaused());
+        }
+    }, {
+        key: "update",
+        value: function update(timestep) {
+            _get(MainGameLandscapeLayout.prototype.__proto__ || Object.getPrototypeOf(MainGameLandscapeLayout.prototype), "update", this).call(this, timestep);
+            this.updateTimeText();
+            this.updateScoreText();
+        }
+    }, {
+        key: "updateTimeText",
+        value: function updateTimeText() {
+            var timeRemaining = this.getParent().getChildByName("TimerEntity").remainingSeconds;
+            timeRemaining = Math.floor(timeRemaining);
+            if (timeRemaining < 0) {
+                timeRemaining = 0;
+            }
+            this.timeText.setString("Time: " + timeRemaining.toString());
+        }
+    }, {
+        key: "updateScoreText",
+        value: function updateScoreText() {
+            var score = GameManager.getInstance().score;
+            this.scoreText.setString("Score: " + score.toString());
         }
     }]);
 

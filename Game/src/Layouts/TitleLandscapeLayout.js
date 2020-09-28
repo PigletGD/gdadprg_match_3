@@ -12,7 +12,16 @@ class TitleLandscapeLayout extends ccui.Layout
         super.onEnter();
         this.setContentSize(cc.winSize);
 
-        this.createTextPercent(this, "Title", "Toiree", 0.5, 0.7, 60);
+        this.addChild(new Text("Title",
+            "Toiree",
+            res.PixelFont.name,
+            60,
+            cc.p(0.5, 0.7),
+            {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 4
+            }));
+
         this.createRowOfButtons();
 
         let fitToWindow = new FitToWindow();
@@ -20,18 +29,6 @@ class TitleLandscapeLayout extends ccui.Layout
 
         this.addComponent(new FitToWindow());
         this.addComponent(new EnableOnLandscape());
-    }
-
-    // Creates text using pixel percentaging
-    createTextPercent(parent, name, message, x, y, size)
-    {
-        let text = new ccui.Text(message, "Pixel", size);
-        text.setName(name);
-        text.setPositionType(ccui.Widget.POSITION_PERCENT);
-        text.setPositionPercent(cc.p(x, y));
-        text.enableOutline(cc.color(0, 0, 0, 255), 4);
-        parent.addChild(text);
-        text.addComponent(new FitToParent());
     }
 
     createRowOfButtons()

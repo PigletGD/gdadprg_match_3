@@ -35,9 +35,6 @@ var MainMenuLayer = function (_cc$LayerColor) {
 			var titlePortraitLayout = new TitlePortraitLayout();
 			titlePortraitLayout.setName("TitlePortraitLayout");
 			this.addChild(titlePortraitLayout);
-
-			//let timer = new TimerEntity();
-			//this.addChild(timer);
 		}
 	}]);
 

@@ -36,7 +36,13 @@ var res = {
     GameBackground_png: "res/GameBackground.png",
     TitleBackground_png: "res/TitleBackground.png",
     TPHoloder_png: "res/TPHolder.png",
-    PrototypeSprite: "res/PrototypeTileSprite.png"
+    PrototypeSprite: "res/PrototypeTileSprite.png",
+    BidetIcon_png: "res/Bidet.png",
+    PlungerIcon_png: "res/Plunger.png",
+    PoopIcon_png: "res/Poop.png",
+    ScrubberIcon_png: "res/Scrubber.png",
+    ToiletPaperIcon_png: "res/Toilet Paper.png",
+    WaterIcon_png: "res/Water.png"
 };
 
 var g_resources = [];

@@ -18,7 +18,7 @@ var MainGamePortraitLayout = function (_ccui$RelativeBox) {
 
         var _this = _possibleConstructorReturn(this, (MainGamePortraitLayout.__proto__ || Object.getPrototypeOf(MainGamePortraitLayout)).call(this));
 
-        _this.setName("MainGameLandscapeLayout");
+        _this.setName("MainGamePortraitLayout");
         _this.scheduleUpdate();
         _this.timeText;
         _this.scoreText;
@@ -78,6 +78,7 @@ var MainGamePortraitLayout = function (_ccui$RelativeBox) {
 
             this.timeText = new ccui.Text("Time", "Pixel", 36);
             this.timeText.setName("Time");
+            this.timeText.setAnchorPoint(0.0, 0.0);
             this.timeText.enableOutline(cc.color(0, 0, 0, 255), 2);
             var timeLayoutParameter = new ccui.RelativeLayoutParameter();
             timeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_LEFT);
@@ -101,6 +102,7 @@ var MainGamePortraitLayout = function (_ccui$RelativeBox) {
         key: "createButton",
         value: function createButton(parent, text, bindingFunction) {
             var buttonLayout = new ccui.Layout(cc.winSize);
+            buttonLayout.setName("Button Layout");
             buttonLayout.setAnchorPoint(0.5, 0.5);
             buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
             buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
@@ -137,7 +139,34 @@ var MainGamePortraitLayout = function (_ccui$RelativeBox) {
     }, {
         key: "onClickPause",
         value: function onClickPause() {
-            this.getParent().addChild(new ResultsPopupLayout());
+            if (!GameManager.getInstance().isPaused()) {
+                this.getParent().addChild(new PausePopupLayout());
+                GameManager.getInstance().pauseGame();
+                this.getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(false);
+            }
+            console.log(GameManager.getInstance().isPaused());
+        }
+    }, {
+        key: "update",
+        value: function update(timestep) {
+            _get(MainGamePortraitLayout.prototype.__proto__ || Object.getPrototypeOf(MainGamePortraitLayout.prototype), "update", this).call(this, timestep);
+            this.updateTimeText();
+        }
+    }, {
+        key: "updateTimeText",
+        value: function updateTimeText() {
+            var timeRemaining = this.getParent().getChildByName("TimerEntity").remainingSeconds;
+            timeRemaining = Math.floor(timeRemaining);
+            if (timeRemaining < 0) {
+                timeRemaining = 0;
+            }
+            this.timeText.setString("Time: " + timeRemaining.toString());
+        }
+    }, {
+        key: "updateScoreText",
+        value: function updateScoreText() {
+            var score = GameManager.getInstance().score;
+            this.scoreText.setString("Score: " + score.toString());
         }
     }]);
 
