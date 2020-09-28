@@ -19,17 +19,17 @@ class Tile extends cc.DrawNode
 		this.sprite = new cc.Sprite(spriteFilepath);
 		this.sprite.setAnchorPoint(0.0, 0.0);
 		let originalSize = this.sprite.getContentSize();
-		this.sprite.setScale(size.width / originalSize.height, size.height / originalSize.height);
+		this.sprite.setScale((size.width / originalSize.height, size.height / originalSize.height));
 	}
 
 	onEnter()
 	{
 		super.onEnter();
 
-		this.drawRect(
-			cc.p(0, 0),
-			cc.p(this.size.width, this.size.height),
-			this.bgColor);
+		// this.drawRect(
+		// 	cc.p(0, 0),
+		// 	cc.p(this.size.width, this.size.height),
+		// 	this.bgColor);
 
 		this.addChild(this.sprite);
 

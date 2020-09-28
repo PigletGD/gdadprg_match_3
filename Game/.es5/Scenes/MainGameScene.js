@@ -23,7 +23,11 @@ var MainGameScene = function (_cc$Scene) {
 		key: "onEnter",
 		value: function onEnter() {
 			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+
+			this.addChild(new Background("GameBackground", res.GameBackground_png));
 			this.addChild(new MainGameLayer());
+			this.addChild(new MainGameLandscapeLayout());
+			this.addChild(new MainGamePortraitLayout());
 		}
 	}]);
 

@@ -2,16 +2,23 @@ class MainMenuLayer extends cc.LayerColor
 {
 	constructor()
 	{
-		super(cc.winSize);
+		super();
 	}
 
 	onEnter()
 	{
 		super.onEnter();
 		this.scheduleUpdate();
-		let timer = new TimerEntity();
-		this.addChild(timer);
+
+		let titleBackground = new Background("TitleBackground", res.TitleBackground_png);
+		this.addChild(titleBackground);
+
+		let titleLandscapeLayout = new TitleLandscapeLayout();
+		titleLandscapeLayout.setName("TitleLandscapeLayout");
+		this.addChild(titleLandscapeLayout);
+
+		let titlePortraitLayout = new TitlePortraitLayout();
+		titlePortraitLayout.setName("TitlePortraitLayout");
+		this.addChild(titlePortraitLayout);
 	}
-
-
 }

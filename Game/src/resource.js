@@ -31,7 +31,18 @@ var res =
         name: "Pixel",
         srcs: ["res/fonts/slkscr.ttf"]
     },
-    PrototypeSprite: "res/PrototypeTileSprite.png"
+    Button9Slice_png: "res/Button9Slice.png",
+    Button9SliceSelected_png: "res/Button9SliceSelected.png",
+    GameBackground_png: "res/GameBackground.png",
+    TitleBackground_png: "res/TitleBackground.png",
+    TPHoloder_png: "res/TPHolder.png",
+    PrototypeSprite: "res/PrototypeTileSprite.png",
+    BidetIcon_png: "res/Bidet.png",
+    PlungerIcon_png: "res/Plunger.png",
+    PoopIcon_png: "res/Poop.png",
+    ScrubberIcon_png: "res/Scrubber.png",
+    ToiletPaperIcon_png: "res/Toilet Paper.png",
+    WaterIcon_png: "res/Water.png"
 };
 
 var g_resources = [];

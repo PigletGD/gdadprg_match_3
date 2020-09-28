@@ -31,6 +31,11 @@ var res = {
         name: "Pixel",
         srcs: ["res/fonts/slkscr.ttf"]
     },
+    Button9Slice_png: "res/Button9Slice.png",
+    Button9SliceSelected_png: "res/Button9SliceSelected.png",
+    GameBackground_png: "res/GameBackground.png",
+    TitleBackground_png: "res/TitleBackground.png",
+    TPHoloder_png: "res/TPHolder.png",
     PrototypeSprite: "res/PrototypeTileSprite.png"
 };
 

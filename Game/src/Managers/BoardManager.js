@@ -10,54 +10,81 @@ BoardManager manages the game boards.
 It generates the board to be used.
 It destroys the board used.
 ********************************/
-
+const TILE_TYPE_0 = 0;
+const TILE_TYPE_1 = 1;
+const TILE_TYPE_2 = 2;
+const TILE_TYPE_3 = 3;
+const TILE_TYPE_4 = 4;
+const TILE_TYPE_5 = 5;
 
 class BoardManager
 {
-
 	static getInstance()
 	{
-		if (GameManager._sharedInstance == undefined)
+		if (BoardManager._sharedInstance == undefined)
 		{
-			GameManager._sharedInstance = new GameManager();
+			BoardManager._sharedInstance = new BoardManager();
+			BoardManager._sharedInstance.init();
 		}
 
-		return GameManager._sharedInstance;
+		return BoardManager._sharedInstance;
 	}
 
-	// 	this._tileTypes = new Array();
+	init()
+	{
+		this.tileTypes = new Array();
+		let tileSize = cc.size(16, 16);
+		this.tileTypes.push(new TileButton(TILE_TYPE_0, res.Button9Slice_png, res.Button9SliceSelected_png, tileSize));
+		this.tileTypes.push(new TileButton(TILE_TYPE_1, res.Button9Slice_png, res.Button9SliceSelected_png, tileSize));
+		this.tileTypes.push(new TileButton(TILE_TYPE_2, res.Button9Slice_png, res.Button9SliceSelected_png, tileSize));
+		this.tileTypes.push(new TileButton(TILE_TYPE_3, res.Button9Slice_png, res.Button9SliceSelected_png, tileSize));
+		this.tileTypes.push(new TileButton(TILE_TYPE_4, res.Button9Slice_png, res.Button9SliceSelected_png, tileSize));
+		this.tileTypes.push(new TileButton(TILE_TYPE_5, res.Button9Slice_png, res.Button9SliceSelected_png, tileSize));
+	}
 
-	// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ffff00")));
-	// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff00ff")));
-	// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ffff")));
-	// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff0000")));
-	// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#0000ff")));
-	// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ff00")));
+	get board()
+	{
+		return this._currentBoard;
+	}
 
-	// 	this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
+	createBoard(size, contentSize)
+	{
+		this.currentBoard = new Board("Board", cc.size(size.width, size.height),
+			cc.size(contentSize.width / size.width, contentSize.height / size.height));
 
-	// 	return instance;
-	// }
+		for (let row = 0; row < this.currentBoard.boardSize.height; row++)
+		{
+			for (let col = 0; col < this.currentBoard.boardSize.width; col++)
+			{
+				let randomIndex;
 
-	// addTileType(tile)
-	// {
-	// 	this._tileTypes.push(tile);
-	// }
+				let board = this.currentBoard;
 
-	// //TODO: BoardFactory
-	// createBoard()
-	// {
-	// 	// this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
+				do
+				{
+					randomIndex = getRandomInt(0, this.tileTypes.length - 1);
+				}
+				while ((row >= 2 &&
+					board._array[(row - 1) * board.boardSize.height + col].tileType == randomIndex &&
+					board._array[(row - 2) * board.boardSize.height + col].tileType == randomIndex)
+					||
+					(col >= 2 &&
+						board._array[row * board.boardSize.height + (col - 1)].tileType == randomIndex &&
+						board._array[row * board.boardSize.height + (col - 2)].tileType == randomIndex));
 
-	// 	for (let row = 0; row < this.board.boardSize.height; row++)
-	// 	{
-	// 		for (let col = 0; col < this.board.boardSize.width; col++)
-	// 		{
-	// 			let tile = this._tileTypes[getRandomInt(0, this._tileTypes.length - 1)];
-	// 			this.board.addTile(tile, col, row);
-	// 		}
-	// 	}
+				let tile = this.tileTypes[randomIndex];
+				this.currentBoard.addTile(tile, row, col);
 
-	// 	return this.board;
-	// }
+			}
+		}
+		return this.currentBoard;
+	}
+
+	generateTile(row, col)
+	{
+		let randomIndex = getRandomInt(0, this.tileTypes.length - 1);
+		let tile = this.tileTypes[randomIndex];
+		this.currentBoard.addTile(tile, row, col);
+	}
+
 }

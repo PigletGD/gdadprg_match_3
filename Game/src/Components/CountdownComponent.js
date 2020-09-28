@@ -1,8 +1,7 @@
-
 // Time is in seconds
 class CountdownComponent extends cc.Component
 {
-	constructor(startingTime = 180.0)
+	constructor(startingTime = 120.0)
 	{
 		super();
 		this.setName("CountdownComponent");
@@ -17,13 +16,21 @@ class CountdownComponent extends cc.Component
 		super.onEnter();
 	}
 
+	//TODO: Refactor
 	update(delta)
 	{
 		super.update(delta);
-		if (this._isCountingDown === true &&
-			this._currentTime > 0.0)
+		if (!GameManager.getInstance().isPaused())
 		{
-			this._currentTime -= delta;
+			if (this._isCountingDown === true &&
+				this._currentTime >= 0.0)
+			{
+				this._currentTime -= delta;
+			}
+			else
+			{
+				this._currentTime = 0.0;
+			}
 		}
 	}
 

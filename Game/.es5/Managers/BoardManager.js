@@ -25,36 +25,52 @@ var BoardManager = function () {
 	_createClass(BoardManager, null, [{
 		key: "getInstance",
 		value: function getInstance() {
-			if (GameManager._sharedInstance == undefined) {
-				GameManager._sharedInstance = new GameManager();
+			if (BoardManager._sharedInstance == undefined) {
+				BoardManager._sharedInstance = new BoardManager();
 			}
 
-			return GameManager._sharedInstance;
+			return BoardManager._sharedInstance;
 		}
 
-		// 	this._tileTypes = new Array();
+		// createBoard()
+		// {
 
-		// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ffff00")));
-		// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff00ff")));
-		// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ffff")));
-		// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff0000")));
-		// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#0000ff")));
-		// 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ff00")));
-
-		// 	this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
-
-		// 	return instance;
 		// }
+
+		// // 	this._tileTypes = new Array();
+
+		// // 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ffff00")));
+		// // 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff00ff")));
+		// // 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ffff")));
+		// // 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff0000")));
+		// // 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#0000ff")));
+		// // 	this._tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ff00")));
+
+		// // 	this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
+
+		// // 	return instance;
+		// // }
 
 		// addTileType(tile)
 		// {
 		// 	this._tileTypes.push(tile);
 		// }
 
-		// //TODO: BoardFactory
+		// testInitializeTileTypes()
+		// {
+		// 	this._tileTypes = new Array();
+
+		// 	this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ffff00")));
+		// 	this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff00ff")));
+		// 	this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ffff")));
+		// 	this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff0000")));
+		// 	this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#0000ff")));
+		// 	this.addTileType(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ff00")));
+		// }
+
 		// createBoard()
 		// {
-		// 	// this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
+		// 	this.board = new Board("Board", cc.size(8, 8), cc.size(64, 64));
 
 		// 	for (let row = 0; row < this.board.boardSize.height; row++)
 		// 	{

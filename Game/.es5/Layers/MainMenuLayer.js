@@ -16,7 +16,7 @@ var MainMenuLayer = function (_cc$LayerColor) {
 	function MainMenuLayer() {
 		_classCallCheck(this, MainMenuLayer);
 
-		return _possibleConstructorReturn(this, (MainMenuLayer.__proto__ || Object.getPrototypeOf(MainMenuLayer)).call(this, cc.winSize));
+		return _possibleConstructorReturn(this, (MainMenuLayer.__proto__ || Object.getPrototypeOf(MainMenuLayer)).call(this));
 	}
 
 	_createClass(MainMenuLayer, [{
@@ -24,8 +24,20 @@ var MainMenuLayer = function (_cc$LayerColor) {
 		value: function onEnter() {
 			_get(MainMenuLayer.prototype.__proto__ || Object.getPrototypeOf(MainMenuLayer.prototype), "onEnter", this).call(this);
 			this.scheduleUpdate();
-			var timer = new TimerEntity();
-			this.addChild(timer);
+
+			var titleBackground = new Background("TitleBackground", res.TitleBackground_png);
+			this.addChild(titleBackground);
+
+			var titleLandscapeLayout = new TitleLandscapeLayout();
+			titleLandscapeLayout.setName("TitleLandscapeLayout");
+			this.addChild(titleLandscapeLayout);
+
+			var titlePortraitLayout = new TitlePortraitLayout();
+			titlePortraitLayout.setName("TitlePortraitLayout");
+			this.addChild(titlePortraitLayout);
+
+			//let timer = new TimerEntity();
+			//this.addChild(timer);
 		}
 	}]);
 

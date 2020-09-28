@@ -46,6 +46,7 @@ var Board = function (_cc$DrawNode) {
 		_this._array = new Array(boardSize.width * boardSize.height);
 		_this._boardSize = boardSize;
 		_this._tileSize = tileSize;
+		_this._selectedTile = null;
 		return _this;
 	}
 
@@ -77,10 +78,36 @@ var Board = function (_cc$DrawNode) {
 		value: function addTile(tile, x, y) {
 			var tilePosition = cc.p(x * this._tileSize.width, y * this._tileSize.height);
 
-			var newTile = new Tile(tile.sprite, tilePosition, this._tileSize, tile.bgColor);
+			// let newTile = new Tile(
+			// 	tile.sprite,
+			// 	tilePosition,
+			// 	this._tileSize,
+			// 	tile.bgColor);
 
-			this._array[y * this._boardSize.height + x] = newTile;
-			this.addChild(newTile);
+			var newTileButtonTest = new TileButton(tile.sprite, res.Button9Slice_png, res.Button9SliceSelected_png, tilePosition, this._tileSize, tile.bgColor, this);
+
+			this._array[y * this._boardSize.height + x] = newTileButtonTest;
+			this.addChild(newTileButtonTest);
+		}
+	}, {
+		key: "setSelectedTile",
+		value: function setSelectedTile(tilePos) {
+			var currentTile = this._array[tilePos.y * this._boardSize.height + tilePos.x];;
+			if (this._selectedTile === null) {
+				this._selectedTile = currentTile;
+			} else {
+				this.swapTiles(this._selectedTile, currentTile);
+				this._selectedTile = null;
+			}
+		}
+	}, {
+		key: "swapTiles",
+		value: function swapTiles(tile1, tile2) {
+			var temp = tile1;
+			tile1 = tile2;
+			tile2 = temp;
+
+			console.log("SWAP");
 		}
 	}, {
 		key: "width",
