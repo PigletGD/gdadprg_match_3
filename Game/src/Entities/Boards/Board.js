@@ -92,7 +92,7 @@ class Board extends cc.DrawNode
 				let indexA = this._selectedTile.row * this._boardSize.height + this._selectedTile.col;
 				let indexB = currentTile.row * this._boardSize.height + currentTile.col;
 				this.swapTiles(indexA, indexB);
-				this.validateMatches(this._selectedTile);
+				this.validateMatches();
 				this.unselectTile();
 			}
 			else
@@ -162,29 +162,33 @@ class Board extends cc.DrawNode
 		}
 	}
 
-	validateMatches(tile)
+	validateMatches()
 	{
 		// Checks the board for tiles that have a match
 		let result, tempResult;
-		do
+
+		result = false;
+		for (let i = 0; i < this._array.length; i++)
 		{
-			result = false;
-			for (let i = 0; i < this._array.length; i++)
+			tempResult = this.checkTileForMatches(this._array[i]);
+			if (tempResult)
 			{
-				tempResult = this.checkTileForMatches(this._array[i]);
-				if (tempResult)
-				{
-					result = tempResult;
-					this._array[i].isMatchFound = true;
-					console.log("Match found");
-				}
+				result = tempResult;
+				this._array[i].isMatchFound = true;
+				console.log("Match found");
 			}
+		}
 
-			this.removeMatches();
-			this.shiftTilesDown();
-			this.fillEmptyTiles();
+		this.removeMatches();
+		this.shiftTilesDown();
+		this.fillEmptyTiles();
 
-		} while (result);
+		if (result)
+		{
+			let delay = new cc.DelayTime(0.5);
+			let callFunc = new cc.callFunc(() => this.validateMatches());
+			this.runAction(new cc.sequence(delay, callFunc));
+		}
 	}
 
 	checkTileForMatches(tile)

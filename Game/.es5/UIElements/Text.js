@@ -6,19 +6,23 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Background = function (_cc$Sprite) {
-    _inherits(Background, _cc$Sprite);
+var Text = function (_ccui$Text) {
+	_inherits(Text, _ccui$Text);
 
-    function Background(name, spriteFilePath) {
-        _classCallCheck(this, Background);
+	function Text(name, message, fontAsset, size, positionByPercent) {
+		var outlineProp = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : { color: cc.color(0, 0, 0, 255), stroke: 0 };
 
-        var _this = _possibleConstructorReturn(this, (Background.__proto__ || Object.getPrototypeOf(Background)).call(this, spriteFilePath));
+		_classCallCheck(this, Text);
 
-        _this.setName(name);
-        _this.setAnchorPoint(0.0, 0.0);
-        //this.originalSpriteSize = spriteFilePath.getContentSize();
-        return _this;
-    }
+		var _this = _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).call(this, message, fontAsset, size));
 
-    return Background;
-}(cc.Sprite);
+		_this.setName(name);
+		_this.setPositionType(ccui.Widget.POSITION_PERCENT);
+		_this.setPositionPercent(cc.p(positionByPercent.x, positionByPercent.y));
+		_this.enableOutline(outlineProp.color, outlineProp.stroke);
+		_this.addComponent(new FitToParent());
+		return _this;
+	}
+
+	return Text;
+}(ccui.Text);

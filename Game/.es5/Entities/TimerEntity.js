@@ -15,7 +15,7 @@ var TimerEntity = function (_cc$Node) {
 
 	function TimerEntity() {
 		var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "TimerEntity";
-		var startTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 180;
+		var startTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 120;
 
 		_classCallCheck(this, TimerEntity);
 
@@ -39,6 +39,7 @@ var TimerEntity = function (_cc$Node) {
 		key: "update",
 		value: function update(timestep) {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "update", this).call(this, timestep);
+
 			//console.log(this.getName() + " " + this.remainingSeconds);
 		}
 	}, {
@@ -69,7 +70,7 @@ var TimerEntity = function (_cc$Node) {
 	}, {
 		key: "setStartingTime",
 		value: function setStartingTime() {
-			var startTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 180.0;
+			var startTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 120.0;
 
 			this._startingTime = startTime;
 			this._countdownComponent = new CountdownComponent(startTime);

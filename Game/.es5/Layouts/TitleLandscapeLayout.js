@@ -29,7 +29,7 @@ var TitleLandscapeLayout = function (_ccui$Layout) {
             _get(TitleLandscapeLayout.prototype.__proto__ || Object.getPrototypeOf(TitleLandscapeLayout.prototype), "onEnter", this).call(this);
             this.setContentSize(cc.winSize);
 
-            this.createTextPercent(this, "Title", "Title of Game", 0.5, 0.7, 60);
+            this.createTextPercent(this, "Title", "Toiree", 0.5, 0.7, 60);
             this.createRowOfButtons();
 
             var fitToWindow = new FitToWindow();

@@ -1,11 +1,14 @@
-class RulesLandscapeLayout extends ccui.RelativeBox{
-    constructor(){
+class RulesLandscapeLayout extends ccui.RelativeBox
+{
+    constructor()
+    {
         super();
         this.setName("RulesLandscapeLayout");
         this.scheduleUpdate();
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.setContentSize(cc.winSize);
 
@@ -16,7 +19,8 @@ class RulesLandscapeLayout extends ccui.RelativeBox{
         this.addComponent(new EnableOnLandscape());
     }
 
-    createTextPercent(parent, name, message, x, y, size){
+    createTextPercent(parent, name, message, x, y, size)
+    {
         let text = new ccui.Text(message, "Pixel", size);
         text.setName(name);
         text.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -26,15 +30,14 @@ class RulesLandscapeLayout extends ccui.RelativeBox{
         text.addComponent(new FitToParent());
     }
 
-    createRulesText(parent) {
+    createRulesText(parent)
+    {
         let rulesLayout = new ccui.Layout(cc.winSize);
         rulesLayout.setAnchorPoint(0.5, 0.5);
         rulesLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
         rulesLayout.setPositionPercent(cc.p(0.5, 0.7));
         rulesLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         rulesLayout.setSizePercent(cc.p(0.9, 0.8));
-        //rulesLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        //rulesLayout.setBackGroundColor(cc.color(0, 150, 0, 255));
         rulesLayout.addComponent(new FitToParent());
 
         let layoutParameter = new ccui.RelativeLayoutParameter();
@@ -44,11 +47,22 @@ class RulesLandscapeLayout extends ccui.RelativeBox{
         parent.addChild(rulesLayout);
 
         let rules = "RULES:\n\n1.) Click on two adjacent \ntiles to swap their places\n\n2.) Match three or more adjacent \nsame type tiles to earn points\n\n3.) Gain as much points as \npossible within two minutes";
-        this.createTextPercent(rulesLayout, "RulesText", rules, 0.5, 0.5, 48);
+
+        rulesLayout.addChild(new Text(
+            "Rules",
+            rules,
+            res.PixelFont.name,
+            48,
+            cc.p(0.5, 0.5),
+            {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 4
+            }));
     }
 
     // Create a button
-    createButton(parent, text, bindingFunction){
+    createButton(parent, text, bindingFunction)
+    {
         let buttonLayout = new ccui.Layout(cc.winSize);
         buttonLayout.setAnchorPoint(0.5, 0.5);
         buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -66,13 +80,13 @@ class RulesLandscapeLayout extends ccui.RelativeBox{
         parent.addChild(buttonLayout);
 
         // Sets ups button with 9-slice
-        let button = new ccui.Button( res.Button9Slice_png, res.Button9SliceSelected_png);
+        let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
         button.setName(text);
         button.setScale9Enabled(true);
         button.setCapInsets(cc.rect(20, 20, 20, 20));
         button.setContentSize(cc.size(300, 125));
         button.setTitleFontSize(60);
-        button.setTitleFontName("Pixel")
+        button.setTitleFontName("Pixel");
         button.setTitleText(text);
         button.setPositionType(ccui.Widget.POSITION_PERCENT);
         button.setPositionPercent(cc.p(0.5, 0.5));
@@ -84,7 +98,8 @@ class RulesLandscapeLayout extends ccui.RelativeBox{
         buttonLayout.addChild(button);
     }
 
-    onClickBack(){
+    onClickBack()
+    {
         cc.director.runScene(new MainMenuScene());
     }
 }

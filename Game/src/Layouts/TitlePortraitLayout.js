@@ -16,19 +16,10 @@ class TitlePortraitLayout extends ccui.RelativeBox
         this.addComponent(new EnableOnPortrait());
 
         this.createTitle();
-        this.createColumnOfButtons();
-    }
 
-    // Creates text using pixel percentaging
-    createTextPercent(parent, name, message, x, y, size)
-    {
-        let text = new ccui.Text(message, "Pixel", size);
-        text.setName(name);
-        text.setPositionType(ccui.Widget.POSITION_PERCENT);
-        text.setPositionPercent(cc.p(x, y));
-        text.enableOutline(cc.color(0, 0, 0, 255), 4);
-        parent.addChild(text);
-        text.addComponent(new FitToParent());
+
+
+        this.createColumnOfButtons();
     }
 
     // Creates title layout to be anchored to top of relative layout
@@ -50,7 +41,16 @@ class TitlePortraitLayout extends ccui.RelativeBox
         this.addChild(titleLayout);
 
         // Creates and childs title text to title layout
-        this.createTextPercent(titleLayout, "Title", "Title of Game", 0.5, 0.4, 60);
+        titleLayout.addChild(new Text(
+            "Title",
+            "Toiree",
+            res.PixelFont.name,
+            60,
+            cc.p(0.5, 0.7),
+            {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 4
+            }));
     }
 
     // Creates button layout to be anchored to bottom of relative layout

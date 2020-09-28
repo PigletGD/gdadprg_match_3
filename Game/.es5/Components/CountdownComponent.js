@@ -15,7 +15,7 @@ var CountdownComponent = function (_cc$Component) {
 	_inherits(CountdownComponent, _cc$Component);
 
 	function CountdownComponent() {
-		var startingTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 180.0;
+		var startingTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 120.0;
 
 		_classCallCheck(this, CountdownComponent);
 
@@ -34,12 +34,19 @@ var CountdownComponent = function (_cc$Component) {
 		value: function onEnter() {
 			_get(CountdownComponent.prototype.__proto__ || Object.getPrototypeOf(CountdownComponent.prototype), "onEnter", this).call(this);
 		}
+
+		//TODO: Refactor
+
 	}, {
 		key: "update",
 		value: function update(delta) {
 			_get(CountdownComponent.prototype.__proto__ || Object.getPrototypeOf(CountdownComponent.prototype), "update", this).call(this, delta);
-			if (this._isCountingDown === true && this._currentTime > 0.0) {
-				this._currentTime -= delta;
+			if (!GameManager.getInstance().isPaused()) {
+				if (this._isCountingDown === true && this._currentTime >= 0.0) {
+					this._currentTime -= delta;
+				} else {
+					this._currentTime = 0.0;
+				}
 			}
 		}
 	}, {

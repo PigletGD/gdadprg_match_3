@@ -4,15 +4,25 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var GAME_STATE_INACTIVE = 1;
+var GAME_STATE_PLAY_LEVEL = 2;
+var GAME_STATE_RESULTS = 3;
+
 /********************************
 GameManager manages the state of the game
 ********************************/
+
 var GameManager = function () {
 	function GameManager() {
 		_classCallCheck(this, GameManager);
 	}
 
 	_createClass(GameManager, [{
+		key: "addScore",
+		value: function addScore(val) {
+			this._score += val;
+		}
+	}, {
 		key: "pauseGame",
 		value: function pauseGame() {
 			this._isPaused = true;
@@ -28,6 +38,14 @@ var GameManager = function () {
 			return this._isPaused;
 		}
 	}, {
+		key: "gameState",
+		get: function get() {
+			return this._gameState;
+		},
+		set: function set(gameState) {
+			this._gameState = gameState;
+		}
+	}, {
 		key: "score",
 		get: function get() {
 			return this._score;
@@ -40,6 +58,8 @@ var GameManager = function () {
 		value: function getInstance() {
 			if (GameManager._sharedInstance == undefined) {
 				GameManager._sharedInstance = new GameManager();
+				GameManager._sharedInstance._gameState = GAME_STATE_INACTIVE;
+				GameManager._sharedInstance._score = 0;
 			}
 
 			return GameManager._sharedInstance;

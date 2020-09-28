@@ -55,8 +55,8 @@ var ResultsPopupLayout = function (_ccui$Layout) {
                         this.popUp.runAction(scaleTo);
 
                         // Start of score text setup
-
-                        var scoreText = new ccui.Text("Score", "Pixel", 60);
+                        var score = GameManager.getInstance().score;
+                        var scoreText = new ccui.Text("Score " + score.toString(), "Pixel", 48);
                         scoreText.setAnchorPoint(0.5, 0.5);
                         scoreText.addComponent(new FitToParent());
 
@@ -114,13 +114,13 @@ var ResultsPopupLayout = function (_ccui$Layout) {
         }, {
                 key: "onClickRetry",
                 value: function onClickRetry() {
+                        GameManager.getInstance().resumeGame();
                         cc.director.runScene(new MainGameScene());
                 }
         }, {
                 key: "onFinish",
                 value: function onFinish() {
-                        // Unpause Game Here
-
+                        GameManager.getInstance().resumeGame();
                         this.getParent().removeChild(this);
                 }
         }, {
