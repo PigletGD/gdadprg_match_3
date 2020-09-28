@@ -109,6 +109,7 @@ class TitleLandscapeLayout extends ccui.Layout
     onClickPlay()
     {
         console.log("play");
+        GameManager.getInstance().resumeGame();
         cc.director.runScene(new MainGameScene());
     }
 

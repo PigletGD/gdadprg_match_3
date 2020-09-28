@@ -128,6 +128,7 @@ class TitlePortraitLayout extends ccui.RelativeBox
     onClickPlay()
     {
         console.log("play");
+        GameManager.getInstance().resumeGame();
         cc.director.runScene(new MainGameScene());
     }
 
