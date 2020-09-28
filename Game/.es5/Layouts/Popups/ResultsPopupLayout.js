@@ -75,7 +75,7 @@ var ResultsPopupLayout = function (_ccui$Layout) {
 
                         retryButton.setScale9Enabled(true);
                         retryButton.setCapInsets(cc.rect(20, 20, 20, 20));
-                        retryButton.setContentSize(cc.size(100, 50));
+                        retryButton.setContentSize(cc.size(150, 65));
                         retryButton.setAnchorPoint(0.0, 0.0);
                         retryButton.setTitleFontSize(14);
                         retryButton.setTitleFontName("Pixel");
@@ -97,7 +97,7 @@ var ResultsPopupLayout = function (_ccui$Layout) {
 
                         mainMenuButton.setScale9Enabled(true);
                         mainMenuButton.setCapInsets(cc.rect(20, 20, 20, 20));
-                        mainMenuButton.setContentSize(cc.size(100, 50));
+                        mainMenuButton.setContentSize(cc.size(150, 65));
                         mainMenuButton.setTitleFontSize(14);
                         mainMenuButton.setTitleFontName("Pixel");
                         mainMenuButton.setTitleText("MAIN MENU");
@@ -115,6 +115,7 @@ var ResultsPopupLayout = function (_ccui$Layout) {
                 key: "onClickRetry",
                 value: function onClickRetry() {
                         GameManager.getInstance().resumeGame();
+                        GameManager.getInstance().score = 0;
                         cc.director.runScene(new MainGameScene());
                 }
         }, {

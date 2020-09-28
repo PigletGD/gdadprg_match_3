@@ -29,7 +29,11 @@ var TitleLandscapeLayout = function (_ccui$Layout) {
             _get(TitleLandscapeLayout.prototype.__proto__ || Object.getPrototypeOf(TitleLandscapeLayout.prototype), "onEnter", this).call(this);
             this.setContentSize(cc.winSize);
 
-            this.createTextPercent(this, "Title", "Toiree", 0.5, 0.7, 60);
+            this.addChild(new Text("Title", "Toiree", res.PixelFont.name, 60, cc.p(0.5, 0.7), {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 4
+            }));
+
             this.createRowOfButtons();
 
             var fitToWindow = new FitToWindow();
@@ -37,20 +41,6 @@ var TitleLandscapeLayout = function (_ccui$Layout) {
 
             this.addComponent(new FitToWindow());
             this.addComponent(new EnableOnLandscape());
-        }
-
-        // Creates text using pixel percentaging
-
-    }, {
-        key: "createTextPercent",
-        value: function createTextPercent(parent, name, message, x, y, size) {
-            var text = new ccui.Text(message, "Pixel", size);
-            text.setName(name);
-            text.setPositionType(ccui.Widget.POSITION_PERCENT);
-            text.setPositionPercent(cc.p(x, y));
-            text.enableOutline(cc.color(0, 0, 0, 255), 4);
-            parent.addChild(text);
-            text.addComponent(new FitToParent());
         }
     }, {
         key: "createRowOfButtons",
@@ -132,6 +122,8 @@ var TitleLandscapeLayout = function (_ccui$Layout) {
         key: "onClickPlay",
         value: function onClickPlay() {
             console.log("play");
+            GameManager.getInstance().resumeGame();
+            GameManager.getInstance().score = 0;
             cc.director.runScene(new MainGameScene());
         }
 

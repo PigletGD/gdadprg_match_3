@@ -45,12 +45,6 @@ var Board = function (_cc$DrawNode) {
 			var totalHeight = this._boardSize.height * this._tileSize.height;
 
 			this.drawRect(cc.p(0, 0), cc.p(totalWidth, totalHeight), cc.color("#000000"));
-
-			if (cc.isDebugMode) {
-				var debugDot = new cc.DrawNode();
-				debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff0000"));
-				this.addChild(debugDot);
-			}
 		}
 	}, {
 		key: "addTile",
@@ -136,6 +130,8 @@ var Board = function (_cc$DrawNode) {
 	}, {
 		key: "validateMatches",
 		value: function validateMatches() {
+			var _this2 = this;
+
 			// Checks the board for tiles that have a match
 			var result = void 0,
 			    tempResult = void 0;
@@ -155,8 +151,11 @@ var Board = function (_cc$DrawNode) {
 			this.fillEmptyTiles();
 
 			if (result) {
-				var delay = cc.delayTime(0.5);
-				this.runAction(new cc.sequence(delay, this.validateMatches));
+				var delay = new cc.DelayTime(0.5);
+				var callFunc = new cc.callFunc(function () {
+					return _this2.validateMatches();
+				});
+				this.runAction(new cc.sequence(delay, callFunc));
 			}
 		}
 	}, {

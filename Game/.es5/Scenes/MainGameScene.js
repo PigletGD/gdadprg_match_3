@@ -33,7 +33,7 @@ var MainGameScene = function (_cc$Scene) {
 			this.landscape = new MainGameLandscapeLayout();
 			this.addChild(this.landscape);
 
-			this.portrait = new MainGameLandscapeLayout();
+			this.portrait = new MainGamePortraitLayout();
 			this.addChild(this.portrait);
 
 			this.timerEntity.startCountdown();

@@ -38,17 +38,6 @@ var MainGameLandscapeLayout = function (_ccui$RelativeBox) {
             this.addComponent(new EnableOnLandscape());
         }
     }, {
-        key: "createTextPercent",
-        value: function createTextPercent(parent, name, message, x, y, size) {
-            var text = new ccui.Text(message, "Pixel", size);
-            text.setName(name);
-            text.setPositionType(ccui.Widget.POSITION_PERCENT);
-            text.setPositionPercent(cc.p(x, y));
-            text.enableOutline(cc.color(0, 0, 0, 255), 4);
-            parent.addChild(text);
-            text.addComponent(new FitToParent());
-        }
-    }, {
         key: "createStatsText",
         value: function createStatsText(parent) {
             var statsLayout = new ccui.Layout(cc.winSize);
@@ -76,22 +65,27 @@ var MainGameLandscapeLayout = function (_ccui$RelativeBox) {
             vertLayout.setSizePercent(cc.p(0.7, 0.7));
             uiContainer.addChild(vertLayout);
 
-            // TODO: make ir into a class
-            this.timeText = new ccui.Text("Time", "Pixel", 100);
+            this.timeText = new Text("Time", "Time", res.PixelFont.name, 80, cc.p(0.5, 0.7), {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 8
+            });
+
             this.timeText.setName("Time");
             this.timeText.setAnchorPoint(0.0, 0.0);
-            this.timeText.enableOutline(cc.color(0, 0, 0, 255), 8);
+
             var timeLayoutParameter = new ccui.LinearLayoutParameter();
             timeLayoutParameter.setGravity(ccui.LinearLayoutParameter.LEFT);
             timeLayoutParameter.setMargin(100, 20, 0, 0);
             this.timeText.setLayoutParameter(timeLayoutParameter);
             vertLayout.addChild(this.timeText);
 
-            // TODO: make ir into a class
-            this.scoreText = new ccui.Text("Score", "Pixel", 100);
-            this.scoreText.setName("Score");
+            this.scoreText = new Text("Score", "Score", res.PixelFont.name, 80, cc.p(0.5, 0.7), {
+                color: cc.color(0, 0, 0, 255),
+                stroke: 8
+            });
+
             this.scoreText.setAnchorPoint(0.0, 0.0);
-            this.scoreText.enableOutline(cc.color(0, 0, 0, 255), 8);
+
             var scoreLayoutParameter = new ccui.LinearLayoutParameter();
             scoreLayoutParameter.setGravity(ccui.LinearLayoutParameter.LEFT);
             scoreLayoutParameter.setMargin(100, 20, 0, 0);

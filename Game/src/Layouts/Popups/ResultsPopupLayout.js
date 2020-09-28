@@ -99,6 +99,7 @@ class ResultsPopupLayout extends ccui.Layout
     onClickRetry()
     {
         GameManager.getInstance().resumeGame();
+        GameManager.getInstance().score = 0;
         cc.director.runScene(new MainGameScene());
     }
     onFinish()
