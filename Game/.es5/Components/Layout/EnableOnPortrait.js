@@ -10,26 +10,36 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainGameScene = function (_cc$Scene) {
-	_inherits(MainGameScene, _cc$Scene);
+var EnableOnPortrait = function (_ResizeListener) {
+    _inherits(EnableOnPortrait, _ResizeListener);
 
-	function MainGameScene() {
-		_classCallCheck(this, MainGameScene);
+    function EnableOnPortrait() {
+        _classCallCheck(this, EnableOnPortrait);
 
-		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
-	}
+        var _this = _possibleConstructorReturn(this, (EnableOnPortrait.__proto__ || Object.getPrototypeOf(EnableOnPortrait)).call(this));
 
-	_createClass(MainGameScene, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+        _this.setName("EnableOnPortrait");
+        return _this;
+    }
 
-			this.addChild(new Background("GameBackground", res.GameBackground_png));
-			this.addChild(new MainGameLayer());
-			this.addChild(new MainGameLandscapeLayout());
-			this.addChild(new MainGamePortraitLayout());
-		}
-	}]);
+    _createClass(EnableOnPortrait, [{
+        key: "onEnter",
+        value: function onEnter() {
+            _get(EnableOnPortrait.prototype.__proto__ || Object.getPrototypeOf(EnableOnPortrait.prototype), "onEnter", this).call(this);
+            this.onResize();
+        }
+    }, {
+        key: "onResize",
+        value: function onResize() {
+            if (cc.winSize.width < cc.winSize.height) {
+                this.getOwner().setEnabled(true);
+                this.getOwner().setVisible(true);
+            } else {
+                this.getOwner().setEnabled(false);
+                this.getOwner().setVisible(false);
+            }
+        }
+    }]);
 
-	return MainGameScene;
-}(cc.Scene);
+    return EnableOnPortrait;
+}(ResizeListener);

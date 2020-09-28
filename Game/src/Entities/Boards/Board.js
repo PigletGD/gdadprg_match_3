@@ -15,7 +15,6 @@ if color == black -> tile cannot be placed
 // CONSTANTS
 const MIN_BOARD_SIZE = 8;
 const MIN_TILE_SIZE = 16;
-
 class Board extends cc.DrawNode
 {
 	constructor(
@@ -31,6 +30,7 @@ class Board extends cc.DrawNode
 		this._array = new Array(boardSize.width * boardSize.height);
 		this._boardSize = boardSize;
 		this._tileSize = tileSize;
+		this._selectedTile = null;
 	}
 
 	onEnter()
@@ -99,10 +99,37 @@ class Board extends cc.DrawNode
 			res.Button9SliceSelected_png,
 			tilePosition,
 			this._tileSize,
-			tile.bgColor);
+			tile.bgColor, this,
+			y, x);
 
 		this._array[y * this._boardSize.height + x] = newTileButtonTest;
 		this.addChild(newTileButtonTest);
 	}
 
+	setSelectedTile(tilePos)
+	{
+		let currentTile = this._array[tilePos.y * this._boardSize.height + tilePos.x];
+
+		if (this._selectedTile === null)
+		{
+			this._selectedTile = currentTile;
+		}
+		else
+		{
+			let indexA = this._selectedTile.row * this._boardSize.height + this._selectedTile.col;
+			let indexB = currentTile.row * this._boardSize.height + currentTile.col;
+
+			console.log("1");
+			console.table({A: indexA, B: indexB});
+
+			let temp = this._array[indexA];
+			this._array[indexA] = this._array[indexB];
+			this._array[indexB] = temp;
+
+			console.log("2");
+			console.table({A: this._array[indexA].id, B: this._array[indexB].id});
+
+			this._selectedTile = null;
+		}
+	}
 }

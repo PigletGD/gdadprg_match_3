@@ -10,26 +10,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainGameScene = function (_cc$Scene) {
-	_inherits(MainGameScene, _cc$Scene);
+var FitToWindow = function (_ResizeListener) {
+    _inherits(FitToWindow, _ResizeListener);
 
-	function MainGameScene() {
-		_classCallCheck(this, MainGameScene);
+    function FitToWindow() {
+        _classCallCheck(this, FitToWindow);
 
-		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
-	}
+        var _this = _possibleConstructorReturn(this, (FitToWindow.__proto__ || Object.getPrototypeOf(FitToWindow)).call(this));
 
-	_createClass(MainGameScene, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+        _this.setName("Fit To Window");
+        return _this;
+    }
 
-			this.addChild(new Background("GameBackground", res.GameBackground_png));
-			this.addChild(new MainGameLayer());
-			this.addChild(new MainGameLandscapeLayout());
-			this.addChild(new MainGamePortraitLayout());
-		}
-	}]);
+    _createClass(FitToWindow, [{
+        key: "onEnter",
+        value: function onEnter() {
+            cc.assert(this.getOwner() instanceof ccui.Layout, "Component compatible only with ccui.Layout");
+            _get(FitToWindow.prototype.__proto__ || Object.getPrototypeOf(FitToWindow.prototype), "onEnter", this).call(this);
+        }
+    }, {
+        key: "onResize",
+        value: function onResize() {
+            this.getOwner().setContentSize(cc.winSize);
+        }
+    }]);
 
-	return MainGameScene;
-}(cc.Scene);
+    return FitToWindow;
+}(ResizeListener);

@@ -1,5 +1,7 @@
-class MainGameLandscapeLayout extends ccui.RelativeBox {
-    constructor(){
+class MainGameLandscapeLayout extends ccui.RelativeBox
+{
+    constructor()
+    {
         super();
         this.setName("MainGameLandscapeLayout");
         this.scheduleUpdate();
@@ -7,7 +9,8 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
         this.scoreText;
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.setContentSize(cc.winSize);
 
@@ -18,7 +21,8 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
         this.addComponent(new EnableOnLandscape());
     }
 
-    createTextPercent(parent, name, message, x, y, size){
+    createTextPercent(parent, name, message, x, y, size)
+    {
         let text = new ccui.Text(message, "Pixel", size);
         text.setName(name);
         text.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -28,7 +32,8 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
         text.addComponent(new FitToParent());
     }
 
-    createStatsText(parent) {
+    createStatsText(parent)
+    {
         let statsLayout = new ccui.Layout(cc.winSize);
         statsLayout.setAnchorPoint(0.0, 0.0);
         statsLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
@@ -54,6 +59,7 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
         vertLayout.setSizePercent(cc.p(0.7, 0.7));
         uiContainer.addChild(vertLayout);
 
+        // TODO: make ir into a class
         this.timeText = new ccui.Text("Time", "Pixel", 100);
         this.timeText.setName("Time");
         this.timeText.enableOutline(cc.color(0, 0, 0, 255), 8);
@@ -63,6 +69,7 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
         this.timeText.setLayoutParameter(timeLayoutParameter);
         vertLayout.addChild(this.timeText);
 
+        // TODO: make ir into a class
         this.scoreText = new ccui.Text("Score", "Pixel", 100);
         this.scoreText.setName("Score");
         this.scoreText.enableOutline(cc.color(0, 0, 0, 255), 8);
@@ -74,7 +81,8 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
     }
 
     // Create a button
-    createButton(parent, text, bindingFunction){
+    createButton(parent, text, bindingFunction)
+    {
         let buttonLayout = new ccui.Layout(cc.winSize);
         buttonLayout.setAnchorPoint(0.5, 0.5);
         buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -92,13 +100,13 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
         parent.addChild(buttonLayout);
 
         // Sets ups button with 9-slice
-        let button = new ccui.Button( res.Button9Slice_png, res.Button9SliceSelected_png);
+        let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
         button.setName(text);
         button.setScale9Enabled(true);
         button.setCapInsets(cc.rect(20, 20, 20, 20));
         button.setContentSize(cc.size(300, 125));
         button.setTitleFontSize(60);
-        button.setTitleFontName("Pixel")
+        button.setTitleFontName("Pixel");
         button.setTitleText(text);
         button.setPositionType(ccui.Widget.POSITION_PERCENT);
         button.setPositionPercent(cc.p(0.5, 0.5));
@@ -110,7 +118,8 @@ class MainGameLandscapeLayout extends ccui.RelativeBox {
         buttonLayout.addChild(button);
     }
 
-    onClickPause(){
+    onClickPause()
+    {
         this.getParent().addChild(new PausePopupLayout());
     }
 }

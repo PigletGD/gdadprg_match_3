@@ -1,34 +1,36 @@
+// TODO: Fox [ause pop-up can be spawned more than once (Pause button can be pressed as well as tiles when paused)
+
+
+
+
 class MainGameLayer extends cc.LayerColor
 {
-	constructor()
-	{
-        super(cc.color(0,100,0,255), 800, 700);
+    constructor()
+    {
+        super(cc.color(0, 100, 0, 255), 800, 700);
         this.setAnchorPoint(0.5, 0.5);
         this.board;
-	}
-
-	onEnter()
-	{
-		super.onEnter();
-		this.scheduleUpdate();
-
-        this.addComponent(new GameLayerResizerAnchorLeft(60));
-
-        this.createBoard();
-        
     }
-    
+
+    onEnter()
+    {
+        super.onEnter();
+        this.scheduleUpdate();
+        this.addComponent(new GameLayerResizerAnchorLeft(60));
+        this.createBoard();
+    }
+
     // Test function as I couldn't get board manager to work
     createBoard()
     {
-    	let tileTypes = new Array();
+        let tileTypes = new Array();
 
-		tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ffff00")));
-		tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff00ff")));
-		tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ffff")));
-		tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff0000")));
-		tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#0000ff")));
-		tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ff00")));
+        tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ffff00")));
+        tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff00ff")));
+        tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ffff")));
+        tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#ff0000")));
+        tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#0000ff")));
+        tileTypes.push(new Tile(res.PrototypeSprite, 0, 0, cc.color("#00ff00")));
 
         let contentSize = this.getContentSize();
 

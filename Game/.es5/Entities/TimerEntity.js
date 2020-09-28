@@ -10,8 +10,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var TimerEntity = function (_cc$DrawNode) {
-	_inherits(TimerEntity, _cc$DrawNode);
+var TimerEntity = function (_cc$Node) {
+	_inherits(TimerEntity, _cc$Node);
 
 	function TimerEntity() {
 		var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "TimerEntity";
@@ -32,16 +32,14 @@ var TimerEntity = function (_cc$DrawNode) {
 		value: function onEnter() {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "onEnter", this).call(this);
 			console.log("Timer initialized");
-
 			this._countdownComponent = new CountdownComponent(this._startingTime);
 			this.addComponent(this._countdownComponent);
-			this._countdownComponent.start();
 		}
 	}, {
 		key: "update",
 		value: function update(timestep) {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "update", this).call(this, timestep);
-			console.log(this.getName() + " " + this.remainingSeconds);
+			//console.log(this.getName() + " " + this.remainingSeconds);
 		}
 	}, {
 		key: "startCountdown",
@@ -89,4 +87,4 @@ var TimerEntity = function (_cc$DrawNode) {
 	}]);
 
 	return TimerEntity;
-}(cc.DrawNode);
+}(cc.Node);

@@ -13,51 +13,54 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var currentID = 0;
 
 var Tile = function (_cc$DrawNode) {
-	_inherits(Tile, _cc$DrawNode);
+		_inherits(Tile, _cc$DrawNode);
 
-	function Tile(spriteFilepath, position, size, color) {
-		_classCallCheck(this, Tile);
+		function Tile(spriteFilepath, position, size, color) {
+				_classCallCheck(this, Tile);
 
-		var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).call(this));
+				var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).call(this));
 
-		_this.setAnchorPoint(1.0, 1.0);
-		_this.setPosition(position);
-		_this.size = size;
-		_this.bgColor = color;
-		_this.id = currentID;
-		_this.isSelected = false;
-		currentID++;
-		// console.log(this);
+				_this.setAnchorPoint(1.0, 1.0);
+				_this.setPosition(position);
+				_this.size = size;
+				_this.bgColor = color;
+				_this.id = currentID;
+				_this.isSelected = false;
+				currentID++;
+				// console.log(this);
 
-		// GameManager.getInstance().test();
+				// GameManager.getInstance().test();
 
-		_this.sprite = new cc.Sprite(spriteFilepath);
-		_this.sprite.setAnchorPoint(0.0, 0.0);
-		var originalSize = _this.sprite.getContentSize();
-		_this.sprite.setScale(size.width / originalSize.height, size.height / originalSize.height);
-		return _this;
-	}
-
-	_createClass(Tile, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(Tile.prototype.__proto__ || Object.getPrototypeOf(Tile.prototype), "onEnter", this).call(this);
-
-			this.drawRect(cc.p(0, 0), cc.p(this.size.width, this.size.height), this.bgColor);
-
-			this.addChild(this.sprite);
-
-			var idText = new cc.LabelTTF(this.id.toString(), "Arial", 32);
-			idText.setAnchorPoint(0, 0);
-			this.addChild(idText);
-
-			if (cc.isDebugMode) {
-				var debugDot = new cc.DrawNode();
-				debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff00ff"));
-				this.addChild(debugDot);
-			}
+				_this.sprite = new cc.Sprite(spriteFilepath);
+				_this.sprite.setAnchorPoint(0.0, 0.0);
+				var originalSize = _this.sprite.getContentSize();
+				_this.sprite.setScale((size.width / originalSize.height, size.height / originalSize.height));
+				return _this;
 		}
-	}]);
 
-	return Tile;
+		_createClass(Tile, [{
+				key: "onEnter",
+				value: function onEnter() {
+						_get(Tile.prototype.__proto__ || Object.getPrototypeOf(Tile.prototype), "onEnter", this).call(this);
+
+						// this.drawRect(
+						// 	cc.p(0, 0),
+						// 	cc.p(this.size.width, this.size.height),
+						// 	this.bgColor);
+
+						this.addChild(this.sprite);
+
+						var idText = new cc.LabelTTF(this.id.toString(), "Arial", 32);
+						idText.setAnchorPoint(0, 0);
+						this.addChild(idText);
+
+						if (cc.isDebugMode) {
+								var debugDot = new cc.DrawNode();
+								debugDot.drawDot(cc.p(0, 0), 5, cc.color("#ff00ff"));
+								this.addChild(debugDot);
+						}
+				}
+		}]);
+
+		return Tile;
 }(cc.DrawNode);

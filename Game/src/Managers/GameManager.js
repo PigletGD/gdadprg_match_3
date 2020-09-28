@@ -24,8 +24,6 @@ class GameManager
 		this._score = val;
 	}
 
-
-
 	pauseGame()
 	{
 		this._isPaused = true;
@@ -40,5 +38,4 @@ class GameManager
 	{
 		return this._isPaused;
 	}
-
 }

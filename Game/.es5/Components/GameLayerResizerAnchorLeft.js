@@ -10,26 +10,53 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainGameScene = function (_cc$Scene) {
-	_inherits(MainGameScene, _cc$Scene);
+var GameLayerResizerAnchorLeft = function (_ResizeListener) {
+    _inherits(GameLayerResizerAnchorLeft, _ResizeListener);
 
-	function MainGameScene() {
-		_classCallCheck(this, MainGameScene);
+    function GameLayerResizerAnchorLeft(padding) {
+        _classCallCheck(this, GameLayerResizerAnchorLeft);
 
-		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
-	}
+        var _this = _possibleConstructorReturn(this, (GameLayerResizerAnchorLeft.__proto__ || Object.getPrototypeOf(GameLayerResizerAnchorLeft)).call(this));
 
-	_createClass(MainGameScene, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+        _this.padding = padding;
+        _this.setName("GameLayerResizerAnchorLeft");
+        return _this;
+    }
 
-			this.addChild(new Background("GameBackground", res.GameBackground_png));
-			this.addChild(new MainGameLayer());
-			this.addChild(new MainGameLandscapeLayout());
-			this.addChild(new MainGamePortraitLayout());
-		}
-	}]);
+    _createClass(GameLayerResizerAnchorLeft, [{
+        key: "onEnter",
+        value: function onEnter() {
+            _get(GameLayerResizerAnchorLeft.prototype.__proto__ || Object.getPrototypeOf(GameLayerResizerAnchorLeft.prototype), "onEnter", this).call(this);
+            this.onResize();
+        }
+    }, {
+        key: "onResize",
+        value: function onResize() {
+            var owner = this.getOwner();
+            var ownerSize = owner.getContentSize();
 
-	return MainGameScene;
-}(cc.Scene);
+            //owner.x = cc.winSize.width/2 - owner.width/2;
+            owner.y = cc.winSize.height / 2 - owner.height / 2;
+
+            var scaleX = (cc.winSize.width - this.padding) / ownerSize.width;
+            var scaleY = (cc.winSize.height - this.padding) / ownerSize.height;
+
+            var targetScale = 1;
+            if (scaleX < scaleY) {
+                owner.setAnchorPoint(0.5, 0.5);
+                owner.x = cc.winSize.width / 2 - owner.width / 2;
+                targetScale = scaleX;
+            } else {
+                owner.setAnchorPoint(0.0, 0.5);
+                owner.setAnchorPoint;
+                owner.x = this.padding / 5;
+                targetScale = scaleY;
+            }
+
+            owner.setScale(targetScale);
+            this.isResizeContent = false;
+        }
+    }]);
+
+    return GameLayerResizerAnchorLeft;
+}(ResizeListener);

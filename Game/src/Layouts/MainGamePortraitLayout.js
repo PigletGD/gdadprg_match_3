@@ -1,5 +1,7 @@
-class MainGamePortraitLayout extends ccui.RelativeBox {
-    constructor(){
+class MainGamePortraitLayout extends ccui.RelativeBox
+{
+    constructor()
+    {
         super();
         this.setName("MainGameLandscapeLayout");
         this.scheduleUpdate();
@@ -7,7 +9,8 @@ class MainGamePortraitLayout extends ccui.RelativeBox {
         this.scoreText;
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.setContentSize(cc.winSize);
 
@@ -18,7 +21,8 @@ class MainGamePortraitLayout extends ccui.RelativeBox {
         this.addComponent(new EnableOnPortrait());
     }
 
-    createTextPercent(parent, name, message, x, y, size){
+    createTextPercent(parent, name, message, x, y, size)
+    {
         let text = new ccui.Text(message, "Pixel", size);
         text.setName(name);
         text.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -28,7 +32,8 @@ class MainGamePortraitLayout extends ccui.RelativeBox {
         text.addComponent(new FitToParent());
     }
 
-    createStatsText(parent) {
+    createStatsText(parent)
+    {
         // let statsLayout = new ccui.Layout(cc.winSize);
         // statsLayout.setAnchorPoint(0.0, 0.0);
         // statsLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
@@ -74,7 +79,8 @@ class MainGamePortraitLayout extends ccui.RelativeBox {
     }
 
     // Create a button
-    createButton(parent, text, bindingFunction){
+    createButton(parent, text, bindingFunction)
+    {
         let buttonLayout = new ccui.Layout(cc.winSize);
         buttonLayout.setAnchorPoint(0.5, 0.5);
         buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -92,13 +98,13 @@ class MainGamePortraitLayout extends ccui.RelativeBox {
         parent.addChild(buttonLayout);
 
         // Sets ups button with 9-slice
-        let button = new ccui.Button( res.Button9Slice_png, res.Button9SliceSelected_png);
+        let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
         button.setName(text);
         button.setScale9Enabled(true);
         button.setCapInsets(cc.rect(20, 20, 20, 20));
         button.setContentSize(cc.size(300, 125));
         button.setTitleFontSize(60);
-        button.setTitleFontName("Pixel")
+        button.setTitleFontName("Pixel");
         button.setTitleText(text);
         button.setPositionType(ccui.Widget.POSITION_PERCENT);
         button.setPositionPercent(cc.p(0.5, 0.5));
@@ -110,7 +116,8 @@ class MainGamePortraitLayout extends ccui.RelativeBox {
         buttonLayout.addChild(button);
     }
 
-    onClickPause(){
+    onClickPause()
+    {
         this.getParent().addChild(new ResultsPopupLayout());
     }
 }

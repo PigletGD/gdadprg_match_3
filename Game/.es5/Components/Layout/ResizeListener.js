@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -10,26 +10,49 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainGameScene = function (_cc$Scene) {
-	_inherits(MainGameScene, _cc$Scene);
+var ResizeListener = function (_cc$Component) {
+    _inherits(ResizeListener, _cc$Component);
 
-	function MainGameScene() {
-		_classCallCheck(this, MainGameScene);
+    function ResizeListener() {
+        _classCallCheck(this, ResizeListener);
 
-		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
-	}
+        // if(new.target === ResizeListener)
+        //     throw new TypeError("Cannot construct Abstract instances directly");
+        var _this = _possibleConstructorReturn(this, (ResizeListener.__proto__ || Object.getPrototypeOf(ResizeListener)).call(this));
 
-	_createClass(MainGameScene, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+        _this.isResizeContent = true; // Changed to true to resize once in scene, avoiding weird layouts
+        return _this;
+    }
 
-			this.addChild(new Background("GameBackground", res.GameBackground_png));
-			this.addChild(new MainGameLayer());
-			this.addChild(new MainGameLandscapeLayout());
-			this.addChild(new MainGamePortraitLayout());
-		}
-	}]);
+    _createClass(ResizeListener, [{
+        key: 'onEnter',
+        value: function onEnter() {
+            _get(ResizeListener.prototype.__proto__ || Object.getPrototypeOf(ResizeListener.prototype), 'onEnter', this).call(this);
+            this.listener = cc.EventListener.create({
+                event: cc.EventListener.CUSTOM,
+                eventName: 'canvas-resize',
+                callback: this.onCanvasResize.bind(this)
+            });
+            cc.eventManager.addListener(this.listener, this.getOwner());
+            // this.isResizeContent = true; // Changed to true to resize once in scene, avoiding weird layouts
+        }
+    }, {
+        key: 'onCanvasResize',
+        value: function onCanvasResize() {
+            this.isResizeContent = true;
+        }
+    }, {
+        key: 'onResize',
+        value: function onResize() {}
+    }, {
+        key: 'update',
+        value: function update(dt) {
+            if (this.isResizeContent) {
+                this.onResize();
+                this.isResizeContent = false;
+            }
+        }
+    }]);
 
-	return MainGameScene;
-}(cc.Scene);
+    return ResizeListener;
+}(cc.Component);

@@ -10,26 +10,50 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainGameScene = function (_cc$Scene) {
-	_inherits(MainGameScene, _cc$Scene);
+var FitToParent = function (_ResizeListener) {
+    _inherits(FitToParent, _ResizeListener);
 
-	function MainGameScene() {
-		_classCallCheck(this, MainGameScene);
+    function FitToParent() {
+        _classCallCheck(this, FitToParent);
 
-		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
-	}
+        var _this = _possibleConstructorReturn(this, (FitToParent.__proto__ || Object.getPrototypeOf(FitToParent)).call(this));
 
-	_createClass(MainGameScene, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+        _this.setName("Fit To Parent");
+        return _this;
+    }
 
-			this.addChild(new Background("GameBackground", res.GameBackground_png));
-			this.addChild(new MainGameLayer());
-			this.addChild(new MainGameLandscapeLayout());
-			this.addChild(new MainGamePortraitLayout());
-		}
-	}]);
+    _createClass(FitToParent, [{
+        key: "onEnter",
+        value: function onEnter() {
+            _get(FitToParent.prototype.__proto__ || Object.getPrototypeOf(FitToParent.prototype), "onEnter", this).call(this);
+        }
+    }, {
+        key: "onResize",
+        value: function onResize() {
+            if (this.isResizeContent) {
+                var owner = this.getOwner();
 
-	return MainGameScene;
-}(cc.Scene);
+                var ownerSize = owner.getContentSize();
+                var parentSize = owner.getParent().getContentSize();
+
+                var scaleX = parentSize.width / ownerSize.width;
+                var scaleY = parentSize.height / ownerSize.height;
+
+                var targetScale = 1;
+                if (scaleX < scaleY) {
+                    targetScale = scaleX;
+                } else {
+                    targetScale = scaleY;
+                }
+
+                if (targetScale > 1) {
+                    targetScale = 1;
+                }
+                owner.setScale(targetScale);
+                this.isResizeContent = false;
+            }
+        }
+    }]);
+
+    return FitToParent;
+}(ResizeListener);

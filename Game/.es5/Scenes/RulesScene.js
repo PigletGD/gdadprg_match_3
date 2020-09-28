@@ -10,26 +10,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainGameScene = function (_cc$Scene) {
-	_inherits(MainGameScene, _cc$Scene);
+var RulesScene = function (_cc$Scene) {
+    _inherits(RulesScene, _cc$Scene);
 
-	function MainGameScene() {
-		_classCallCheck(this, MainGameScene);
+    function RulesScene() {
+        _classCallCheck(this, RulesScene);
 
-		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
-	}
+        return _possibleConstructorReturn(this, (RulesScene.__proto__ || Object.getPrototypeOf(RulesScene)).call(this));
+    }
 
-	_createClass(MainGameScene, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+    _createClass(RulesScene, [{
+        key: "onEnter",
+        value: function onEnter() {
+            _get(RulesScene.prototype.__proto__ || Object.getPrototypeOf(RulesScene.prototype), "onEnter", this).call(this);
+            this.addChild(new RulesLayer());
+        }
+    }]);
 
-			this.addChild(new Background("GameBackground", res.GameBackground_png));
-			this.addChild(new MainGameLayer());
-			this.addChild(new MainGameLandscapeLayout());
-			this.addChild(new MainGamePortraitLayout());
-		}
-	}]);
-
-	return MainGameScene;
+    return RulesScene;
 }(cc.Scene);

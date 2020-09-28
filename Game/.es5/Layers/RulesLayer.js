@@ -10,26 +10,33 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainGameScene = function (_cc$Scene) {
-	_inherits(MainGameScene, _cc$Scene);
+var RulesLayer = function (_cc$LayerColor) {
+    _inherits(RulesLayer, _cc$LayerColor);
 
-	function MainGameScene() {
-		_classCallCheck(this, MainGameScene);
+    function RulesLayer() {
+        _classCallCheck(this, RulesLayer);
 
-		return _possibleConstructorReturn(this, (MainGameScene.__proto__ || Object.getPrototypeOf(MainGameScene)).call(this));
-	}
+        return _possibleConstructorReturn(this, (RulesLayer.__proto__ || Object.getPrototypeOf(RulesLayer)).call(this));
+    }
 
-	_createClass(MainGameScene, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainGameScene.prototype.__proto__ || Object.getPrototypeOf(MainGameScene.prototype), "onEnter", this).call(this);
+    _createClass(RulesLayer, [{
+        key: "onEnter",
+        value: function onEnter() {
+            _get(RulesLayer.prototype.__proto__ || Object.getPrototypeOf(RulesLayer.prototype), "onEnter", this).call(this);
+            this.scheduleUpdate();
 
-			this.addChild(new Background("GameBackground", res.GameBackground_png));
-			this.addChild(new MainGameLayer());
-			this.addChild(new MainGameLandscapeLayout());
-			this.addChild(new MainGamePortraitLayout());
-		}
-	}]);
+            var titleBackground = new Background("TitleBackground", res.TitleBackground_png);
+            this.addChild(titleBackground);
 
-	return MainGameScene;
-}(cc.Scene);
+            var rulesLandscapeLayout = new RulesLandscapeLayout();
+            rulesLandscapeLayout.setName("RulesLandscapeLayout");
+            this.addChild(rulesLandscapeLayout);
+
+            var rulesPortraitLayout = new RulesPortraitLayout();
+            rulesPortraitLayout.setName("RulesPortraitLayout");
+            this.addChild(rulesPortraitLayout);
+        }
+    }]);
+
+    return RulesLayer;
+}(cc.LayerColor);
