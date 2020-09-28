@@ -60,7 +60,7 @@ class PausePopupLayout extends ccui.Layout
 
         resumeButton.setScale9Enabled(true);
         resumeButton.setCapInsets(cc.rect(20, 20, 20, 20));
-        resumeButton.setContentSize(cc.size(100, 50));
+        resumeButton.setContentSize(cc.size(150, 65));
         resumeButton.setAnchorPoint(0.0, 0.0);
         resumeButton.setTitleFontSize(14);
         resumeButton.setTitleFontName("Pixel");
@@ -82,7 +82,7 @@ class PausePopupLayout extends ccui.Layout
 
         mainMenuButton.setScale9Enabled(true);
         mainMenuButton.setCapInsets(cc.rect(20, 20, 20, 20));
-        mainMenuButton.setContentSize(cc.size(100, 50));
+        mainMenuButton.setContentSize(cc.size(150, 65));
         mainMenuButton.setTitleFontSize(14);
         mainMenuButton.setTitleFontName("Pixel");
         mainMenuButton.setTitleText("MAIN MENU");
