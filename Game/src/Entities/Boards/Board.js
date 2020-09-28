@@ -1,16 +1,3 @@
-// TODO: Generate board based on an texture file
-
-/**
- *
-Example:
-
-Input:
-a texture that is 8 x 8
-
-if color == white -> possible tile location
-
-if color == black -> tile cannot be placed
- */
 
 // CONSTANTS
 const MIN_BOARD_SIZE = 8;
@@ -73,81 +60,315 @@ class Board extends cc.DrawNode
 		return this._tileSize;
 	}
 
-	place(item, row, column)
+	addTile(tileRef, row, col)
 	{
-		let prevItem = this._array[row * this._boardSize.height + column];
-		this._array[row * this._boardSize.height + column] = item;
-		return prevItem;
-	}
-
-	addTile(tile, x, y)
-	{
-		let tilePosition = cc.p(
-			x * this._tileSize.width,
-			y * this._tileSize.height
-		);
-
-		// let newTile = new Tile(
-		// 	tile.sprite,
-		// 	tilePosition,
-		// 	this._tileSize,
-		// 	tile.bgColor);
-
 		let newTileButtonTest = new TileButton(
-			tile.sprite,
+			tileRef.tileType,
 			res.Button9Slice_png,
 			res.Button9SliceSelected_png,
-			tilePosition,
-			this._tileSize,
-			tile.bgColor, this,
-			y, x);
+			this.tileSize,
+			this,
+			row, col);
 
-		this._array[y * this._boardSize.height + x] = newTileButtonTest;
+		this._array[row * this._boardSize.height + col] = newTileButtonTest;
 		this.addChild(newTileButtonTest);
 	}
 
 	setSelectedTile(tilePos)
 	{
-		// TODO: Selected tile must have an outline
 		let currentTile = this._array[tilePos.row * this._boardSize.height + tilePos.col];
 
 		if (this._selectedTile === null && currentTile.isSelected === false)
 		{
-			this._selectedTile = currentTile;
-			this._selectedTile.isSelected = true;
+			this.selectTile(currentTile);
 		}
 		else if (this._selectedTile !== null && currentTile.isSelected === false)
 		{
-			let indexA = this._selectedTile.row * this._boardSize.height + this._selectedTile.col;
-			let indexB = currentTile.row * this._boardSize.height + currentTile.col;
+			let magnitude = Math.abs(this._selectedTile.row - currentTile.row) +
+				Math.abs(this._selectedTile.col - currentTile.col);
 
-			console.log("1");
-			console.table({A: this._array[indexA].id, B: this._array[indexB].id});
-
-			// TODO: Check current tile position to make sure that it is adjacent to selected tile.
-			this.swapTiles(indexA, indexB);
-
-			console.log("2");
-			console.table({A: this._array[indexA].id, B: this._array[indexB].id});
-
-			this._selectedTile.isSelected = false;
-			this._selectedTile = null;
+			if (magnitude === 1)
+			{
+				let indexA = this._selectedTile.row * this._boardSize.height + this._selectedTile.col;
+				let indexB = currentTile.row * this._boardSize.height + currentTile.col;
+				this.swapTiles(indexA, indexB);
+				this.validateMatches(this._selectedTile);
+				this.unselectTile();
+			}
+			else
+			{
+				this.unselectTile();
+			}
 		}
+	}
+
+	selectTile(tile)
+	{
+		this._selectedTile = tile;
+		this._selectedTile.setColor(cc.color("#aaaaaa"));
+		this._selectedTile.isSelected = true;
+	}
+
+	unselectTile()
+	{
+		this._selectedTile.isSelected = false;
+		this._selectedTile.setColor(cc.color("#ffffff"));
+		this._selectedTile = null;
 	}
 
 	swapTiles(indexA, indexB)
 	{
-		let aPos = this._array[indexA].getPosition();
-		let bPos = this._array[indexB].getPosition();
+		let tempPos = this._array[indexA].getPosition();
+		let tempRowCol = {row: this._array[indexA].row, col: this._array[indexA].col};
 
-		let temp = this._array[indexA];
-		let tempPos = temp.getPosition();
+		let bPos = this._array[indexB].getPosition();
+		let bRowCol = {row: this._array[indexB].row, col: this._array[indexB].col};
 
 		this._array[indexA].setPosition(bPos.x, bPos.y);
-		this._array[indexA] = this._array[indexB];
+		this._array[indexA].row = bRowCol.row;
+		this._array[indexA].col = bRowCol.col;
 
 		this._array[indexB].setPosition(tempPos.x, tempPos.y);
-		this._array[indexB] = temp;
+		this._array[indexB].row = tempRowCol.row;
+		this._array[indexB].col = tempRowCol.col;
 
+		[this._array[indexA], this._array[indexB]] = [this._array[indexB], this._array[indexA]];
+
+	}
+
+	update(timestep)
+	{
+		if (GameManager.getInstance().isPaused())
+		{
+			for (let i = 0; i < this._array.length; i++)
+			{
+				if (this._array[i] !== null)
+				{
+					this._array[i].setTouchEnabled(false);
+
+				}
+			}
+		}
+		else
+		{
+			for (let i = 0; i < this._array.length; i++)
+			{
+				if (this._array[i] !== null)
+				{
+					this._array[i].setTouchEnabled(true);
+				}
+
+			}
+		}
+	}
+
+	validateMatches(tile)
+	{
+		// Checks the board for tiles that have a match
+		let result, tempResult;
+		do
+		{
+			result = false;
+			for (let i = 0; i < this._array.length; i++)
+			{
+				tempResult = this.checkTileForMatches(this._array[i]);
+				if (tempResult)
+				{
+					result = tempResult;
+					this._array[i].isMatchFound = true;
+					console.log("Match found");
+				}
+			}
+
+			this.removeMatches();
+			this.shiftTilesDown();
+			this.fillEmptyTiles();
+
+		} while (result);
+	}
+
+	checkTileForMatches(tile)
+	{
+		let vertical = this.checkUpMatches(tile) + this.checkDownMatches(tile);
+		let horizontal = this.checkLeftMatches(tile) + this.checkRightMatches(tile);
+
+		let vertMatch = false;
+		let horiMatch = false;
+
+		// then do whatever when found a match
+		if (vertical >= 2) vertMatch = true;
+		if (horizontal >= 2) horiMatch = true;
+		//console.log(vertMatch);
+		//console.log(horiMatch);
+		return vertMatch || horiMatch;
+	}
+
+	checkRightMatches(tile)
+	{
+		let tilePosX = tile.col;
+		let checkPosX = tile.col + 1;
+		let foundDifferentTile = false;
+		let similarTiles = 0;
+
+		while (checkPosX < this.boardSize.width && !foundDifferentTile)
+		{
+			if (tile.tileType == this._array[tile.row * this.boardSize.height + checkPosX].tileType)
+			{
+				similarTiles++;
+				checkPosX++;
+			}
+			else foundDifferentTile = true;
+		}
+
+		return similarTiles;
+	}
+
+	checkLeftMatches(tile)
+	{
+		let tilePosX = tile.col;
+		let checkPosX = tile.col - 1;
+		let foundDifferentTile = false;
+		let similarTiles = 0;
+
+		while (checkPosX >= 0 && !foundDifferentTile)
+		{
+			if (tile.tileType == this._array[tile.row * this.boardSize.height + checkPosX].tileType)
+			{
+				similarTiles++;
+				checkPosX--;
+			}
+			else foundDifferentTile = true;
+		}
+
+		return similarTiles;
+	}
+
+	checkUpMatches(tile)
+	{
+		let tilePosY = tile.row;
+		let checkPosY = tile.row + 1;
+		let foundDifferentTile = false;
+		let similarTiles = 0;
+
+		while (checkPosY < this.boardSize.height && !foundDifferentTile)
+		{
+			if (tile.tileType == this._array[checkPosY * this.boardSize.height + tile.col].tileType)
+			{
+				similarTiles++;
+				checkPosY++;
+			}
+			else foundDifferentTile = true;
+		}
+
+		return similarTiles;
+	}
+
+	checkDownMatches(tile)
+	{
+		let tilePosY = tile.row;
+		let checkPosY = tile.row - 1;
+		let foundDifferentTile = false;
+		let similarTiles = 0;
+
+		while (checkPosY >= 0 && !foundDifferentTile)
+		{
+			if (tile.tileType == this._array[checkPosY * this.boardSize.height + tile.col].tileType)
+			{
+				similarTiles++;
+				checkPosY--;
+			}
+			else foundDifferentTile = true;
+		}
+
+		return similarTiles;
+	}
+
+	removeMatches()
+	{
+		// Removes tiles in the list that have a match
+		for (let i = 0; i < this._array.length; i++)
+		{
+			if (this._array[i].isMatchFound)
+			{
+				console.log("Delete tile");
+
+				this._array[i].parent.removeChild(this._array[i]);
+				this._array[i] = null;
+				this.rewardScore(10);
+			}
+		}
+	}
+
+	rewardScore(score)
+	{
+		GameManager.getInstance().addScore(score);
+	}
+
+	shiftTilesDown()
+	{
+		for (let col = 0; col < this.boardSize.width; col++)
+		{
+			this.swapUntilTop(col);
+		}
+	}
+
+	swapUntilTop(colNumber)
+	{
+		console.log(colNumber);
+
+		let i = 0;
+		let j = 1;
+
+		while (j < this._boardSize.height)
+		{
+			let iIndex = i * this.boardSize.height + colNumber;
+			let jIndex = j * this.boardSize.height + colNumber;
+
+			let iTile = this._array[iIndex];
+			let jTile = this._array[jIndex];
+
+			if (iTile === null)
+			{
+				if (jTile === null)
+				{
+					j++;
+				}
+				else
+				{
+					// swapping
+
+					let tempPos = jTile.getPosition();
+
+					jTile.setPosition(tempPos.x, tempPos.y - jTile.size.height * (j - i));
+					jTile.row = jTile.row - (j - i);
+					jTile.col = jTile.col;
+
+					[this._array[iIndex], this._array[jIndex]] = [this._array[jIndex], this._array[iIndex]];
+
+					i++;
+					j++;
+				}
+			}
+			else
+			{
+				i++;
+				j++;
+			}
+		}
+	}
+
+	fillEmptyTiles()
+	{
+		for (let i = 0; i < this.boardSize.height; i++)
+		{
+			for (let j = 0; j < this.boardSize.width; j++)
+			{
+				if (this._array[i * this.boardSize.height + j] === null)
+				{
+					console.log(`Row ${i}, Col ${j}`);
+					BoardManager.getInstance().generateTile(i, j);
+				}
+			}
+		}
 	}
 }

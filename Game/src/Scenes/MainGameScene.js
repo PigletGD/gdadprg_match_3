@@ -8,10 +8,35 @@ class MainGameScene extends cc.Scene
 	onEnter()
 	{
 		super.onEnter();
+		this.scheduleUpdate();
 
+		this.timerEntity = new TimerEntity();
+		this.addChild(this.timerEntity);
 		this.addChild(new Background("GameBackground", res.GameBackground_png));
 		this.addChild(new MainGameLayer());
-		this.addChild(new MainGameLandscapeLayout());
-		this.addChild(new MainGamePortraitLayout());
+
+		this.landscape = new MainGameLandscapeLayout();
+		this.addChild(this.landscape);
+
+		this.portrait = new MainGameLandscapeLayout();
+		this.addChild(this.portrait);
+
+		this.timerEntity.startCountdown();
+
+		this.isAccessed = false;
+	}
+
+	update(timestep)
+	{
+		if (this.timerEntity.remainingSeconds <= 0 && this.isAccessed === false)
+		{
+			GameManager.getInstance().gameState = GAME_STATE_RESULTS;
+			this.addChild(new ResultsPopupLayout());
+			GameManager.getInstance().pauseGame();
+			this.isAccessed = true;
+			this.landscape.getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(false);
+			this.portrait.getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(false);
+		}
+
 	}
 }

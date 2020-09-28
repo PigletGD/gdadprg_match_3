@@ -19,6 +19,7 @@
         "src/Components/Layout/ResizeListener.js",
         "src/Components/CountdownComponent.js",
         "src/Components/GameLayerResizerAnchorLeft.js",
+        "src/Components/SpriteResizer.js",
         "src/Components/Layout/EnableOnLandscape.js",
         "src/Components/Layout/EnableOnPortrait.js",
         "src/Components/Layout/FitToParent.js",

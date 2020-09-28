@@ -1,26 +1,30 @@
-class TitleLandscapeLayout extends ccui.Layout{
-    constructor(){
+class TitleLandscapeLayout extends ccui.Layout
+{
+    constructor()
+    {
         super();
         this.setName("TitleLandscapeUI");
         this.scheduleUpdate();
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.setContentSize(cc.winSize);
-        
-        this.createTextPercent(this, "Title", "Title of Game", 0.5, 0.7, 60);
+
+        this.createTextPercent(this, "Title", "Toiree", 0.5, 0.7, 60);
         this.createRowOfButtons();
-        
+
         let fitToWindow = new FitToWindow();
-        fitToWindow.setName("FitToWindow")
+        fitToWindow.setName("FitToWindow");
 
         this.addComponent(new FitToWindow());
         this.addComponent(new EnableOnLandscape());
     }
-    
+
     // Creates text using pixel percentaging
-    createTextPercent(parent, name, message, x, y, size){
+    createTextPercent(parent, name, message, x, y, size)
+    {
         let text = new ccui.Text(message, "Pixel", size);
         text.setName(name);
         text.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -30,7 +34,8 @@ class TitleLandscapeLayout extends ccui.Layout{
         text.addComponent(new FitToParent());
     }
 
-    createRowOfButtons(){
+    createRowOfButtons()
+    {
         // Creates linear layout for vertical box layout positioning
         let buttonLayout = new ccui.Layout(cc.winSize);
         buttonLayout.setAnchorPoint(0.5, 0.5);
@@ -41,27 +46,30 @@ class TitleLandscapeLayout extends ccui.Layout{
         this.addChild(buttonLayout);
 
         // Creates three vertical layouts to divide the buttons
-        for(let i = 0; i < 2; i++){
+        for (let i = 0; i < 2; i++)
+        {
             this.createVerticalLayout(buttonLayout, i, 2);
         }
     }
 
-    createVerticalLayout(parent, index, divisions){
+    createVerticalLayout(parent, index, divisions)
+    {
         // Setting up properties of vertical layout
         let vertLayout = new ccui.VBox();
         vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-        vertLayout.setSizePercent(cc.p(1/divisions, 1.0));
+        vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
         vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
-        vertLayout.setPositionPercent(cc.p(index/divisions, -1.0));
-        
+        vertLayout.setPositionPercent(cc.p(index / divisions, -1.0));
+
         //vertLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
         //vertLayout.setBackGroundColor(cc.color((255/divisions) * index + 50, 0, 0,255));
-        
+
         vertLayout.addComponent(new FitToParent());
         parent.addChild(vertLayout);
-        
+
         // Creates the three buttons to be attached to the vertical layout with functions to be binded
-        switch (index) {
+        switch (index)
+        {
             case 0:
                 this.createButton(vertLayout, "PLAY", this.onClickPlay);
                 break;
@@ -71,21 +79,22 @@ class TitleLandscapeLayout extends ccui.Layout{
             default:
                 console.log("ERROR: Invalid Index");
         }
-            
+
     }
 
     // Create a button
-    createButton(parent, text, bindingFunction){
+    createButton(parent, text, bindingFunction)
+    {
         // Sets ups button with 9-slice
-        let button = new ccui.Button( res.Button9Slice_png, res.Button9SliceSelected_png);
+        let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
         button.setScale9Enabled(true);
         button.setCapInsets(cc.rect(20, 20, 20, 20));
-        button.setContentSize(cc.size(300,125));
+        button.setContentSize(cc.size(300, 125));
 
-        button.setTitleFontSize(48)
-        button.setTitleFontName("Pixel")
-        button.setTitleText(text)
+        button.setTitleFontSize(48);
+        button.setTitleFontName("Pixel");
+        button.setTitleText(text);
 
         let layoutParameter = new ccui.LinearLayoutParameter();
         layoutParameter.setGravity(ccui.LinearLayoutParameter.CENTER_HORIZONTAL);
@@ -100,18 +109,21 @@ class TitleLandscapeLayout extends ccui.Layout{
     }
 
     // Goes to play scene
-    onClickPlay(){
+    onClickPlay()
+    {
         console.log("play");
         cc.director.runScene(new MainGameScene());
     }
 
     // Goes to rule scene
-    onClickRules(){
+    onClickRules()
+    {
         cc.director.runScene(new RulesScene());
     }
 
     // Creates pop-up quit confirmation menu
-    onClickQuit(){
+    onClickQuit()
+    {
         console.log("quit");
     }
 }

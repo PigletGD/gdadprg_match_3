@@ -3,7 +3,7 @@ class MainGamePortraitLayout extends ccui.RelativeBox
     constructor()
     {
         super();
-        this.setName("MainGameLandscapeLayout");
+        this.setName("MainGamePortraitLayout");
         this.scheduleUpdate();
         this.timeText;
         this.scoreText;
@@ -61,6 +61,7 @@ class MainGamePortraitLayout extends ccui.RelativeBox
 
         this.timeText = new ccui.Text("Time", "Pixel", 36);
         this.timeText.setName("Time");
+        this.timeText.setAnchorPoint(0.0, 0.0);
         this.timeText.enableOutline(cc.color(0, 0, 0, 255), 2);
         let timeLayoutParameter = new ccui.RelativeLayoutParameter();
         timeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_LEFT);
@@ -82,6 +83,7 @@ class MainGamePortraitLayout extends ccui.RelativeBox
     createButton(parent, text, bindingFunction)
     {
         let buttonLayout = new ccui.Layout(cc.winSize);
+        buttonLayout.setName("Button Layout");
         buttonLayout.setAnchorPoint(0.5, 0.5);
         buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
         buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
@@ -118,6 +120,35 @@ class MainGamePortraitLayout extends ccui.RelativeBox
 
     onClickPause()
     {
-        this.getParent().addChild(new ResultsPopupLayout());
+        if (!GameManager.getInstance().isPaused())
+        {
+            this.getParent().addChild(new PausePopupLayout());
+            GameManager.getInstance().pauseGame();
+            this.getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(false);
+        }
+        console.log(GameManager.getInstance().isPaused());
+    }
+
+    update(timestep)
+    {
+        super.update(timestep);
+        this.updateTimeText();
+    }
+
+    updateTimeText()
+    {
+        let timeRemaining = this.getParent().getChildByName("TimerEntity").remainingSeconds;
+        timeRemaining = Math.floor(timeRemaining);
+        if (timeRemaining < 0)
+        {
+            timeRemaining = 0;
+        }
+        this.timeText.setString("Time: " + timeRemaining.toString());
+    }
+
+    updateScoreText()
+    {
+        let score = GameManager.getInstance().score;
+        this.scoreText.setString("Score: " + score.toString());
     }
 }

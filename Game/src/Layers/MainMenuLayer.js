@@ -20,8 +20,5 @@ class MainMenuLayer extends cc.LayerColor
 		let titlePortraitLayout = new TitlePortraitLayout();
 		titlePortraitLayout.setName("TitlePortraitLayout");
 		this.addChild(titlePortraitLayout);
-
-		//let timer = new TimerEntity();
-		//this.addChild(timer);
 	}
 }

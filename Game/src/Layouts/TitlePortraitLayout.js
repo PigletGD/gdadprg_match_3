@@ -1,11 +1,14 @@
-class TitlePortraitLayout extends ccui.RelativeBox{
-    constructor(){
+class TitlePortraitLayout extends ccui.RelativeBox
+{
+    constructor()
+    {
         super();
         this.setName("TitleLandscapeUI");
         this.scheduleUpdate();
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.setContentSize(cc.winSize);
 
@@ -17,7 +20,8 @@ class TitlePortraitLayout extends ccui.RelativeBox{
     }
 
     // Creates text using pixel percentaging
-    createTextPercent(parent, name, message, x, y, size){
+    createTextPercent(parent, name, message, x, y, size)
+    {
         let text = new ccui.Text(message, "Pixel", size);
         text.setName(name);
         text.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -28,7 +32,8 @@ class TitlePortraitLayout extends ccui.RelativeBox{
     }
 
     // Creates title layout to be anchored to top of relative layout
-    createTitle() {
+    createTitle()
+    {
         // Creates linear layout for text positioning
         let titleLayout = new ccui.Layout(cc.winSize);
         titleLayout.setAnchorPoint(0.5, 0.5);
@@ -49,7 +54,8 @@ class TitlePortraitLayout extends ccui.RelativeBox{
     }
 
     // Creates button layout to be anchored to bottom of relative layout
-    createColumnOfButtons(){
+    createColumnOfButtons()
+    {
         // Creates linear layout for vertical box layout positioning
         let buttonLayout = new ccui.Layout(cc.winSize);
         buttonLayout.setAnchorPoint(0.5, 0.5);
@@ -58,7 +64,7 @@ class TitlePortraitLayout extends ccui.RelativeBox{
         buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         buttonLayout.setSizePercent(cc.p(0.70, 0.45));
         buttonLayout.addComponent(new FitToParent());
-        
+
         // Debug to see the rect bounds of the layout
         //buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
         //buttonLayout.setBackGroundColor(cc.color(0, 150, 0, 255));
@@ -75,7 +81,8 @@ class TitlePortraitLayout extends ccui.RelativeBox{
     }
 
     // Creates a vertical layout
-    createVerticalLayout(parent){
+    createVerticalLayout(parent)
+    {
         // Setting up properties of vertical layout
         let vertLayout = new ccui.VBox();
         vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
@@ -86,23 +93,24 @@ class TitlePortraitLayout extends ccui.RelativeBox{
         //vertLayout.setBackGroundColor(cc.color(150, 0, 0,255));
         vertLayout.addComponent(new FitToParent());
         parent.addChild(vertLayout);
-        
+
         // Creates the three buttons to be attached to the vertical layout with functions to be binded
         this.createButton(vertLayout, "PLAY", this.onClickPlay);
         this.createButton(vertLayout, "RULES", this.onClickRules);
     }
 
     // Create a button
-    createButton(parent, text, bindingFunction){
+    createButton(parent, text, bindingFunction)
+    {
         // Sets ups button with 9-slice
-        let button = new ccui.Button( res.Button9Slice_png, res.Button9SliceSelected_png);
+        let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
         button.setName(text);
         button.setScale9Enabled(true);
         button.setCapInsets(cc.rect(20, 20, 20, 20));
-        button.setContentSize(cc.size(300,125));
-        button.setTitleFontSize(48)
-        button.setTitleFontName("Pixel")
-        button.setTitleText(text)
+        button.setContentSize(cc.size(300, 125));
+        button.setTitleFontSize(48);
+        button.setTitleFontName("Pixel");
+        button.setTitleText(text);
 
         let layoutParameter = new ccui.LinearLayoutParameter();
         layoutParameter.setGravity(ccui.LinearLayoutParameter.CENTER_HORIZONTAL);
@@ -117,18 +125,21 @@ class TitlePortraitLayout extends ccui.RelativeBox{
     }
 
     // Goes to play scene
-    onClickPlay(){
+    onClickPlay()
+    {
         console.log("play");
         cc.director.runScene(new MainGameScene());
     }
 
     // Goes to rule scene
-    onClickRules(){
+    onClickRules()
+    {
         cc.director.runScene(new RulesScene());
     }
 
     // Creates pop-up quit confirmation menu
-    onClickQuit(){
+    onClickQuit()
+    {
         console.log("quit");
     }
 }

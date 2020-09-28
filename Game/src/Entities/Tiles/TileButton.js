@@ -1,61 +1,82 @@
 var currentID = 0;
-const TILE_TYPE_1 = 1;
-const TILE_TYPE_2 = 1;
-const TILE_TYPE_3 = 1;
-const TILE_TYPE_4 = 1;
-const TILE_TYPE_5 = 1;
-const TILE_TYPE_6 = 1;
-const TILE_TYPE_7 = 1;
+
 class TileButton extends ccui.Button
 {
-	constructor(iconSpriteFilePath,
+	constructor(tileType,
 		normalSpriteFilePath,
 		selectedSpriteFilePath,
-		position,
 		size,
-		color,
 		board,
-		row, column)
+		row,
+		column)
 	{
 		super(normalSpriteFilePath, selectedSpriteFilePath);
+		this.scheduleUpdate();
+
+		this.size = size;
+		this.id = currentID;
+		this.isSelected = false;
+		this.row = row;
+		this.col = column;
+
 		this.setAnchorPoint(0.0, 0.0);
 		this.setScale9Enabled(true);
 		this.setCapInsets(cc.rect(20, 20, 20, 20));
-		this.setPosition(position);
+		this.setPosition(this.col * this.size.width, this.row * this.size.height);
 		this.setContentSize(size);
-		this.size = size;
-		this.bgColor = color;
-		this.id = currentID;
-		this.isSelected = false;
-		this._board = board;
-		this.row = row;
-		this.col = column;
+
+		this.board = board;
+
+		this.tileType = tileType;
+
+		this.isMatchFound = false;
+
 		currentID++;
-		// console.log(this);
 
-		this.scheduleUpdate();
-		this.sprite = new cc.Sprite(iconSpriteFilePath);
-		this.sprite.setAnchorPoint(0.0, 0.0);
-		let originalSize = this.sprite.getContentSize();
-		this.sprite.setScale(size.width / originalSize.height, size.height / originalSize.height);
+		this.initSpriteFromType();
 
-		// Binds function to the button for click event
 		this.addClickEventListener(this.onClick.bind(this));
 	}
 
+	initSpriteFromType()
+	{
+		switch (this.tileType)
+		{
+			case TILE_TYPE_0:
+				{
+					this.sprite = new cc.Sprite(res.BidetIcon_png);
+				} break;
+			case TILE_TYPE_1:
+				{
+					this.sprite = new cc.Sprite(res.PlungerIcon_png);
+				} break;
+			case TILE_TYPE_2:
+				{
+					this.sprite = new cc.Sprite(res.PoopIcon_png);
+				} break;
+			case TILE_TYPE_3:
+				{
+					this.sprite = new cc.Sprite(res.ScrubberIcon_png);
+				} break;
+			case TILE_TYPE_4:
+				{
+					this.sprite = new cc.Sprite(res.ToiletPaperIcon_png);
+				} break;
+			case TILE_TYPE_5:
+				{
+					this.sprite = new cc.Sprite(res.WaterIcon_png);
+				} break;
+		}
 
+		this.sprite.setAnchorPoint(0.0, 0.0);
+		let originalSize = this.sprite.getContentSize();
+		this.sprite.setScale(this.size.width / originalSize.height, this.size.height / originalSize.height);
+	}
 
 	onEnter()
 	{
 		super.onEnter();
 
-		// let rect = new cc.DrawNode();
-		// rect.drawRect(
-		// 	cc.p(0, 0),
-		// 	cc.p(this.size.width, this.size.height),
-		// 	this.bgColor);
-
-		// this.addChild(rect);
 		this.addChild(this.sprite);
 
 		let idText = new cc.LabelTTF(this.id.toString(), "Arial", 32);
@@ -70,9 +91,12 @@ class TileButton extends ccui.Button
 		}
 	}
 
+	update(timestep)
+	{
+	}
 
 	onClick()
 	{
-		this._board.setSelectedTile({col: this.col, row: this.row});
+		this.board.setSelectedTile({col: this.col, row: this.row});
 	}
 }
