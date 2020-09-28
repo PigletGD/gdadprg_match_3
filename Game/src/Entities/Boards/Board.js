@@ -108,28 +108,46 @@ class Board extends cc.DrawNode
 
 	setSelectedTile(tilePos)
 	{
-		let currentTile = this._array[tilePos.y * this._boardSize.height + tilePos.x];
+		// TODO: Selected tile must have an outline
+		let currentTile = this._array[tilePos.row * this._boardSize.height + tilePos.col];
 
-		if (this._selectedTile === null)
+		if (this._selectedTile === null && currentTile.isSelected === false)
 		{
 			this._selectedTile = currentTile;
+			this._selectedTile.isSelected = true;
 		}
-		else
+		else if (this._selectedTile !== null && currentTile.isSelected === false)
 		{
 			let indexA = this._selectedTile.row * this._boardSize.height + this._selectedTile.col;
 			let indexB = currentTile.row * this._boardSize.height + currentTile.col;
 
 			console.log("1");
-			console.table({A: indexA, B: indexB});
+			console.table({A: this._array[indexA].id, B: this._array[indexB].id});
 
-			let temp = this._array[indexA];
-			this._array[indexA] = this._array[indexB];
-			this._array[indexB] = temp;
+			// TODO: Check current tile position to make sure that it is adjacent to selected tile.
+			this.swapTiles(indexA, indexB);
 
 			console.log("2");
 			console.table({A: this._array[indexA].id, B: this._array[indexB].id});
 
+			this._selectedTile.isSelected = false;
 			this._selectedTile = null;
 		}
+	}
+
+	swapTiles(indexA, indexB)
+	{
+		let aPos = this._array[indexA].getPosition();
+		let bPos = this._array[indexB].getPosition();
+
+		let temp = this._array[indexA];
+		let tempPos = temp.getPosition();
+
+		this._array[indexA].setPosition(bPos.x, bPos.y);
+		this._array[indexA] = this._array[indexB];
+
+		this._array[indexB].setPosition(tempPos.x, tempPos.y);
+		this._array[indexB] = temp;
+
 	}
 }

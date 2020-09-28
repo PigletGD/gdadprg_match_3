@@ -1,7 +1,4 @@
-// TODO: Fox [ause pop-up can be spawned more than once (Pause button can be pressed as well as tiles when paused)
-
-
-
+// TODO: Fix pause pop-up can be spawned more than once (Pause button can be pressed as well as tiles when paused)
 
 class MainGameLayer extends cc.LayerColor
 {
@@ -34,7 +31,7 @@ class MainGameLayer extends cc.LayerColor
 
         let contentSize = this.getContentSize();
 
-        this.board = new Board("Board", cc.size(8, 8), cc.size(contentSize.width / 8, contentSize.height / 8));
+        this.board = new Board("Board", cc.size(2, 2), cc.size(contentSize.width / 8, contentSize.height / 8));
 
         for (let row = 0; row < this.board.boardSize.height; row++)
         {

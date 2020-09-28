@@ -33,8 +33,7 @@ class TileButton extends ccui.Button
 		currentID++;
 		// console.log(this);
 
-		// GameManager.getInstance().test();
-
+		this.scheduleUpdate();
 		this.sprite = new cc.Sprite(iconSpriteFilePath);
 		this.sprite.setAnchorPoint(0.0, 0.0);
 		let originalSize = this.sprite.getContentSize();
@@ -43,6 +42,8 @@ class TileButton extends ccui.Button
 		// Binds function to the button for click event
 		this.addClickEventListener(this.onClick.bind(this));
 	}
+
+
 
 	onEnter()
 	{
@@ -69,8 +70,9 @@ class TileButton extends ccui.Button
 		}
 	}
 
+
 	onClick()
 	{
-		this._board.setSelectedTile({x: this.col, y: this.row});
+		this._board.setSelectedTile({col: this.col, row: this.row});
 	}
 }

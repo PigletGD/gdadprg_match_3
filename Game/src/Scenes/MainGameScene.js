@@ -8,7 +8,7 @@ class MainGameScene extends cc.Scene
 	onEnter()
 	{
 		super.onEnter();
-		
+
 		this.addChild(new Background("GameBackground", res.GameBackground_png));
 		this.addChild(new MainGameLayer());
 		this.addChild(new MainGameLandscapeLayout());
