@@ -18,6 +18,11 @@ var GameManager = function () {
 	}
 
 	_createClass(GameManager, [{
+		key: "nameHasSet",
+		value: function nameHasSet() {
+			this._hasSetName = true;
+		}
+	}, {
 		key: "addScore",
 		value: function addScore(val) {
 			this._score += val;
@@ -36,6 +41,11 @@ var GameManager = function () {
 		key: "isPaused",
 		value: function isPaused() {
 			return this._isPaused;
+		}
+	}, {
+		key: "isNameSet",
+		get: function get() {
+			return this._hasSetName;
 		}
 	}, {
 		key: "gameState",
@@ -60,6 +70,7 @@ var GameManager = function () {
 				GameManager._sharedInstance = new GameManager();
 				GameManager._sharedInstance._gameState = GAME_STATE_INACTIVE;
 				GameManager._sharedInstance._score = 0;
+				GameManager._sharedInstance._hasSetName = false;
 			}
 
 			return GameManager._sharedInstance;

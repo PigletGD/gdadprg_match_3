@@ -15,6 +15,7 @@ class GameManager
 			GameManager._sharedInstance = new GameManager();
 			GameManager._sharedInstance._gameState = GAME_STATE_INACTIVE;
 			GameManager._sharedInstance._score = 0;
+			GameManager._sharedInstance._highscore = 0;
 			GameManager._sharedInstance._hasSetName = false;
 		}
 
@@ -47,6 +48,16 @@ class GameManager
 	set score(val)
 	{
 		this._score = val;
+	}
+
+	get highscore()
+	{
+		return this._highscore;
+	}
+
+	set highscore(val) 
+	{
+		this._highscore = val;
 	}
 
 	addScore(val)

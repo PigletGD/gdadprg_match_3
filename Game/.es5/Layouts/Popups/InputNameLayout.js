@@ -11,10 +11,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var InputNamePopupLayout = function (_ccui$Layout) {
 		_inherits(InputNamePopupLayout, _ccui$Layout);
 
-		function InputNamePopupLayout() {
+		function InputNamePopupLayout(loadedFrom) {
 				_classCallCheck(this, InputNamePopupLayout);
 
 				var _this = _possibleConstructorReturn(this, (InputNamePopupLayout.__proto__ || Object.getPrototypeOf(InputNamePopupLayout)).call(this));
+
+				_this.origin = loadedFrom;
 
 				_this.setContentSize(cc.winSize);
 				_this.scheduleUpdate();
@@ -22,6 +24,7 @@ var InputNamePopupLayout = function (_ccui$Layout) {
 
 				_this.createPopup();
 				_this.createButtons();
+
 				return _this;
 		}
 
@@ -36,92 +39,108 @@ var InputNamePopupLayout = function (_ccui$Layout) {
 				key: "createButtons",
 				value: function createButtons() {
 						var popUp = this.popUp;
-						// Start of pause text setup
 
-						var pauseText = new ccui.Text("PAUSED GAME", "Pixel", 60);
-						pauseText.setAnchorPoint(0.5, 0.5);
-						pauseText.addComponent(new FitToParent());
+						// Input prompt setup
+						var inputNamePrompt = new Text2("InputNamePrompt");
+						inputNamePrompt.setFontName(res.PixelFont.name);
+						inputNamePrompt.setString("What is your name?");
+						inputNamePrompt.setFontSize(45); // TODO: Make an auto-size feature
+						inputNamePrompt.setAnchorPoint(0.5, 0.5);
 
-						var textLayoutParameter = new ccui.RelativeLayoutParameter();
-						textLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-						textLayoutParameter.setMargin(0, 10, 0, 0);
-						pauseText.setLayoutParameter(textLayoutParameter);
+						var promptLayoutParameter = new ccui.RelativeLayoutParameter();
+						promptLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
+						promptLayoutParameter.setMargin(0, 50, 0, 0);
 
-						popUp.addUIElement(pauseText);
+						inputNamePrompt.setLayoutParameter(promptLayoutParameter);
 
-						// End of pause text setup
+						popUp.addUIElement(inputNamePrompt);
 
-						// Start of resume button setup
+						// Text field setup
 
-						var resumeButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
+						var textField = new ccui.TextField();
+						textField.setTouchEnabled(true);
+						textField.setFontName(res.PixelFont.name);
+						textField.setPlaceHolder("Input your name");
+						textField.setPlaceHolderColor(cc.color(200, 200, 200, 255));
+						textField.setFontSize(30);
+						textField.setAnchorPoint(0.5, 0.5);
+						textField.setString("");
 
-						resumeButton.setScale9Enabled(true);
-						resumeButton.setCapInsets(cc.rect(20, 20, 20, 20));
-						resumeButton.setContentSize(cc.size(150, 65));
-						resumeButton.setAnchorPoint(0.0, 0.0);
-						resumeButton.setTitleFontSize(14);
-						resumeButton.setTitleFontName("Pixel");
-						resumeButton.setTitleText("RESUME");
-						resumeButton.addComponent(new FitToParent());
+						textField.addEventListener(this.onTextFieldUpdate, this);
+						textField.setPositionType(ccui.Widget.POSITION_PERCENT);
+						textField.setPositionPercent(cc.p(0.5, 0.5));
+
+						var textLayoutParameter2 = new ccui.RelativeLayoutParameter();
+						textLayoutParameter2.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
+						textLayoutParameter2.setMargin(0, 0, 0, 0);
+
+						textField.setLayoutParameter(textLayoutParameter2);
+
+						textField.addComponent(new FitToParent());
+
+						popUp.addUIElement(textField);
+
+						// Accept button setup
+						this.acceptButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
+
+						this.acceptButton.setScale9Enabled(true);
+						this.acceptButton.setCapInsets(cc.rect(20, 20, 20, 20));
+						this.acceptButton.setContentSize(cc.size(120, 60));
+						this.acceptButton.setAnchorPoint(0.0, 0.0);
+						this.acceptButton.setTitleFontSize(18);
+						this.acceptButton.setTitleFontName(res.PixelFont.name);
+						this.acceptButton.setTitleText("Accept");
+						this.acceptButton.setTouchEnabled(false);
+
+						this.acceptButton.addComponent(new FitToParent());
 
 						var resumeLayoutParameter = new ccui.RelativeLayoutParameter();
-						resumeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.CENTER_IN_PARENT);
-						resumeButton.setLayoutParameter(resumeLayoutParameter);
+						resumeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
+						resumeLayoutParameter.setMargin(0, 0, 0, 50);
 
-						resumeButton.addClickEventListener(this.onClickResume.bind(this));
+						this.acceptButton.setLayoutParameter(resumeLayoutParameter);
 
-						popUp.addUIElement(resumeButton);
+						this.acceptButton.addClickEventListener(this.onClickAccept.bind(this));
 
-						// End of resume button setup
-
-						// Start of main menu button setup
-
-						var mainMenuButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
-
-						mainMenuButton.setScale9Enabled(true);
-						mainMenuButton.setCapInsets(cc.rect(20, 20, 20, 20));
-						mainMenuButton.setContentSize(cc.size(150, 65));
-						mainMenuButton.setTitleFontSize(14);
-						mainMenuButton.setTitleFontName("Pixel");
-						mainMenuButton.setTitleText("MAIN MENU");
-						mainMenuButton.addComponent(new FitToParent());
-
-						var layoutParameter = new ccui.RelativeLayoutParameter();
-						layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
-						layoutParameter.setMargin(0, 0, 0, 10);
-						mainMenuButton.setLayoutParameter(layoutParameter);
-
-						mainMenuButton.addClickEventListener(this.onClickMainMenu.bind(this));
-						popUp.addUIElement(mainMenuButton);
+						popUp.addUIElement(this.acceptButton);
 				}
 		}, {
-				key: "onClickResume",
-				value: function onClickResume() {
-						if (GameManager.getInstance().isPaused()) {
-								this.popUp.playExitAnimation(this, this.onFinish);
+				key: "onTextFieldUpdate",
+				value: function onTextFieldUpdate(sender, type) {
+						switch (type) {
+								case ccui.TextField.EVENT_DETACH_WITH_IME:
+										{
+												var text = sender.getString();
+												if (text !== "") {
+														this.acceptButton.setTouchEnabled(true);
+														console.log(text);
+														this.inputtedName = text;
+												} else {
+														this.acceptButton.setTouchEnabled(false);
+												}
+										}break;
+
 						}
+				}
+		}, {
+				key: "onClickAccept",
+				value: function onClickAccept() {
+						console.log("accepted " + this.inputtedName);
+						UserService.getInstance().createUser(this.inputtedName, 0);
+						GameManager.getInstance().nameHasSet();
+						this.popUp.playExitAnimation(this, this.onFinish);
 				}
 		}, {
 				key: "onFinish",
 				value: function onFinish() {
 						// Unpause Game Here
-						// GameManager.getInstance().resumeGame();
+						GameManager.getInstance().resumeGame();
 						// Disable button interaction
-
-						// let parent = this.getParent();
-						// parent.getChildByName("MainGameLandscapeLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
-						// parent.getChildByName("MainGamePortraitLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
-
-						parent.removeChild(this);
+						this.origin.getChildByName("Buttons").getChildByName("Choices0").getChildByName("PLAY").setTouchEnabled(true);
+						this.origin.getChildByName("Buttons").getChildByName("Choices1").getChildByName("RULES").setTouchEnabled(true);
+						this.origin.getChildByName("Buttons").getChildByName("Choices2").getChildByName("LEADERBOARD").setTouchEnabled(true);
+						this.origin.removeChild(this);
 				}
-		}, {
-				key: "onClickMainMenu",
-				value: function onClickMainMenu() {
-						this.popUp.playExitAnimation(this, this.goToMainMenu);
-				}
-		}, {
-				key: "goToMainMenu",
-				value: function goToMainMenu() {}
 		}]);
 
 		return InputNamePopupLayout;

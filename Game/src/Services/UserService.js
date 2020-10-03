@@ -1,6 +1,3 @@
-const User = require("../../../Backend/models/user");
-const router = require("../../../Backend/routes");
-
 class UserService {
     static getInstance(){
         if(UserService._sharedInstance == undefined){
@@ -10,15 +7,46 @@ class UserService {
         return UserService._sharedInstance;
     }
 
-    async createUser(name, last_name){
-        return await UserApi.CreateUser({name: name, last_name: last_name}).
-            then((newUser) => {
+    async createUser(name, score){
+        return await UserApi.CreateUser({name: name, score: score})
+            .then((newUser) => {
+                console.log(newUser.id);
                 cc.sys.localStorage.setItem('current_user_id', newUser.id);
                 this.currentUser = newUser;
                 return this.currentUser;
             });
     }
-    
+
+    async getAllUsersInfo(){
+        return await UserApi.GetAllUsers()
+            .then((userList) => {
+                ScoreManager.getInstance().loadUserScoresFromJSON(userList.users);
+                return userList;
+
+                // for (let i = 0; i < userList.length; i++){
+                //     console.log(userList[i]);
+                // }
+            });
+    }
+
+    async updateScore(score){
+        return await UserApi.PatchUser(this.currentUser.id, {score: score})
+            .then((resp) => {
+                console.log(resp);
+            });
+    }
+
+    async getLeaderboardRankings(){
+        return await UserApi.GetUserRankings()
+        .then((rankings) => {
+            console.log(rankings.length);
+
+            for (let i = 0; i < rankings.length; i++){
+                console.log(rankings[i]);
+            }
+        })
+    }
+
     async loadUser(){
         let userId = undefined;
 

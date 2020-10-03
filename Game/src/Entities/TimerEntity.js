@@ -1,6 +1,6 @@
 class TimerEntity extends cc.Node
 {
-	constructor(name = "TimerEntity", startTime = 120)
+	constructor(name = "TimerEntity", startTime = 10)
 	{
 		super();
 		this.setName(name);
@@ -48,7 +48,7 @@ class TimerEntity extends cc.Node
 		this._countdownComponent.reset();
 	}
 
-	setStartingTime(startTime = 120.0)
+	setStartingTime(startTime = 10.0)
 	{
 		this._startingTime = startTime;
 		this._countdownComponent = new CountdownComponent(startTime);

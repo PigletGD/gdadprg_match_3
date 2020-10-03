@@ -35,7 +35,10 @@ var MainMenuLandscapeLayout = function (_ccui$Layout) {
 
             this.createRowOfButtons();
 
-            this.getParent().addChild(new InputNamePopupLayout());
+            // TODO: Check if we need to not generate the input layout when a non-unique id is found
+            if (!GameManager.getInstance().isNameSet) {
+                this.getParent().addChild(new InputNamePopupLayout(this));
+            }
 
             this.addComponent(new FitToWindow());
             this.addComponent(new EnableOnLandscape());
@@ -50,42 +53,30 @@ var MainMenuLandscapeLayout = function (_ccui$Layout) {
             buttonLayout.setPositionPercent(cc.p(0.5, 0.5));
             buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
             buttonLayout.setSizePercent(cc.p(1.0, 0.5));
+            buttonLayout.setName("Buttons");
             this.addChild(buttonLayout);
 
-            // Creates three vertical layouts to divide the buttons
             for (var i = 0; i < 3; i++) {
-                this.createVerticalLayout(buttonLayout, i, 3);
-            }
-        }
-    }, {
-        key: "createVerticalLayout",
-        value: function createVerticalLayout(parent, index, divisions) {
-            // Setting up properties of vertical layout
-            var vertLayout = new ccui.VBox();
-            vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-            vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
-            vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
-            vertLayout.setPositionPercent(cc.p(index / divisions, -1.0));
+                // Creates three vertical layouts to divide the buttons
+                var divisions = 3;
+                // Setting up properties of vertical layout
+                var vertLayout = new ccui.VBox();
+                vertLayout.setName("Choices" + i);
+                vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
+                vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
+                vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
+                vertLayout.setPositionPercent(cc.p(i / divisions, -1.0));
 
-            //vertLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-            //vertLayout.setBackGroundColor(cc.color((255/divisions) * index + 50, 0, 0,255));
+                vertLayout.addComponent(new FitToParent());
+                buttonLayout.addChild(vertLayout);
 
-            vertLayout.addComponent(new FitToParent());
-            parent.addChild(vertLayout);
-
-            // Creates the three buttons to be attached to the vertical layout with functions to be binded
-            switch (index) {
-                case 0:
+                if (i === 0) {
                     this.createButton(vertLayout, "PLAY", this.onClickPlay);
-                    break;
-                case 1:
-                    this.createButton(vertLayout, "RULES", this.onClickRules);
-                    break;
-                case 2:
-                    this.createButton(vertLayout, "LEADERBOARD", this.onClickRules);
-                    break;
-                default:
-                    console.log("ERROR: Invalid Index");
+                } else if (i === 1) {
+                    this.createButton(vertLayout, "RULES", this.onClickPlay);
+                } else {
+                    this.createButton(vertLayout, "LEADERBOARD", this.onClickLeaderboard);
+                }
             }
         }
 
@@ -104,6 +95,11 @@ var MainMenuLandscapeLayout = function (_ccui$Layout) {
             button.setTitleFontSize(48);
             button.setTitleFontName("Pixel");
             button.setTitleText(text);
+            button.setName(text);
+
+            if (!GameManager.getInstance().isNameSet) {
+                button.setTouchEnabled(false);
+            }
 
             var layoutParameter = new ccui.LinearLayoutParameter();
             layoutParameter.setGravity(ccui.LinearLayoutParameter.CENTER_HORIZONTAL);
@@ -134,6 +130,14 @@ var MainMenuLandscapeLayout = function (_ccui$Layout) {
         key: "onClickRules",
         value: function onClickRules() {
             cc.director.runScene(new RulesScene());
+        }
+
+        //Go to leaderboard scene
+
+    }, {
+        key: "onClickLeaderboard",
+        value: function onClickLeaderboard() {
+            cc.director.runScene(new LeaderboardScene());
         }
 
         // Creates pop-up quit confirmation menu

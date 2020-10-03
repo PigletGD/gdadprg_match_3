@@ -8,18 +8,17 @@ function user_key(id){
   return `user:${id}`
 }
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-  
-});
-
 router.post('/', async function(req, res) {
   let new_user = req.body.user;
   let new_id = uuidv4();
   new_user['id'] = new_id
   await RedisClient.HSETAsync(user_key(new_id), "id", new_id);
   await RedisClient.HSETAsync(user_key(new_id), "name", new_user.name);
+  await RedisClient.HSETAsync(user_key(new_id), "score", new_user.score);
+  //await RedisClient.HSETAsync(user_key(new_id), "rank", new_user.rank);
+  
+  await RedisClient.ZADDAsync("leaderboard", new_user.score, new_id);
+
   res.statusCode = 201
   res.send({user: new_user});
 });
@@ -84,5 +83,51 @@ router.delete('/:id', async function(req, res, next) {
   res.sendStatus(204)
 
 });
+
+router.get('/:id', async function(req, res, next) {
+  let id = req.params.id
+  let user = await RedisClient.HGETALLAsync(user_key(id));
+  if(user ==  null){
+    res.sendStatus(404)
+    return;
+  }
+  res.send({user: user});
+  
+});
+
+router.get('/leaderboard', async function(req, res, next){
+  console.log("arrived to router");
+
+  let rankings = await RedisClient.ZRANGEAsync(0, -1, "WITHSCORES");
+
+  if(rankings === null){
+    res.sendStatus(404);
+    return;
+  }
+
+  res.send({rankings: rankings});
+});
+
+router.get('/', async function(req, res, next) {
+  let users = await RedisClient.KEYSAsync(user_key("*"));
+  const resut = new Array();
+
+  if(users ===  null){
+    res.sendStatus(404)
+    return;
+  }
+
+  for (let i = 0; i < users.length; i++)
+    {
+        //console.log("hi");
+        test = await RedisClient.HGETALLAsync(users[i]);
+        resut.push(test);
+    }
+
+  res.send({users: resut});
+  
+});
+
+
 
 module.exports = router;

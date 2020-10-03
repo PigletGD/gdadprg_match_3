@@ -1,7 +1,7 @@
 class User{
-    constructor({name = '', last_name = '', id = ''}){
+    constructor({name = '', score = '', id = ''}){
         this.name = name;
-        this.last_name = last_name;
+        this.score = score;
         this.id = id;
     }
 }

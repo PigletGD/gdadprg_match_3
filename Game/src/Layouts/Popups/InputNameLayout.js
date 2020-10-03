@@ -1,14 +1,17 @@
 class InputNamePopupLayout extends ccui.Layout
 {
-	constructor()
+	constructor(loadedFrom)
 	{
 		super();
+		this.origin = loadedFrom;
+
 		this.setContentSize(cc.winSize);
 		this.scheduleUpdate();
 		this.addComponent(new FitToWindow());
 
 		this.createPopup();
 		this.createButtons();
+
 	}
 
 	createPopup()
@@ -43,10 +46,12 @@ class InputNamePopupLayout extends ccui.Layout
 		textField.setTouchEnabled(true);
 		textField.setFontName(res.PixelFont.name);
 		textField.setPlaceHolder("Input your name");
-		textField.setPlaceHolderColor("#ffffff");
+		textField.setPlaceHolderColor(cc.color(200, 200, 200, 255));
 		textField.setFontSize(30);
 		textField.setAnchorPoint(0.5, 0.5);
-		textField.setString("Input your name");
+		textField.setString("");
+		textField.setMaxLengthEnabled(true);
+		textField.setMaxLength(12);
 
 		textField.addEventListener(this.onTextFieldUpdate, this);
 		textField.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -63,27 +68,29 @@ class InputNamePopupLayout extends ccui.Layout
 		popUp.addUIElement(textField);
 
 		// Accept button setup
-		let acceptButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
+		this.acceptButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
-		acceptButton.setScale9Enabled(true);
-		acceptButton.setCapInsets(cc.rect(20, 20, 20, 20));
-		acceptButton.setContentSize(cc.size(120, 60));
-		acceptButton.setAnchorPoint(0.0, 0.0);
-		acceptButton.setTitleFontSize(18);
-		acceptButton.setTitleFontName(res.PixelFont.name);
-		acceptButton.setTitleText("Accept");
+		this.acceptButton.setScale9Enabled(true);
+		this.acceptButton.setCapInsets(cc.rect(20, 20, 20, 20));
+		this.acceptButton.setContentSize(cc.size(120, 60));
+		this.acceptButton.setAnchorPoint(0.0, 0.0);
+		this.acceptButton.setTitleFontSize(18);
+		this.acceptButton.setTitleFontName(res.PixelFont.name);
+		this.acceptButton.setTitleText("Accept");
+		this.acceptButton.setTouchEnabled(false);
 
-		acceptButton.addComponent(new FitToParent());
+
+		this.acceptButton.addComponent(new FitToParent());
 
 		let resumeLayoutParameter = new ccui.RelativeLayoutParameter();
 		resumeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
 		resumeLayoutParameter.setMargin(0, 0, 0, 50);
 
-		acceptButton.setLayoutParameter(resumeLayoutParameter);
+		this.acceptButton.setLayoutParameter(resumeLayoutParameter);
 
-		acceptButton.addClickEventListener(this.onClickAccept.bind(this));
+		this.acceptButton.addClickEventListener(this.onClickAccept.bind(this));
 
-		popUp.addUIElement(acceptButton);
+		popUp.addUIElement(this.acceptButton);
 	}
 
 	onTextFieldUpdate(sender, type)
@@ -93,16 +100,24 @@ class InputNamePopupLayout extends ccui.Layout
 			case ccui.TextField.EVENT_DETACH_WITH_IME:
 				{
 					let text = sender.getString();
-					if (text !== "Input your name")
+					if (text !== "")
 					{
+						this.acceptButton.setTouchEnabled(true);
 						console.log(text);
-						// Put here to store string in text field
+						this.inputtedName = text;
+					}
+					else
+					{
+						this.acceptButton.setTouchEnabled(false);
 					}
 				} break;
+
 		}
 	}
 	onClickAccept()
 	{
+		console.log("accepted " + this.inputtedName);
+		UserService.getInstance().createUser(this.inputtedName, 0);
 		GameManager.getInstance().nameHasSet();
 		this.popUp.playExitAnimation(this, this.onFinish);
 	}
@@ -110,12 +125,13 @@ class InputNamePopupLayout extends ccui.Layout
 	{
 		// Unpause Game Here
 		GameManager.getInstance().resumeGame();
-		// Disable button interaction
-
-		let parent = this.getParent();
-		// parent.getChildByName("MainGameLandscapeLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
-		// parent.getChildByName("MainGamePortraitLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
-
-		parent.removeChild(this);
+		// Enable button interaction
+		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices0").getChildByName("PLAY").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices1").getChildByName("RULES").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices2").getChildByName("LEADERBOARD").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("PLAY").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("RULES").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("LEADERBOARD").setTouchEnabled(true);
+		this.origin.removeChild(this);
 	}
 }
