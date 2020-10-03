@@ -26,12 +26,12 @@ class InputNamePopupLayout extends ccui.Layout
 		let inputNamePrompt = new Text2("InputNamePrompt");
 		inputNamePrompt.setFontName(res.PixelFont.name);
 		inputNamePrompt.setString("What is your name?");
-		inputNamePrompt.setFontSize(45); // TODO: Make an auto-size feature
+		inputNamePrompt.setFontSize(32); // TODO: Make an auto-size feature
 		inputNamePrompt.setAnchorPoint(0.5, 0.5);
 
 		let promptLayoutParameter = new ccui.RelativeLayoutParameter();
 		promptLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-		promptLayoutParameter.setMargin(0, 50, 0, 0);
+		promptLayoutParameter.setMargin(0, 30, 0, 0);
 
 		inputNamePrompt.setLayoutParameter(promptLayoutParameter);
 
@@ -44,9 +44,11 @@ class InputNamePopupLayout extends ccui.Layout
 		textField.setFontName(res.PixelFont.name);
 		textField.setPlaceHolder("Input your name");
 		textField.setPlaceHolderColor("#ffffff");
-		textField.setFontSize(30);
+		textField.setFontSize(28);
 		textField.setAnchorPoint(0.5, 0.5);
 		textField.setString("Input your name");
+		textField.setMaxLengthEnabled(true);
+		textField.setMaxLength(18);
 
 		textField.addEventListener(this.onTextFieldUpdate, this);
 		textField.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -63,27 +65,28 @@ class InputNamePopupLayout extends ccui.Layout
 		popUp.addUIElement(textField);
 
 		// Accept button setup
-		let acceptButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
+		this.acceptButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
-		acceptButton.setScale9Enabled(true);
-		acceptButton.setCapInsets(cc.rect(20, 20, 20, 20));
-		acceptButton.setContentSize(cc.size(120, 60));
-		acceptButton.setAnchorPoint(0.0, 0.0);
-		acceptButton.setTitleFontSize(18);
-		acceptButton.setTitleFontName(res.PixelFont.name);
-		acceptButton.setTitleText("Accept");
+		this.acceptButton.setScale9Enabled(true);
+		this.acceptButton.setCapInsets(cc.rect(20, 20, 20, 20));
+		this.acceptButton.setContentSize(cc.size(120, 60));
+		this.acceptButton.setAnchorPoint(0.0, 0.0);
+		this.acceptButton.setTitleFontSize(18);
+		this.acceptButton.setTitleFontName(res.PixelFont.name);
+		this.acceptButton.setTitleText("Accept");
+		this.acceptButton.setTouchEnabled(false);
 
-		acceptButton.addComponent(new FitToParent());
+		this.acceptButton.addComponent(new FitToParent());
 
 		let resumeLayoutParameter = new ccui.RelativeLayoutParameter();
 		resumeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
-		resumeLayoutParameter.setMargin(0, 0, 0, 50);
+		resumeLayoutParameter.setMargin(0, 0, 0, 30);
 
-		acceptButton.setLayoutParameter(resumeLayoutParameter);
+		this.acceptButton.setLayoutParameter(resumeLayoutParameter);
 
-		acceptButton.addClickEventListener(this.onClickAccept.bind(this));
+		this.acceptButton.addClickEventListener(this.onClickAccept.bind(this));
 
-		popUp.addUIElement(acceptButton);
+		popUp.addUIElement(this.acceptButton);
 	}
 
 	onTextFieldUpdate(sender, type)
@@ -95,8 +98,7 @@ class InputNamePopupLayout extends ccui.Layout
 					let text = sender.getString();
 					if (text !== "Input your name")
 					{
-						console.log(text);
-						// Put here to store string in text field
+						this.acceptButton.setTouchEnabled(true);
 					}
 				} break;
 		}
@@ -104,6 +106,8 @@ class InputNamePopupLayout extends ccui.Layout
 	onClickAccept()
 	{
 		GameManager.getInstance().nameHasSet();
+
+		// Send data
 		this.popUp.playExitAnimation(this, this.onFinish);
 	}
 	onFinish()
