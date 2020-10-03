@@ -294,13 +294,13 @@
 
             </sources>
             <sources dir="${basedir}">
+                <file name=".es5/Components/Layout/ResizeListener.js"/>
                 <file name=".es5/Components/CountdownComponent.js"/>
                 <file name=".es5/Components/GameLayerResizerAnchorLeft.js"/>
                 <file name=".es5/Components/Layout/EnableOnLandscape.js"/>
                 <file name=".es5/Components/Layout/EnableOnPortrait.js"/>
                 <file name=".es5/Components/Layout/FitToParent.js"/>
                 <file name=".es5/Components/Layout/FitToWindow.js"/>
-                <file name=".es5/Components/Layout/ResizeListener.js"/>
                 <file name=".es5/Components/SpriteResizer.js"/>
                 <file name=".es5/Components/TimerComponent.js"/>
                 <file name=".es5/Entities/Background.js"/>
