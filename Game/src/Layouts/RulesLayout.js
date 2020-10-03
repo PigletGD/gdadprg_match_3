@@ -1,22 +1,15 @@
-class RulesLandscapeLayout extends ccui.RelativeBox
+class RulesLandscapeLayout extends LandscapeLayout
 {
     constructor()
     {
-        super();
-        this.setName("RulesLandscapeLayout");
-        this.scheduleUpdate();
+        super("RulesLandscapeLayout");
     }
 
     onEnter()
     {
         super.onEnter();
-        this.setContentSize(cc.winSize);
-
         this.createRulesText(this);
         this.createButton(this, "BACK", this.onClickBack);
-
-        this.addComponent(new FitToWindow());
-        this.addComponent(new EnableOnLandscape());
     }
 
     createTextPercent(parent, name, message, x, y, size)
@@ -104,25 +97,19 @@ class RulesLandscapeLayout extends ccui.RelativeBox
     }
 }
 
-class RulesPortraitLayout extends ccui.RelativeBox
+class RulesPortraitLayout extends PortraitLayout
 {
     constructor()
     {
-        super();
-        this.setName("RulesPortraitLayout");
-        this.scheduleUpdate();
+        super("RulesPortraitLayout");
     }
 
     onEnter()
     {
         super.onEnter();
-        this.setContentSize(cc.winSize);
 
         this.createRulesText(this);
         this.createButton(this, "BACK", this.onClickBack);
-
-        this.addComponent(new FitToWindow());
-        this.addComponent(new EnableOnPortrait());
     }
 
     createRulesText(parent)

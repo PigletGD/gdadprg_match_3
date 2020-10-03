@@ -10,33 +10,33 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainMenuLayer = function (_cc$LayerColor) {
-	_inherits(MainMenuLayer, _cc$LayerColor);
+var LeaderboardLayer = function (_cc$LayerColor) {
+    _inherits(LeaderboardLayer, _cc$LayerColor);
 
-	function MainMenuLayer() {
-		_classCallCheck(this, MainMenuLayer);
+    function LeaderboardLayer() {
+        _classCallCheck(this, LeaderboardLayer);
 
-		return _possibleConstructorReturn(this, (MainMenuLayer.__proto__ || Object.getPrototypeOf(MainMenuLayer)).call(this));
-	}
+        return _possibleConstructorReturn(this, (LeaderboardLayer.__proto__ || Object.getPrototypeOf(LeaderboardLayer)).call(this));
+    }
 
-	_createClass(MainMenuLayer, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainMenuLayer.prototype.__proto__ || Object.getPrototypeOf(MainMenuLayer.prototype), "onEnter", this).call(this);
-			this.scheduleUpdate();
+    _createClass(LeaderboardLayer, [{
+        key: "onEnter",
+        value: function onEnter() {
+            _get(LeaderboardLayer.prototype.__proto__ || Object.getPrototypeOf(LeaderboardLayer.prototype), "onEnter", this).call(this);
+            this.scheduleUpdate();
 
-			var titleBackground = new Background("TitleBackground", res.TitleBackground_png);
-			this.addChild(titleBackground);
+            var titleBackground = new Background("TitleBackground", res.TitleBackground_png);
+            this.addChild(titleBackground);
 
-			var titleLandscapeLayout = new MainMenuLandscapeLayout();
-			titleLandscapeLayout.setName("MainMenuLandscapeLayout");
-			this.addChild(titleLandscapeLayout);
+            var leaderboardLandscapeLayout = new LeaderboardLandscapeLayout();
+            leaderboardLandscapeLayout.setName("LeaderboardLandscapeLayout");
+            this.addChild(leaderboardLandscapeLayout);
 
-			var titlePortraitLayout = new MainMenuPortraitLayout();
-			titlePortraitLayout.setName("MainMenuPortraitLayout");
-			this.addChild(titlePortraitLayout);
-		}
-	}]);
+            var leaderboardPortraitLayout = new LeaderboardPortraitLayout();
+            leaderboardPortraitLayout.setName("LeaderboardPortraitLayout");
+            this.addChild(leaderboardPortraitLayout);
+        }
+    }]);
 
-	return MainMenuLayer;
+    return LeaderboardLayer;
 }(cc.LayerColor);

@@ -9,7 +9,7 @@
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
  
@@ -105,9 +105,10 @@ cc.game.onStart = function()
     // Setup the resolution policy and design resolution size
     // cc.view.setDesignResolutionSize(960, 640, cc.ResolutionPolicy.SHOW_ALL); // Is there a reason for this resolution policy?
     cc.view.setDesignResolutionSize(cc._canvas.width, cc._canvas.height, cc.ResolutionPolicy.EXACT_FIT);
-    
+
     // Resizes canvas to fit window size
-    cc.view.setResizeCallback(function() {
+    cc.view.setResizeCallback(function()
+    {
         cc.view.setDesignResolutionSize(cc._canvas.width, cc._canvas.height, cc.ResolutionPolicy.EXACT_FIT);
     });
 
