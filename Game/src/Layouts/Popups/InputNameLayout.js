@@ -90,7 +90,7 @@ class InputNamePopupLayout extends ccui.Layout
 	{
 		switch (type)
 		{
-			case ccui.TextField.EVENT_ATTACH_WITH_IME:
+			case ccui.TextField.EVENT_DETACH_WITH_IME:
 				{
 					let text = sender.getString();
 					if (text !== "Input your name")
@@ -103,6 +103,7 @@ class InputNamePopupLayout extends ccui.Layout
 	}
 	onClickAccept()
 	{
+		GameManager.getInstance().nameHasSet();
 		this.popUp.playExitAnimation(this, this.onFinish);
 	}
 	onFinish()

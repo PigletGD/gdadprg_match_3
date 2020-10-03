@@ -15,9 +15,19 @@ class GameManager
 			GameManager._sharedInstance = new GameManager();
 			GameManager._sharedInstance._gameState = GAME_STATE_INACTIVE;
 			GameManager._sharedInstance._score = 0;
+			GameManager._sharedInstance._hasSetName = false;
 		}
 
 		return GameManager._sharedInstance;
+	}
+
+	get isNameSet()
+	{
+		return this._hasSetName;
+	}
+	nameHasSet()
+	{
+		this._hasSetName = true;
 	}
 
 	get gameState()

@@ -23,8 +23,10 @@ class MainMenuLandscapeLayout extends ccui.Layout
 
         this.createRowOfButtons();
 
-        // TODO: Add a condition to only show up once
-        this.getParent().addChild(new InputNamePopupLayout());
+        if (!GameManager.getInstance().isNameSet)
+        {
+            this.getParent().addChild(new InputNamePopupLayout());
+        }
 
         this.addComponent(new FitToWindow());
         this.addComponent(new EnableOnLandscape());
