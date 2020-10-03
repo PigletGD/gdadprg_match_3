@@ -10,33 +10,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MainMenuLayer = function (_cc$LayerColor) {
-	_inherits(MainMenuLayer, _cc$LayerColor);
+var LeaderboardScene = function (_cc$Scene) {
+    _inherits(LeaderboardScene, _cc$Scene);
 
-	function MainMenuLayer() {
-		_classCallCheck(this, MainMenuLayer);
+    function LeaderboardScene() {
+        _classCallCheck(this, LeaderboardScene);
 
-		return _possibleConstructorReturn(this, (MainMenuLayer.__proto__ || Object.getPrototypeOf(MainMenuLayer)).call(this));
-	}
+        return _possibleConstructorReturn(this, (LeaderboardScene.__proto__ || Object.getPrototypeOf(LeaderboardScene)).call(this));
+    }
 
-	_createClass(MainMenuLayer, [{
-		key: "onEnter",
-		value: function onEnter() {
-			_get(MainMenuLayer.prototype.__proto__ || Object.getPrototypeOf(MainMenuLayer.prototype), "onEnter", this).call(this);
-			this.scheduleUpdate();
+    _createClass(LeaderboardScene, [{
+        key: "onEnter",
+        value: function onEnter() {
+            _get(LeaderboardScene.prototype.__proto__ || Object.getPrototypeOf(LeaderboardScene.prototype), "onEnter", this).call(this);
+            this.addChild(new LeaderboardLayer());
+        }
+    }]);
 
-			var titleBackground = new Background("TitleBackground", res.TitleBackground_png);
-			this.addChild(titleBackground);
-
-			var titleLandscapeLayout = new MainMenuLandscapeLayout();
-			titleLandscapeLayout.setName("MainMenuLandscapeLayout");
-			this.addChild(titleLandscapeLayout);
-
-			var titlePortraitLayout = new MainMenuPortraitLayout();
-			titlePortraitLayout.setName("MainMenuPortraitLayout");
-			this.addChild(titlePortraitLayout);
-		}
-	}]);
-
-	return MainMenuLayer;
-}(cc.LayerColor);
+    return LeaderboardScene;
+}(cc.Scene);

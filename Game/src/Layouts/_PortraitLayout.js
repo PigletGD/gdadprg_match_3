@@ -1,13 +1,13 @@
 class PortraitLayout extends ccui.RelativeBox
 {
-	constructor(name)
-	{
-		super();
-		this.setName(name);
+    constructor(name)
+    {
+        super();
+        this.setName(name);
         this.scheduleUpdate();
-	}
+    }
 
-	onEnter()
+    onEnter()
     {
         super.onEnter();
         this.setContentSize(cc.winSize);

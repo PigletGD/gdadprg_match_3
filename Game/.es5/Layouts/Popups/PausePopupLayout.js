@@ -28,32 +28,14 @@ var PausePopupLayout = function (_ccui$Layout) {
         _createClass(PausePopupLayout, [{
                 key: "createPopup",
                 value: function createPopup() {
-                        var popUp = new ccui.RelativeBox();
-                        this.popUp = popUp;
-                        popUp.setAnchorPoint(cc.p(0.5, 0.5));
-                        popUp.setPositionType(ccui.Widget.POSITION_PERCENT);
-                        popUp.setPositionPercent(cc.p(0.5, 0.5));
-                        popUp.setSizeType(ccui.Widget.SIZE_PERCENT);
-                        popUp.setSizePercent(cc.p(0.7, 0.7));
-
-                        popUp.setBackGroundImageScale9Enabled(true);
-                        popUp.setBackGroundImage(res.Button9Slice_png, ccui.Widget.LOCAL_TEXTURE);
-                        var insetSize = 20;
-                        popUp.setBackGroundImageCapInsets(cc.rect(insetSize, insetSize, insetSize, insetSize));
-
-                        this.addChild(popUp);
+                        this.popUp = new Popup();
+                        this.addChild(this.popUp);
+                        this.popUp.playEntranceAnimation();
                 }
         }, {
                 key: "createButtons",
                 value: function createButtons() {
                         var popUp = this.popUp;
-
-                        // Popup window animation
-                        this.popUp.setScale(0.0);
-                        var scaleTo = new cc.ScaleTo(0.2, 1.0);
-                        scaleTo = new cc.EaseBackOut(scaleTo);
-                        this.popUp.runAction(scaleTo);
-
                         // Start of pause text setup
 
                         var pauseText = new ccui.Text("PAUSED GAME", "Pixel", 60);
@@ -65,7 +47,7 @@ var PausePopupLayout = function (_ccui$Layout) {
                         textLayoutParameter.setMargin(0, 10, 0, 0);
                         pauseText.setLayoutParameter(textLayoutParameter);
 
-                        popUp.addChild(pauseText);
+                        popUp.addUIElement(pauseText);
 
                         // End of pause text setup
 
@@ -87,7 +69,8 @@ var PausePopupLayout = function (_ccui$Layout) {
                         resumeButton.setLayoutParameter(resumeLayoutParameter);
 
                         resumeButton.addClickEventListener(this.onClickResume.bind(this));
-                        popUp.addChild(resumeButton);
+
+                        popUp.addUIElement(resumeButton);
 
                         // End of resume button setup
 
@@ -109,23 +92,19 @@ var PausePopupLayout = function (_ccui$Layout) {
                         mainMenuButton.setLayoutParameter(layoutParameter);
 
                         mainMenuButton.addClickEventListener(this.onClickMainMenu.bind(this));
-                        popUp.addChild(mainMenuButton);
+                        popUp.addUIElement(mainMenuButton);
                 }
         }, {
                 key: "onClickResume",
                 value: function onClickResume() {
                         if (GameManager.getInstance().isPaused()) {
-                                var scaleTo = new cc.ScaleTo(0.2, 0.0);
-                                var callFunc = new cc.callFunc(this.onFinish, this);
-                                scaleTo = new cc.EaseBackIn(scaleTo);
-                                this.popUp.runAction(new cc.sequence(scaleTo, callFunc));
+                                this.popUp.playExitAnimation(this, this.onFinish);
                         }
                 }
         }, {
                 key: "onFinish",
                 value: function onFinish() {
                         // Unpause Game Here
-
                         GameManager.getInstance().resumeGame();
 
                         var parent = this.getParent();
@@ -137,6 +116,11 @@ var PausePopupLayout = function (_ccui$Layout) {
         }, {
                 key: "onClickMainMenu",
                 value: function onClickMainMenu() {
+                        this.popUp.playExitAnimation(this, this.goToMainMenu);
+                }
+        }, {
+                key: "goToMainMenu",
+                value: function goToMainMenu() {
                         cc.director.runScene(new MainMenuScene());
                 }
         }]);

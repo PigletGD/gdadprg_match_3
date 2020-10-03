@@ -2,8 +2,7 @@ class MainMenuLandscapeLayout extends ccui.Layout
 {
     constructor()
     {
-        super();
-        this.setName("TitleLandscapeUI");
+        super("MainMenuLandscapeLayout");
         this.scheduleUpdate();
     }
 
@@ -24,8 +23,8 @@ class MainMenuLandscapeLayout extends ccui.Layout
 
         this.createRowOfButtons();
 
-        let fitToWindow = new FitToWindow();
-        fitToWindow.setName("FitToWindow");
+        // TODO: Add a condition to only show up once
+        this.getParent().addChild(new InputNamePopupLayout());
 
         this.addComponent(new FitToWindow());
         this.addComponent(new EnableOnLandscape());
@@ -39,13 +38,13 @@ class MainMenuLandscapeLayout extends ccui.Layout
         buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
         buttonLayout.setPositionPercent(cc.p(0.5, 0.5));
         buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-        buttonLayout.setSizePercent(cc.p(0.65, 0.5));
+        buttonLayout.setSizePercent(cc.p(1.0, 0.5));
         this.addChild(buttonLayout);
 
         // Creates three vertical layouts to divide the buttons
-        for (let i = 0; i < 2; i++)
+        for (let i = 0; i < 3; i++)
         {
-            this.createVerticalLayout(buttonLayout, i, 2);
+            this.createVerticalLayout(buttonLayout, i, 3);
         }
     }
 
@@ -130,27 +129,18 @@ class MainMenuLandscapeLayout extends ccui.Layout
     }
 }
 
-class MainMenuPortraitLayout extends ccui.RelativeBox
+class MainMenuPortraitLayout extends PortraitLayout
 {
     constructor()
     {
-        super();
-        this.setName("TitleLandscapeUI");
-        this.scheduleUpdate();
+        super("MainMenuPortraitLayout");
     }
 
     onEnter()
     {
         super.onEnter();
-        this.setContentSize(cc.winSize);
-
-        this.addComponent(new FitToWindow());
-        this.addComponent(new EnableOnPortrait());
 
         this.createTitle();
-
-
-
         this.createColumnOfButtons();
     }
 
