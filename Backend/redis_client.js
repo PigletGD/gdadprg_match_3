@@ -6,6 +6,9 @@ client.on("error", function(error) {
     console.error(error);
 });
 
+module.exports = client;
+
+/*
 function redisPrint(res){
     console.log(res)
 }
@@ -47,11 +50,13 @@ async function redisStringCalls(){
     console.log("GET");
     await client.GETAsync("score").then(redisPrint);
 
-    /*
-    Add more commands here
-    */
+    
+    // Add more commands here
+    
 
     await client.flushdbAsync();
 }
 
 redisStringCalls();
+
+*/

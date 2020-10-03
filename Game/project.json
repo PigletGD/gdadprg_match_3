@@ -12,10 +12,14 @@
         "extensions"
     ],
     "jsListOrder": [
+        "src/Lib/*.js",
         "src/Components/Layout/ResizeListener.js",
         "src/**/*.js"
     ],
     "jsList": [
+        "src/Lib/polyfill.js",
+        "src/Api/Backend.js",
+        "src/Api/UserApi.js",
         ".es5/Components/Layout/ResizeListener.js",
         ".es5/Components/CountdownComponent.js",
         ".es5/Components/GameLayerResizerAnchorLeft.js",
@@ -61,6 +65,8 @@
         ".es5/Scenes/MainMenuScene.js",
         ".es5/Scenes/PrototypeScene.js",
         ".es5/Scenes/RulesScene.js",
+        "src/Scenes/HttpTestScene.js",
+        "src/Services/UserService.js",
         ".es5/UIElements/Text.js",
         ".es5/Utils.js"
     ]
