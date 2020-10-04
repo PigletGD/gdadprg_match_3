@@ -25,8 +25,6 @@ var LeaderboardLayer = function (_cc$LayerColor) {
             _get(LeaderboardLayer.prototype.__proto__ || Object.getPrototypeOf(LeaderboardLayer.prototype), "onEnter", this).call(this);
             this.scheduleUpdate();
 
-            UserService.getInstance().getLeaderboardRankings();
-
             var titleBackground = new Background("TitleBackground", res.TitleBackground_png);
             this.addChild(titleBackground);
 

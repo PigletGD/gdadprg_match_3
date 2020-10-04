@@ -1,4 +1,6 @@
-// Time is in seconds
+
+//A component that is counts down from a value to zero.
+// Time is in seconds.
 class CountdownComponent extends cc.Component
 {
 	constructor(startingTime = 120.0)
@@ -16,7 +18,6 @@ class CountdownComponent extends cc.Component
 		super.onEnter();
 	}
 
-	//TODO: Refactor
 	update(delta)
 	{
 		super.update(delta);

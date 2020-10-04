@@ -23,17 +23,19 @@ var LeaderboardLandscapeLayout = function (_LandscapeLayout) {
 		key: "onEnter",
 		value: function onEnter() {
 			_get(LeaderboardLandscapeLayout.prototype.__proto__ || Object.getPrototypeOf(LeaderboardLandscapeLayout.prototype), "onEnter", this).call(this);
-			// this.createLeaderboardTitleText(this);
-			// this.createButton(this, "BACK", this.onClickBack);
 
+			// Set up necessary members
+			this.maxEntriesShown = 5;
+			this.entries = new Array();
+			this.userEntry = { "rank": "-", "name": " ", "score": 0 };
+
+			// Setup the layout
 			var layout = new ccui.Layout(cc.winSize);
 			layout.setAnchorPoint(0.5, 0.5);
 			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
 			layout.setPositionPercent(cc.p(0.5, 0.5));
 			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
 			layout.setSizePercent(cc.p(1.0, 1.0));
-			// layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-			// layout.setBackGroundColor(cc.color(0, 0, 150, 255));
 			layout.addComponent(new FitToParent());
 
 			var layoutParameter = new ccui.RelativeLayoutParameter();
@@ -41,123 +43,218 @@ var LeaderboardLandscapeLayout = function (_LandscapeLayout) {
 			layoutParameter.setMargin(0, 0, 0, 0);
 			layout.setLayoutParameter(layoutParameter);
 
-			var rules = "Leaderboard";
-
-			layout.addChild(new Text("Leaderboard", rules, res.PixelFont.name, 48, cc.p(0.5, 0.9), {
-				color: cc.color(0, 0, 0, 255),
-				stroke: 4
-			}));
-
-			var entries = [{ "rank": 0, "name": "TEST", "score": 100 }, { "rank": 0, "name": "TEST", "score": 100 }, { "rank": 0, "name": "TEST", "score": 100 }];
-
-			var buttonLayout = new ccui.Layout(cc.winSize);
-			buttonLayout.setAnchorPoint(0.5, 0.5);
-			buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			buttonLayout.setPositionPercent(cc.p(0.5, 0.5));
-			buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			buttonLayout.setSizePercent(cc.p(1.0, 1.0));
-			buttonLayout.setName("Buttons");
-			this.addChild(buttonLayout);
-
-			var divisions = 3;
-			for (var i = 0; i < divisions; i++) {
-				// Setting up properties of vertical layout
-				var vertLayout = new ccui.VBox();
-				vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-				vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
-				vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
-				vertLayout.setPositionPercent(cc.p(i / divisions, -1.0));
-
-				vertLayout.addComponent(new FitToParent());
-				buttonLayout.addChild(vertLayout);
-
-				if (i === 0) {
-					this.createTextPercent(vertLayout, "RANK", "Rank", 0.5, 0.0, 30);
-				}
-				if (i === 1) {
-					this.createTextPercent(vertLayout, "RANK", "Name", 0.5, 0.0, 30);
-				}
-				if (i === 2) {
-					this.createTextPercent(vertLayout, "RANK", "Score", 0.5, 0.0, 30);
-				}
-			}
+			this.createLeaderboardTitleText(layout);
+			this.setEntries();
+			this.createLeaderboardHeaders(layout);
+			this.createButton(layout, "BACK", this.onClickBack);
 
 			this.addChild(layout);
 		}
+
+		// Creates the leaderboard headers and their corresponding data
+
 	}, {
-		key: "createTextPercent",
-		value: function createTextPercent(parent, name, message, x, y, size) {
-			var text = new ccui.Text(message, "Pixel", size);
-			text.setName(name);
-			text.setPositionType(ccui.Widget.POSITION_PERCENT);
-			text.setPositionPercent(cc.p(x, y));
-			text.enableOutline(cc.color(0, 0, 0, 255), 4);
-			parent.addChild(text);
-			text.addComponent(new FitToParent());
+		key: "createLeaderboardHeaders",
+		value: function createLeaderboardHeaders(parent) {
+			for (var i = 0; i < 3; i++) {
+				var spanRatio = 0;
+				if (i === 1) {
+					spanRatio = 1 / 5;
+				} else {
+					spanRatio = i / 3;
+				}
+
+				var layout = new ccui.VBox();
+				layout.setAnchorPoint(0.0, 1.0);
+				layout.setPositionType(ccui.Widget.POSITION_PERCENT);
+				layout.setPositionPercent(cc.p(spanRatio, 0.8));
+
+				layout.setSizeType(ccui.Widget.SIZE_PERCENT);
+				layout.setSizePercent(cc.p(1 / 3, 0.8));
+
+				layout.addComponent(new FitToParent());
+
+				var layoutParameter = new ccui.RelativeLayoutParameter();
+				layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_LEFT);
+				layoutParameter.setMargin(0, 0, 0, 0);
+				layout.setLayoutParameter(layoutParameter);
+
+				switch (i) {
+					case 0:
+						{
+							this.createRankEntries(layout);
+						}break;
+					case 1:
+						{
+							this.createNameEntries(layout);
+						}break;
+					case 2:
+						{
+							this.createScoreEntries(layout);
+						}break;
+				}
+				parent.addChild(layout);
+			}
 		}
-
-		/****
-  Entry
-  {
-  	"rank": 0
-  	"name": <name>,
-  	"score": <score>
-  }
-  */
-
 	}, {
-		key: "createLeaderboardEntry",
-		value: function createLeaderboardEntry(parent, entriesInfo) {
-			// let vertLayout = new ccui.VBox();
-			// vertLayout.setContentSize(cc.winSize);
-			//  vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			//  vertLayout.setSizePercent(cc.p(0.5, 0.5));
-			//  vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
-			//  vertLayout.setPositionPercent(cc.p(0.0, 0.0));
+		key: "createRankEntries",
+		value: function createRankEntries(parent) {
+			var rankHeader = "Rank";
+			var rankText = new Text("RankHeader", rankHeader, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
 
-			// for (let i = 0; i < entriesInfo.length; i++)
-			// {
-			// 	vertLayout.addChild(this.createEntryContainer(entriesInfo[i]));
-			// }
-
-			parent.addChild(this.createEntryContainer(entriesInfo[0]));
-		}
-	}, {
-		key: "createEntryContainer",
-		value: function createEntryContainer(entry) {
-
-			var hortLayout = new ccui.HBox();
-
-			var rankText = new Text2("RankText");
-			rankText.setFontName(res.PixelFont.name);
-			rankText.setString("Rank");
-			rankText.setFontSize(30);
 			rankText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(rankText);
 
-			var layoutParameter = new ccui.LinearLayoutParameter();
-			layoutParameter.setGravity(ccui.LinearLayoutParameter.TOP);
-			layoutParameter.setMargin(50, 0, 0, 0);
-			rankText.setLayoutParameter(layoutParameter);
+			// Add entries
+			for (var i = 0; i < this.maxEntriesShown; i++) {
+				if (i === this.entries.length) {
+					break;
+				}
 
-			hortLayout.addChild(rankText);
-			return hortLayout;
+				var entryLabel = this.entries[i].rank;
+				var entryText = new Text("RankEntry" + i, entryLabel, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+					color: cc.color(25, 25, 25, 255),
+					stroke: 2
+				});
+
+				entryText.setAnchorPoint(0.0, 0.5);
+				parent.addChild(entryText);
+			}
+
+			// Adds entry of the user
+			var userHeader = new Text("UserHeader", "User:", res.PixelFont.name, 28, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			userHeader.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userHeader);
+
+			var userRank = new Text("UserHeader", this.userEntry.rank, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userRank.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userRank);
+		}
+	}, {
+		key: "createNameEntries",
+		value: function createNameEntries(parent) {
+			var nameHeader = "Name";
+			var nameText = new Text("NameHeader", nameHeader, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			nameText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(nameText);
+
+			// Add entries
+			for (var i = 0; i < this.maxEntriesShown; i++) {
+				if (i === this.entries.length) {
+					break;
+				}
+
+				var entryLabel = this.entries[i].name;
+				var entryText = new Text("NameEntry" + i, entryLabel, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+					color: cc.color(0, 0, 0, 255),
+					stroke: 2
+				});
+
+				entryText.setAnchorPoint(0.0, 0.5);
+				parent.addChild(entryText);
+			}
+
+			// Adds entry of the user
+			var userHeader = new Text("UserHeader", " ", res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userHeader.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userHeader);
+
+			var userName = new Text("UserName", this.userEntry.name, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userName.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userName);
+		}
+	}, {
+		key: "createScoreEntries",
+		value: function createScoreEntries(parent) {
+			var scoreHeader = "Score";
+			var scoreText = new Text("ScoreHeader", scoreHeader, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			scoreText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(scoreText);
+
+			// Add entries
+			for (var i = 0; i < this.maxEntriesShown; i++) {
+				if (i === this.entries.length) {
+					break;
+				}
+
+				var entryLabel = this.entries[i].score;
+				var entryText = new Text("ScoreEntry" + i, entryLabel, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+					color: cc.color(0, 0, 0, 255),
+					stroke: 2
+				});
+
+				entryText.setAnchorPoint(0.0, 0.5);
+				parent.addChild(entryText);
+			}
+
+			// Adds entry of the user
+			var userHeader = new Text("UserHeader", " ", res.PixelFont.name, 28, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			userHeader.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userHeader);
+
+			var userScore = new Text("UserScore", this.userEntry.score, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userScore.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userScore);
+		}
+
+		// Sets the value of the entries and user attribute that will be shown in the leaderboard
+
+	}, {
+		key: "setEntries",
+		value: function setEntries() {
+			var rankedEntries = ScoreManager.getInstance().orderedRanks;
+
+			console.log(rankedEntries);
+
+			for (var i = 0; i < rankedEntries.length; i++) {
+				this.entries.push({ "rank": i + 1, "name": rankedEntries[i].name, "score": rankedEntries[i].score });
+			}
+
+			if (ScoreManager.getInstance().playerInfo !== undefined) this.userEntry = ScoreManager.getInstance().playerInfo;
 		}
 	}, {
 		key: "createLeaderboardTitleText",
 		value: function createLeaderboardTitleText(parent) {
-			var layout = new ccui.Layout(cc.winSize);
-			layout.setAnchorPoint(0.5, 0.5);
-			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			layout.setPositionPercent(cc.p(0.5, 0.5));
-			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			layout.setSizePercent(cc.p(1.0, 1.0));
-			layout.addComponent(new FitToParent());
-
-			var layoutParameter = new ccui.RelativeLayoutParameter();
-			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-			layoutParameter.setMargin(0, 10, 0, 0);
-			layout.setLayoutParameter(layoutParameter);
-			parent.addChild(layout);
+			var prompt = "Leaderboard";
+			parent.addChild(new Text("Leaderboard", prompt, res.PixelFont.name, 48, cc.p(0.5, 0.9), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			}));
 		}
 
 		// Create a button
@@ -165,44 +262,26 @@ var LeaderboardLandscapeLayout = function (_LandscapeLayout) {
 	}, {
 		key: "createButton",
 		value: function createButton(parent, text, bindingFunction) {
-			var buttonLayout = new ccui.Layout(cc.winSize);
-			buttonLayout.setAnchorPoint(0.5, 0.5);
-			buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
-			buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			buttonLayout.setSizePercent(cc.p(0.25, 0.2));
-			//buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-			//buttonLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
-			buttonLayout.addComponent(new FitToParent());
-
-			var layoutParameter = new ccui.RelativeLayoutParameter();
-			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_BOTTOM);
-			layoutParameter.setMargin(0, 0, 0, 0);
-			buttonLayout.setLayoutParameter(layoutParameter);
-			parent.addChild(buttonLayout);
-
-			// Sets ups button with 9-slice
 			var button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 			button.setName(text);
 			button.setScale9Enabled(true);
 			button.setCapInsets(cc.rect(20, 20, 20, 20));
-			button.setContentSize(cc.size(300, 125));
-			button.setTitleFontSize(60);
+			button.setContentSize(cc.size(125, 55));
+			button.setTitleFontSize(32);
 			button.setTitleFontName("Pixel");
 			button.setTitleText(text);
 			button.setPositionType(ccui.Widget.POSITION_PERCENT);
-			button.setPositionPercent(cc.p(0.5, 0.5));
-			//button.setAnchorPoint(cc.p(1.0, 1.0));
+			button.setPositionPercent(cc.p(1.0, 0.05));
+			button.setAnchorPoint(cc.p(1.0, 0.0));
 			button.addComponent(new FitToParent());
 
 			// Binds function to the button for click event
 			button.addClickEventListener(bindingFunction.bind(this));
-			buttonLayout.addChild(button);
+			parent.addChild(button);
 		}
 	}, {
 		key: "onClickBack",
 		value: function onClickBack() {
-			ScoreManager.getInstance().printAllUsers();
 			cc.director.runScene(new MainMenuScene());
 		}
 	}]);
@@ -224,31 +303,231 @@ var LeaderboardPortraitLayout = function (_PortraitLayout) {
 		value: function onEnter() {
 			_get(LeaderboardPortraitLayout.prototype.__proto__ || Object.getPrototypeOf(LeaderboardPortraitLayout.prototype), "onEnter", this).call(this);
 
-			this.createRulesText(this);
-			this.createButton(this, "BACK", this.onClickBack);
-		}
-	}, {
-		key: "createRulesText",
-		value: function createRulesText(parent) {
-			var rulesLayout = new ccui.Layout(cc.winSize);
-			rulesLayout.setAnchorPoint(0.5, 0.5);
-			rulesLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			rulesLayout.setPositionPercent(cc.p(0.5, 0.7));
-			rulesLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			rulesLayout.setSizePercent(cc.p(0.9, 0.8));
-			//rulesLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-			//rulesLayout.setBackGroundColor(cc.color(0, 150, 0, 255));
-			rulesLayout.addComponent(new FitToParent());
+			// Setup necessary attributes
+			this.maxEntriesShown = 5;
+			this.entries = new Array();
+			this.userEntry = { "rank": "-", "name": " ", "score": 0 };
+
+			// Setup layout
+			var layout = new ccui.Layout(cc.winSize);
+			layout.setAnchorPoint(0.5, 0.5);
+			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
+			layout.setPositionPercent(cc.p(0.5, 0.5));
+			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
+			layout.setSizePercent(cc.p(1.0, 1.0));
+
+			layout.addComponent(new FitToParent());
 
 			var layoutParameter = new ccui.RelativeLayoutParameter();
-			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-			layoutParameter.setMargin(0, 10, 0, 0);
-			rulesLayout.setLayoutParameter(layoutParameter);
-			parent.addChild(rulesLayout);
+			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_BOTTOM);
+			layoutParameter.setMargin(0, 0, 0, 0);
+			layout.setLayoutParameter(layoutParameter);
 
-			var rules = "RULES:\n\n1.) Click on two\nadjacent tiles to\nswap their places\n\n2.) Match three or\nmore adjacent same\ntype tiles to earn\npoints\n\n3.) Gain as much\npoints as possible\nwithin two minutes";
+			this.createLeaderboardTitleText(layout);
+			this.setEntries();
+			this.createLeaderboardHeaders(layout);
+			this.createButton(layout, "BACK", this.onClickBack);
 
-			rulesLayout.addChild(new Text("Rules", rules, res.PixelFont.name, 48, cc.p(0.5, 0.5), {
+			this.addChild(layout);
+		}
+
+		// Creates the leaderboard headers and their corresponding data
+
+	}, {
+		key: "createLeaderboardHeaders",
+		value: function createLeaderboardHeaders(parent) {
+			for (var i = 0; i < 3; i++) {
+				var layout = new ccui.VBox();
+				layout.setAnchorPoint(0.0, 1.0);
+				layout.setPositionType(ccui.Widget.POSITION_PERCENT);
+				layout.setPositionPercent(cc.p(i / 3, 0.8));
+
+				layout.setSizeType(ccui.Widget.SIZE_PERCENT);
+				layout.setSizePercent(cc.p(1 / 3, 0.8));
+
+				layout.addComponent(new FitToParent());
+
+				var layoutParameter = new ccui.RelativeLayoutParameter();
+				layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_LEFT);
+				layoutParameter.setMargin(0, 0, 0, 0);
+				layout.setLayoutParameter(layoutParameter);
+
+				switch (i) {
+					case 0:
+						{
+							this.createRankEntries(layout);
+						}break;
+					case 1:
+						{
+							this.createNameEntries(layout);
+						}break;
+					case 2:
+						{
+							this.createScoreEntries(layout);
+						}break;
+				}
+				parent.addChild(layout);
+			}
+		}
+	}, {
+		key: "createRankEntries",
+		value: function createRankEntries(parent) {
+			var rankHeader = "Rank";
+			var rankText = new Text("RankHeader", rankHeader, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			rankText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(rankText);
+
+			// Add entries
+			for (var i = 0; i < this.maxEntriesShown; i++) {
+				if (i === this.entries.length) {
+					break;
+				}
+
+				var entryLabel = this.entries[i].rank;
+				var entryText = new Text("RankEntry" + i, entryLabel, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+					color: cc.color(0, 0, 0, 255),
+					stroke: 2
+				});
+
+				entryText.setAnchorPoint(0.0, 0.5);
+				parent.addChild(entryText);
+			}
+
+			// Add user entry
+			var userHeader = new Text("UserHeader", "User:", res.PixelFont.name, 28, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			userHeader.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userHeader);
+
+			console.log("USER RANK: " + this.userEntry.rank);
+
+			var userRank = new Text("UserHeader", this.userEntry.rank, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userRank.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userRank);
+		}
+	}, {
+		key: "createNameEntries",
+		value: function createNameEntries(parent) {
+			var nameHeader = "Name";
+			var nameText = new Text("NameHeader", nameHeader, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			nameText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(nameText);
+
+			// Add entries
+			for (var i = 0; i < this.maxEntriesShown; i++) {
+				if (i === this.entries.length) {
+					break;
+				}
+
+				var entryLabel = this.entries[i].name;
+				var entryText = new Text("NameEntry" + i, entryLabel, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+					color: cc.color(0, 0, 0, 255),
+					stroke: 2
+				});
+
+				entryText.setAnchorPoint(0.0, 0.5);
+				parent.addChild(entryText);
+			}
+
+			// Add user entry
+			var userHeader = new Text("UserHeader", " ", res.PixelFont.name, 28, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			userHeader.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userHeader);
+
+			var userName = new Text("UserName", this.userEntry.name, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userName.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userName);
+		}
+	}, {
+		key: "createScoreEntries",
+		value: function createScoreEntries(parent) {
+			var scoreHeader = "Score";
+			var scoreText = new Text("ScoreHeader", scoreHeader, res.PixelFont.name, 30, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			scoreText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(scoreText);
+
+			// Add entries
+			for (var i = 0; i < this.maxEntriesShown; i++) {
+				if (i === this.entries.length) {
+					break;
+				}
+
+				var entryLabel = this.entries[i].score;
+
+				var entryText = new Text("ScoreEntry" + i, entryLabel, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+					color: cc.color(0, 0, 0, 255),
+					stroke: 2
+				});
+
+				entryText.setAnchorPoint(0.0, 0.5);
+				parent.addChild(entryText);
+			}
+
+			// Add user entry
+			var userHeader = new Text("UserHeader", " ", res.PixelFont.name, 28, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+			userHeader.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userHeader);
+
+			var userScore = new Text("UserScore", this.userEntry.score, res.PixelFont.name, 24, cc.p(0.0, 0.0), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userScore.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userScore);
+		}
+
+		// Sets the value of the entries and user attribute that will be shown in the leaderboard
+
+	}, {
+		key: "setEntries",
+		value: function setEntries() {
+			var rankedEntries = ScoreManager.getInstance().orderedRanks;
+
+			console.log(rankedEntries);
+
+			for (var i = 0; i < rankedEntries.length; i++) {
+				this.entries.push({ "rank": i + 1, "name": rankedEntries[i].name, "score": rankedEntries[i].score });
+			}
+
+			if (ScoreManager.getInstance().playerInfo !== undefined) this.userEntry = ScoreManager.getInstance().playerInfo;
+		}
+	}, {
+		key: "createLeaderboardTitleText",
+		value: function createLeaderboardTitleText(parent) {
+			var prompt = "Leaderboard";
+			parent.addChild(new Text("Leaderboard", prompt, res.PixelFont.name, 48, cc.p(0.5, 0.9), {
 				color: cc.color(0, 0, 0, 255),
 				stroke: 4
 			}));
@@ -259,39 +538,22 @@ var LeaderboardPortraitLayout = function (_PortraitLayout) {
 	}, {
 		key: "createButton",
 		value: function createButton(parent, text, bindingFunction) {
-			var buttonLayout = new ccui.Layout(cc.winSize);
-			buttonLayout.setAnchorPoint(0.5, 0.5);
-			buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
-			buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			buttonLayout.setSizePercent(cc.p(0.45, 0.2));
-			// buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-			// buttonLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
-			buttonLayout.addComponent(new FitToParent());
-
-			var layoutParameter = new ccui.RelativeLayoutParameter();
-			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
-			layoutParameter.setMargin(0, 0, 0, 0);
-			buttonLayout.setLayoutParameter(layoutParameter);
-			parent.addChild(buttonLayout);
-
-			// Sets ups button with 9-slice
 			var button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 			button.setName(text);
 			button.setScale9Enabled(true);
 			button.setCapInsets(cc.rect(20, 20, 20, 20));
-			button.setContentSize(cc.size(300, 125));
-			button.setTitleFontSize(60);
+			button.setContentSize(cc.size(125, 55));
+			button.setTitleFontSize(32);
 			button.setTitleFontName("Pixel");
 			button.setTitleText(text);
 			button.setPositionType(ccui.Widget.POSITION_PERCENT);
-			button.setPositionPercent(cc.p(0.5, 0.5));
-			//button.setAnchorPoint(cc.p(1.0, 1.0));
+			button.setPositionPercent(cc.p(1.0, 0.05));
+			button.setAnchorPoint(cc.p(1.0, 0.0));
 			button.addComponent(new FitToParent());
 
 			// Binds function to the button for click event
 			button.addClickEventListener(bindingFunction.bind(this));
-			buttonLayout.addChild(button);
+			parent.addChild(button);
 		}
 	}, {
 		key: "onClickBack",

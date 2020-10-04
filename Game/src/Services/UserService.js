@@ -20,31 +20,18 @@ class UserService {
     async getAllUsersInfo(){
         return await UserApi.GetAllUsers()
             .then((userList) => {
-                ScoreManager.getInstance().loadUserScoresFromJSON(userList.users);
+                // Sends all user info to the score manager to load rankings
+                ScoreManager.getInstance().loadUserScoresFromJSON(userList.users, this.currentUser.id);
                 return userList;
-
-                // for (let i = 0; i < userList.length; i++){
-                //     console.log(userList[i]);
-                // }
             });
     }
 
+    // Patches the score value of the current user
     async updateScore(score){
         return await UserApi.PatchUser(this.currentUser.id, {score: score})
             .then((resp) => {
                 console.log(resp);
             });
-    }
-
-    async getLeaderboardRankings(){
-        return await UserApi.GetUserRankings()
-        .then((rankings) => {
-            console.log(rankings.length);
-
-            for (let i = 0; i < rankings.length; i++){
-                console.log(rankings[i]);
-            }
-        })
     }
 
     async loadUser(){

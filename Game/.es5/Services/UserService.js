@@ -50,18 +50,17 @@ var UserService = function () {
         key: 'getAllUsersInfo',
         value: function () {
             var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                var _this2 = this;
+
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 _context2.next = 2;
                                 return UserApi.GetAllUsers().then(function (userList) {
-                                    ScoreManager.getInstance().loadUserScoresFromJSON(userList);
+                                    // Sends all user info to the score manager to load rankings
+                                    ScoreManager.getInstance().loadUserScoresFromJSON(userList.users, _this2.currentUser.id);
                                     return userList;
-
-                                    // for (let i = 0; i < userList.length; i++){
-                                    //     console.log(userList[i]);
-                                    // }
                                 });
 
                             case 2:
@@ -81,21 +80,20 @@ var UserService = function () {
 
             return getAllUsersInfo;
         }()
+
+        // Patches the score value of the current user
+
     }, {
-        key: 'getLeaderboardRankings',
+        key: 'updateScore',
         value: function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(score) {
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 _context3.next = 2;
-                                return UserApi.GetUserRankings().then(function (rankings) {
-                                    console.log(rankings.length);
-
-                                    for (var i = 0; i < rankings.length; i++) {
-                                        console.log(rankings[i]);
-                                    }
+                                return UserApi.PatchUser(this.currentUser.id, { score: score }).then(function (resp) {
+                                    console.log(resp);
                                 });
 
                             case 2:
@@ -109,17 +107,17 @@ var UserService = function () {
                 }, _callee3, this);
             }));
 
-            function getLeaderboardRankings() {
+            function updateScore(_x3) {
                 return _ref3.apply(this, arguments);
             }
 
-            return getLeaderboardRankings;
+            return updateScore;
         }()
     }, {
         key: 'loadUser',
         value: function () {
             var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-                var _this2 = this;
+                var _this3 = this;
 
                 var userId;
                 return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -147,8 +145,8 @@ var UserService = function () {
                             case 5:
                                 _context4.next = 7;
                                 return UserApi.GetUser(userId).then(function (loadedUser) {
-                                    _this2.currentUser = loadedUser;
-                                    return _this2.currentUser;
+                                    _this3.currentUser = loadedUser;
+                                    return _this3.currentUser;
                                 });
 
                             case 7:

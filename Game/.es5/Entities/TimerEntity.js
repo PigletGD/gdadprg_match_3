@@ -39,8 +39,6 @@ var TimerEntity = function (_cc$Node) {
 		key: "update",
 		value: function update(timestep) {
 			_get(TimerEntity.prototype.__proto__ || Object.getPrototypeOf(TimerEntity.prototype), "update", this).call(this, timestep);
-
-			//console.log(this.getName() + " " + this.remainingSeconds);
 		}
 	}, {
 		key: "startCountdown",

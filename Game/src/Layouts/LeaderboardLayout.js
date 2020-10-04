@@ -8,16 +8,19 @@ class LeaderboardLandscapeLayout extends LandscapeLayout
 	onEnter()
 	{
 		super.onEnter();
-		// this.createLeaderboardTitleText(this);
 
+		// Set up necessary members
+		this.maxEntriesShown = 5;
+		this.entries = new Array();
+		this.userEntry = {"rank" : "-", "name" : " ", "score" : 0};
+
+		// Setup the layout
 		let layout = new ccui.Layout(cc.winSize);
 		layout.setAnchorPoint(0.5, 0.5);
 		layout.setPositionType(ccui.Widget.POSITION_PERCENT);
 		layout.setPositionPercent(cc.p(0.5, 0.5));
 		layout.setSizeType(ccui.Widget.SIZE_PERCENT);
 		layout.setSizePercent(cc.p(1.0, 1.0));
-		// layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-		// layout.setBackGroundColor(cc.color(0, 0, 150, 255));
 		layout.addComponent(new FitToParent());
 
 		let layoutParameter = new ccui.RelativeLayoutParameter();
@@ -26,38 +29,36 @@ class LeaderboardLandscapeLayout extends LandscapeLayout
 		layout.setLayoutParameter(layoutParameter);
 
 		this.createLeaderboardTitleText(layout);
-
-		this.entries  =
-		 [{"rank" : 0, "name": "TTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTTTTT", "score": 100}];
-
+		this.setEntries();
 		this.createLeaderboardHeaders(layout);
-
-		this.getRankings();
-
 		this.createButton(layout, "BACK", this.onClickBack);
 
 		this.addChild(layout);
 	}
 
+	// Creates the leaderboard headers and their corresponding data
 	createLeaderboardHeaders(parent)
 	{
 		for (let i = 0; i < 3; i++)
 		{
+			let spanRatio = 0;
+			if (i === 1)
+			{
+				spanRatio = 1 / 5;
+			}
+			else
+			{
+				spanRatio = i  / 3;
+			}
+
 			let layout = new ccui.VBox();
 			layout.setAnchorPoint(0.0, 1.0);
 			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			layout.setPositionPercent(cc.p(i / 3, 0.8));
+			layout.setPositionPercent(cc.p(spanRatio, 0.8));
 
 			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			layout.setSizePercent(cc.p(1 / 3, 0.8));
+			layout.setSizePercent(cc.p(1 /3, 0.8));
 
-			// layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-			// layout.setBackGroundColor(cc.color((50* i),0 , 150, 255));
-	
 			layout.addComponent(new FitToParent());
 	
 			let layoutParameter = new ccui.RelativeLayoutParameter();
@@ -102,15 +103,14 @@ class LeaderboardLandscapeLayout extends LandscapeLayout
 		parent.addChild(rankText);
 
 		// Add entries
-		for (let i = 0; i < 5; i++)
+		for (let i = 0; i < this.maxEntriesShown; i++)
 		{
-			let entryLabel = this.entries[i].rank;
-
-			if (entryLabel === undefined || entryLabel === null)
+			if (i === this.entries.length)
 			{
 				break;
 			}
 
+			let entryLabel = this.entries[i].rank;
 			let entryText =  new Text(
 			"RankEntry" + i,
 			entryLabel,
@@ -118,13 +118,43 @@ class LeaderboardLandscapeLayout extends LandscapeLayout
 			30,
 			cc.p(0.0, 0.0),
 			{
-				color: cc.color(0, 0, 0, 255),
-				stroke: 0
+				color: cc.color(25, 25, 25, 255),
+				stroke: 2
 			});
 
 			entryText.setAnchorPoint(0.0, 0.5);
 			parent.addChild(entryText);
 		}
+
+		// Adds entry of the user
+		let userHeader = new Text(
+			"UserHeader",
+			"User:",
+			res.PixelFont.name,
+			28,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+		userHeader.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userHeader);
+
+		let userRank = new Text(
+			"UserHeader",
+			this.userEntry.rank,
+			res.PixelFont.name,
+			24,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+		userRank.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userRank);
+
 	}
 
 	createNameEntries(parent)
@@ -145,15 +175,14 @@ class LeaderboardLandscapeLayout extends LandscapeLayout
 		parent.addChild(nameText);
 
 		// Add entries
-		for (let i = 0; i < 5; i++)
+		for (let i = 0; i < this.maxEntriesShown; i++)
 		{
-			let entryLabel = this.entries[i].name;
-
-			if (entryLabel === undefined || entryLabel === null)
+			if (i === this.entries.length)
 			{
 				break;
 			}
 
+			let entryLabel = this.entries[i].name;
 			let entryText =  new Text(
 			"NameEntry" + i,
 			entryLabel,
@@ -162,296 +191,41 @@ class LeaderboardLandscapeLayout extends LandscapeLayout
 			cc.p(0.0, 0.0),
 			{
 				color: cc.color(0, 0, 0, 255),
-				stroke: 0
+				stroke: 2
 			});
 
 			entryText.setAnchorPoint(0.0, 0.5);
 			parent.addChild(entryText);
 		}
-	}
 
-	createScoreEntries(parent)
-	{
-		let scoreHeader = "Score";
-        let scoreText = new Text(
-		"ScoreHeader",
-		scoreHeader,
+		// Adds entry of the user
+		let userHeader = new Text(
+			"UserHeader",
+		" ",
 		res.PixelFont.name,
-		48,
+		24,
 		cc.p(0.0, 0.0),
 		{
 			color: cc.color(0, 0, 0, 255),
-			stroke: 4
-		})
+			stroke: 2
+		});
 
-		scoreText.setAnchorPoint(0.0, 0.5);
-		parent.addChild(scoreText);
+		userHeader.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userHeader);
 
-		for (let i = 0; i < 5; i++)
+		let userName = new Text(
+			"UserName",
+		this.userEntry.name,
+		res.PixelFont.name,
+		24,
+		cc.p(0.0, 0.0),
 		{
-			let entryLabel = this.entries[i].score;
+			color: cc.color(0, 0, 0, 255),
+			stroke: 2
+		});
 
-			if (entryLabel === undefined || entryLabel === null)
-			{
-				break;
-			}
-
-			let entryText =  new Text(
-			"ScoreEntry" + i,
-			entryLabel,
-			res.PixelFont.name,
-			30,
-			cc.p(0.0, 0.0),
-			{
-				color: cc.color(0, 0, 0, 255),
-				stroke: 0
-			});
-
-			entryText.setAnchorPoint(0.0, 0.5);
-			parent.addChild(entryText);
-		}
-	}
-
-	createTextPercent(parent, name, message, x, y, size)
-	{
-		let text = new ccui.Text(message, "Pixel", size);
-		text.setName(name);
-		text.setPositionType(ccui.Widget.POSITION_PERCENT);
-		text.setPositionPercent(cc.p(x, y));
-		text.enableOutline(cc.color(0, 0, 0, 255), 4);
-		parent.addChild(text);
-		text.addComponent(new FitToParent());
-	}
-	
-	getRankings() {
-		ScoreManager.getInstance().getNTopEntries(10);
-
-		//for(let i = 0; i < userInfo.users.length; i++){
-		// 	console.log(userInfo.users[i].score);
-		//}
-	}
-	
-	/****
-	Entry
-	{
-		"rank": 0
-		"name": <name>,
-		"score": <score>
-	}
-	*/
-
-	createLeaderboardTitleText(parent)
-	{
-		let prompt  = "Leaderboard";
-		parent.addChild(new Text(
-			"Leaderboard",
-			prompt,
-			res.PixelFont.name,
-			48,
-			cc.p(0.5, 0.9),
-			{
-				color: cc.color(0, 0, 0, 255),
-				stroke: 4
-			}));
-	}
-
-	// Create a button
-	createButton(parent, text, bindingFunction)
-	{
-		let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
-		button.setName(text);
-		button.setScale9Enabled(true);
-		button.setCapInsets(cc.rect(20, 20, 20, 20));
-		button.setContentSize(cc.size(125, 55));
-		button.setTitleFontSize(32);
-		button.setTitleFontName("Pixel");
-		button.setTitleText(text);
-		button.setPositionType(ccui.Widget.POSITION_PERCENT);
-		button.setPositionPercent(cc.p(1.0, 0.05));
-		button.setAnchorPoint(cc.p(1.0, 0.0));
-		button.addComponent(new FitToParent());
-
-		// Binds function to the button for click event
-		button.addClickEventListener(bindingFunction.bind(this));
-		parent.addChild(button);
-	}
-
-	onClickBack()
-	{
-		// ScoreManager.getInstance().printAllUsers(); Working, but might not need rn
-		cc.director.runScene(new MainMenuScene());
-	}
-}
-
-class LeaderboardPortraitLayout extends PortraitLayout
-{
-	constructor()
-	{
-		super("LeaderboardPortraitLayout");
-	}
-
-	onEnter()
-	{
-		super.onEnter();
-
-		let layout = new ccui.Layout(cc.winSize);
-		layout.setAnchorPoint(0.5, 0.5);
-		layout.setPositionType(ccui.Widget.POSITION_PERCENT);
-		layout.setPositionPercent(cc.p(0.5, 0.5));
-		layout.setSizeType(ccui.Widget.SIZE_PERCENT);
-		layout.setSizePercent(cc.p(1.0, 1.0));
-		layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-		layout.setBackGroundColor(cc.color(0, 0, 150, 255));
-		layout.addComponent(new FitToParent());
-
-		let layoutParameter = new ccui.RelativeLayoutParameter();
-		layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_BOTTOM);
-		layoutParameter.setMargin(0, 0, 0, 0);
-		layout.setLayoutParameter(layoutParameter);
-
-		this.createLeaderboardTitleText(layout);
-
-		this.entries  =
-		 [{"rank" : 0, "name": "TTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTTTTT", "score": 100},
-		{"rank" : 0, "name": "TTTTTTTTTTTTTTTTTT", "score": 100}];
-
-		this.createLeaderboardHeaders(layout);
-
-		this.getRankings();
-
-		this.createButton(layout, "BACK", this.onClickBack);
-
-		this.addChild(layout);
-	}
-
-	createLeaderboardHeaders(parent)
-	{
-		for (let i = 0; i < 3; i++)
-		{
-			let layout = new ccui.VBox();
-			layout.setAnchorPoint(0.0, 1.0);
-			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			layout.setPositionPercent(cc.p(i / 3, 0.8));
-
-			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			layout.setSizePercent(cc.p(1 / 3, 0.8));
-
-			// layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-			// layout.setBackGroundColor(cc.color((50* i),0 , 150, 255));
-	
-			layout.addComponent(new FitToParent());
-	
-			let layoutParameter = new ccui.RelativeLayoutParameter();
-			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_LEFT);
-			layoutParameter.setMargin(0, 0, 0, 0);
-			layout.setLayoutParameter(layoutParameter);
-
-			switch (i)
-			{ 
-				case 0:
-				{
-					this.createRankEntries(layout)
-				} break;
-				case 1:
-				{
-					this.createNameEntries(layout)
-				} break;
-				case 2:
-				{
-					this.createScoreEntries(layout)
-				} break;
-			}
-			parent.addChild(layout);
-		}
-	}
-
-	createRankEntries(parent)
-	{
-		let rankHeader = "Rank";
-        let rankText = new Text(
-			"RankHeader",
-			rankHeader,
-			res.PixelFont.name,
-			30,
-			cc.p(0.0, 0.0),
-			{
-				color: cc.color(0, 0, 0, 255),
-				stroke: 4
-			});
-
-		rankText.setAnchorPoint(0.0, 0.5);
-		parent.addChild(rankText);
-
-		// Add entries
-		for (let i = 0; i < 5; i++)
-		{
-			let entryLabel = this.entries[i].rank;
-
-			if (entryLabel === undefined || entryLabel === null)
-			{
-				break;
-			}
-
-			let entryText =  new Text(
-			"RankEntry" + i,
-			entryLabel,
-			res.PixelFont.name,
-			30,
-			cc.p(0.0, 0.0),
-			{
-				color: cc.color(0, 0, 0, 255),
-				stroke: 0
-			});
-
-			entryText.setAnchorPoint(0.0, 0.5);
-			parent.addChild(entryText);
-		}
-	}
-
-	createNameEntries(parent)
-	{
-		let nameHeader = "Name";
-        let nameText = new Text(
-			"NameHeader",
-			nameHeader,
-			res.PixelFont.name,
-			30,
-			cc.p(0.0, 0.0),
-			{
-				color: cc.color(0, 0, 0, 255),
-				stroke: 4
-			});
-
-		nameText.setAnchorPoint(0.0, 0.5);
-		parent.addChild(nameText);
-
-		// Add entries
-		for (let i = 0; i < 5; i++)
-		{
-			let entryLabel = this.entries[i].name;
-
-			if (entryLabel === undefined || entryLabel === null)
-			{
-				break;
-			}
-
-			let entryText =  new Text(
-			"NameEntry" + i,
-			entryLabel,
-			res.PixelFont.name,
-			30,
-			cc.p(0.0, 0.0),
-			{
-				color: cc.color(0, 0, 0, 255),
-				stroke: 0
-			});
-
-			entryText.setAnchorPoint(0.0, 0.5);
-			parent.addChild(entryText);
-		}
+		userName.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userName);
 	}
 
 	createScoreEntries(parent)
@@ -471,15 +245,15 @@ class LeaderboardPortraitLayout extends PortraitLayout
 		scoreText.setAnchorPoint(0.0, 0.5);
 		parent.addChild(scoreText);
 
-		for (let i = 0; i < 5; i++)
+		// Add entries
+		for (let i = 0; i < this.maxEntriesShown; i++)
 		{
-			let entryLabel = this.entries[i].score;
-
-			if (entryLabel === undefined || entryLabel === null)
+			if (i === this.entries.length)
 			{
 				break;
 			}
 
+			let entryLabel = this.entries[i].score;
 			let entryText =  new Text(
 			"ScoreEntry" + i,
 			entryLabel,
@@ -488,41 +262,56 @@ class LeaderboardPortraitLayout extends PortraitLayout
 			cc.p(0.0, 0.0),
 			{
 				color: cc.color(0, 0, 0, 255),
-				stroke: 0
+				stroke: 2
 			});
 
 			entryText.setAnchorPoint(0.0, 0.5);
 			parent.addChild(entryText);
 		}
+
+		// Adds entry of the user
+		let userHeader = new Text(
+			"UserHeader",
+			" ",
+			res.PixelFont.name,
+			28,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+		userHeader.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userHeader);
+
+		let userScore = new Text(
+			"UserScore",
+			this.userEntry.score,
+			res.PixelFont.name,
+			24,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userScore.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userScore);
 	}
 
-	createTextPercent(parent, name, message, x, y, size)
-	{
-		let text = new ccui.Text(message, "Pixel", size);
-		text.setName(name);
-		text.setPositionType(ccui.Widget.POSITION_PERCENT);
-		text.setPositionPercent(cc.p(x, y));
-		text.enableOutline(cc.color(0, 0, 0, 255), 4);
-		parent.addChild(text);
-		text.addComponent(new FitToParent());
-	}
-	
-	getRankings() {
-		//ScoreManager.getInstance().getNTopEntries(10);
+	// Sets the value of the entries and user attribute that will be shown in the leaderboard
+	setEntries() {
+		let rankedEntries = ScoreManager.getInstance().orderedRanks;
 
-		//for(let i = 0; i < userInfo.users.length; i++){
-		// 	console.log(userInfo.users[i].score);
-		//}
+		console.log(rankedEntries);
+
+		for(let i = 0; i < rankedEntries.length; i++) {
+			this.entries.push({ "rank": i + 1, "name": rankedEntries[i].name, "score": rankedEntries[i].score });
+		}
+
+		if (ScoreManager.getInstance().playerInfo !== undefined)
+			this.userEntry = ScoreManager.getInstance().playerInfo;
 	}
-	
-	/****
-	Entry
-	{
-		"rank": 0
-		"name": <name>,
-		"score": <score>
-	}
-	*/
 
 	createLeaderboardTitleText(parent)
 	{
@@ -562,7 +351,357 @@ class LeaderboardPortraitLayout extends PortraitLayout
 
 	onClickBack()
 	{
-		// ScoreManager.getInstance().printAllUsers(); Working, but might not need rn
+		cc.director.runScene(new MainMenuScene());
+	}
+}
+
+class LeaderboardPortraitLayout extends PortraitLayout
+{
+	constructor()
+	{
+		super("LeaderboardPortraitLayout");
+	}
+
+	onEnter()
+	{
+		super.onEnter();
+
+		// Setup necessary attributes
+		this.maxEntriesShown = 5;
+		this.entries  = new Array();
+		this.userEntry = {"rank" : "-", "name" : " ", "score" : 0};
+
+		// Setup layout
+		let layout = new ccui.Layout(cc.winSize);
+		layout.setAnchorPoint(0.5, 0.5);
+		layout.setPositionType(ccui.Widget.POSITION_PERCENT);
+		layout.setPositionPercent(cc.p(0.5, 0.5));
+		layout.setSizeType(ccui.Widget.SIZE_PERCENT);
+		layout.setSizePercent(cc.p(1.0, 1.0));
+
+		layout.addComponent(new FitToParent());
+
+		let layoutParameter = new ccui.RelativeLayoutParameter();
+		layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_BOTTOM);
+		layoutParameter.setMargin(0, 0, 0, 0);
+		layout.setLayoutParameter(layoutParameter);
+
+		this.createLeaderboardTitleText(layout);
+		this.setEntries();
+		this.createLeaderboardHeaders(layout);
+		this.createButton(layout, "BACK", this.onClickBack);
+
+		this.addChild(layout);
+	}
+
+	// Creates the leaderboard headers and their corresponding data
+	createLeaderboardHeaders(parent)
+	{
+		for (let i = 0; i < 3; i++)
+		{
+			let layout = new ccui.VBox();
+			layout.setAnchorPoint(0.0, 1.0);
+			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
+			layout.setPositionPercent(cc.p(i / 3, 0.8));
+
+			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
+			layout.setSizePercent(cc.p(1 / 3, 0.8));
+
+			layout.addComponent(new FitToParent());
+	
+			let layoutParameter = new ccui.RelativeLayoutParameter();
+			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_LEFT);
+			layoutParameter.setMargin(0, 0, 0, 0);
+			layout.setLayoutParameter(layoutParameter);
+
+			switch (i)
+			{ 
+				case 0:
+				{
+					this.createRankEntries(layout)
+				} break;
+				case 1:
+				{
+					this.createNameEntries(layout)
+				} break;
+				case 2:
+				{
+					this.createScoreEntries(layout)
+				} break;
+			}
+			parent.addChild(layout);
+		}
+	}
+
+	createRankEntries(parent)
+	{
+		let rankHeader = "Rank";
+        let rankText = new Text(
+			"RankHeader",
+			rankHeader,
+			res.PixelFont.name,
+			30,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+		rankText.setAnchorPoint(0.0, 0.5);
+		parent.addChild(rankText);
+
+		// Add entries
+		for (let i = 0; i < this.maxEntriesShown; i++)
+		{
+			if (i === this.entries.length)
+			{
+				break;
+			}
+
+			let entryLabel = this.entries[i].rank;
+			let entryText =  new Text(
+			"RankEntry" + i,
+			entryLabel,
+			res.PixelFont.name,
+			24,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			entryText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(entryText);
+		}
+
+		// Add user entry
+		let userHeader = new Text(
+			"UserHeader",
+			"User:",
+			res.PixelFont.name,
+			28,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+		userHeader.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userHeader);
+
+		console.log("USER RANK: " + this.userEntry.rank);
+
+		let userRank = new Text(
+			"UserHeader",
+			this.userEntry.rank,
+			res.PixelFont.name,
+			24,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+		userRank.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userRank);
+
+	}
+
+	createNameEntries(parent)
+	{
+		let nameHeader = "Name";
+        let nameText = new Text(
+			"NameHeader",
+			nameHeader,
+			res.PixelFont.name,
+			30,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+		nameText.setAnchorPoint(0.0, 0.5);
+		parent.addChild(nameText);
+
+		// Add entries
+		for (let i = 0; i <  this.maxEntriesShown; i++)
+		{
+			if (i === this.entries.length)
+			{
+				break;
+			}
+
+			let entryLabel = this.entries[i].name;
+			let entryText =  new Text(
+			"NameEntry" + i,
+			entryLabel,
+			res.PixelFont.name,
+			24,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			entryText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(entryText);
+		}
+
+		// Add user entry
+		let userHeader = new Text(
+			"UserHeader",
+			" ",
+			res.PixelFont.name,
+			28,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+		userHeader.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userHeader);
+
+		let userName = new Text(
+			"UserName",
+		this.userEntry.name,
+		res.PixelFont.name,
+		24,
+		cc.p(0.0, 0.0),
+		{
+			color: cc.color(0, 0, 0, 255),
+			stroke: 2
+		});
+
+		userName.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userName);
+	}
+
+	createScoreEntries(parent)
+	{
+		let scoreHeader = "Score";
+        let scoreText = new Text(
+		"ScoreHeader",
+		scoreHeader,
+		res.PixelFont.name,
+		30,
+		cc.p(0.0, 0.0),
+		{
+			color: cc.color(0, 0, 0, 255),
+			stroke: 4
+		})
+
+		scoreText.setAnchorPoint(0.0, 0.5);
+		parent.addChild(scoreText);
+
+		// Add entries
+		for (let i = 0; i <  this.maxEntriesShown; i++)
+		{
+			if (i === this.entries.length)
+			{
+				break;
+			}
+
+			let entryLabel = this.entries[i].score;
+
+			let entryText =  new Text(
+			"ScoreEntry" + i,
+			entryLabel,
+			res.PixelFont.name,
+			24,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			entryText.setAnchorPoint(0.0, 0.5);
+			parent.addChild(entryText);
+		}
+
+		// Add user entry
+		let userHeader = new Text(
+			"UserHeader",
+			" ",
+			res.PixelFont.name,
+			28,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			});
+
+		userHeader.setAnchorPoint(0.0, 0.5);
+		parent.addChild(userHeader);
+
+		let userScore = new Text(
+			"UserScore",
+			this.userEntry.score,
+			res.PixelFont.name,
+			24,
+			cc.p(0.0, 0.0),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 2
+			});
+
+			userScore.setAnchorPoint(0.0, 0.5);
+			parent.addChild(userScore);
+	}
+
+	// Sets the value of the entries and user attribute that will be shown in the leaderboard
+	setEntries() {
+		let rankedEntries = ScoreManager.getInstance().orderedRanks;
+
+		console.log(rankedEntries);
+
+		for(let i = 0; i < rankedEntries.length; i++) {
+			this.entries.push({ "rank": i + 1, "name": rankedEntries[i].name, "score": rankedEntries[i].score });
+		}
+
+		if (ScoreManager.getInstance().playerInfo !== undefined)
+			this.userEntry = ScoreManager.getInstance().playerInfo;
+	}
+	
+	createLeaderboardTitleText(parent)
+	{
+		let prompt  = "Leaderboard";
+		parent.addChild(new Text(
+			"Leaderboard",
+			prompt,
+			res.PixelFont.name,
+			48,
+			cc.p(0.5, 0.9),
+			{
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			}));
+	}
+
+	// Create a button
+	createButton(parent, text, bindingFunction)
+	{
+		let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
+		button.setName(text);
+		button.setScale9Enabled(true);
+		button.setCapInsets(cc.rect(20, 20, 20, 20));
+		button.setContentSize(cc.size(125, 55));
+		button.setTitleFontSize(32);
+		button.setTitleFontName("Pixel");
+		button.setTitleText(text);
+		button.setPositionType(ccui.Widget.POSITION_PERCENT);
+		button.setPositionPercent(cc.p(1.0, 0.05));
+		button.setAnchorPoint(cc.p(1.0, 0.0));
+		button.addComponent(new FitToParent());
+
+		// Binds function to the button for click event
+		button.addClickEventListener(bindingFunction.bind(this));
+		parent.addChild(button);
+	}
+
+	onClickBack()
+	{
 		cc.director.runScene(new MainMenuScene());
 	}
 }

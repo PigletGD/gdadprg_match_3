@@ -36,8 +36,8 @@ var PausePopupLayout = function (_ccui$Layout) {
                 key: "createButtons",
                 value: function createButtons() {
                         var popUp = this.popUp;
-                        // Start of pause text setup
 
+                        // Start of pause text setup
                         var pauseText = new ccui.Text("PAUSED GAME", "Pixel", 60);
                         pauseText.setAnchorPoint(0.5, 0.5);
                         pauseText.addComponent(new FitToParent());
@@ -49,10 +49,7 @@ var PausePopupLayout = function (_ccui$Layout) {
 
                         popUp.addUIElement(pauseText);
 
-                        // End of pause text setup
-
                         // Start of resume button setup
-
                         var resumeButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
                         resumeButton.setScale9Enabled(true);
@@ -72,10 +69,7 @@ var PausePopupLayout = function (_ccui$Layout) {
 
                         popUp.addUIElement(resumeButton);
 
-                        // End of resume button setup
-
                         // Start of main menu button setup
-
                         var mainMenuButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
                         mainMenuButton.setScale9Enabled(true);

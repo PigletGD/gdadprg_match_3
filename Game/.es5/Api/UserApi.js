@@ -6,7 +6,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// TO-DO: Edit to suit leaderboard needs later
 var BASE_URL = "http://localhost:3000/users/";
 
 var UserApi = function () {
@@ -76,7 +75,6 @@ var UserApi = function () {
                         switch (_context3.prev = _context3.next) {
                             case 0:
                                 return _context3.abrupt("return", BackendRequest.Put("" + BASE_URL + id, { user: updates }).then(function (resp) {
-                                    // console.log(resp);
                                     return resp.body.user;
                                 }));
 
@@ -103,7 +101,6 @@ var UserApi = function () {
                         switch (_context4.prev = _context4.next) {
                             case 0:
                                 return _context4.abrupt("return", BackendRequest.Get("" + BASE_URL + id).then(function (resp) {
-                                    //console.log(resp);
                                     return resp.body.user;
                                 }));
 
@@ -154,8 +151,6 @@ var UserApi = function () {
                         switch (_context6.prev = _context6.next) {
                             case 0:
                                 return _context6.abrupt("return", BackendRequest.Get("" + BASE_URL).then(function (resp) {
-                                    //console.log(resp);
-                                    // IS THIS RIGHT?
                                     return resp.body;
                                 }).catch(function (e) {
                                     console.log(e);
@@ -174,32 +169,6 @@ var UserApi = function () {
             }
 
             return GetAllUsers;
-        }()
-    }, {
-        key: "GetUserRankings",
-        value: function () {
-            var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-                return regeneratorRuntime.wrap(function _callee7$(_context7) {
-                    while (1) {
-                        switch (_context7.prev = _context7.next) {
-                            case 0:
-                                return _context7.abrupt("return", BackendRequest.Get(BASE_URL + "leaderboard").then(function (resp) {
-                                    return resp.body.rankings;
-                                }));
-
-                            case 1:
-                            case "end":
-                                return _context7.stop();
-                        }
-                    }
-                }, _callee7, this);
-            }));
-
-            function GetUserRankings() {
-                return _ref7.apply(this, arguments);
-            }
-
-            return GetUserRankings;
         }()
     }]);
 

@@ -16,7 +16,6 @@ var Background = function (_cc$Sprite) {
 
         _this.setName(name);
         _this.setAnchorPoint(0.0, 0.0);
-        //this.originalSpriteSize = spriteFilePath.getContentSize();
         return _this;
     }
 
