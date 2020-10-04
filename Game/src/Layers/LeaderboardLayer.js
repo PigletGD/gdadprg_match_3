@@ -6,19 +6,20 @@ class LeaderboardLayer extends cc.LayerColor
         super();
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.scheduleUpdate();
 
         let titleBackground = new Background("TitleBackground", res.TitleBackground_png);
-		this.addChild(titleBackground);
+        this.addChild(titleBackground);
 
         let leaderboardLandscapeLayout = new LeaderboardLandscapeLayout();
-		leaderboardLandscapeLayout.setName("LeaderboardLandscapeLayout");
-		this.addChild(leaderboardLandscapeLayout);
+        leaderboardLandscapeLayout.setName("LeaderboardLandscapeLayout");
+        this.addChild(leaderboardLandscapeLayout);
 
-		let leaderboardPortraitLayout = new LeaderboardPortraitLayout();
-		leaderboardPortraitLayout.setName("LeaderboardPortraitLayout");
-		this.addChild(leaderboardPortraitLayout);
+        let leaderboardPortraitLayout = new LeaderboardPortraitLayout();
+        leaderboardPortraitLayout.setName("LeaderboardPortraitLayout");
+        this.addChild(leaderboardPortraitLayout);
     }
 }

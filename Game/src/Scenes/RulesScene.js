@@ -5,7 +5,8 @@ class RulesScene extends cc.Scene
         super();
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.addChild(new RulesLayer());
     }

@@ -2,7 +2,8 @@ var Promise = require("bluebird");
 const redis = Promise.promisifyAll(require("redis"));
 const client = redis.createClient();
 
-client.on("error", function(error) {
+client.on("error", function(error)
+{
     console.error(error);
 });
 
@@ -50,9 +51,9 @@ async function redisStringCalls(){
     console.log("GET");
     await client.GETAsync("score").then(redisPrint);
 
-    
+
     // Add more commands here
-    
+
 
     await client.flushdbAsync();
 }

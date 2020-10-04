@@ -92,7 +92,7 @@ class PausePopupLayout extends ccui.Layout
 
         parent.removeChild(this);
     }
-    
+
     onClickMainMenu()
     {
         this.popUp.playExitAnimation(this, this.goToMainMenu);

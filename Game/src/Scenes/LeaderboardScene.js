@@ -5,7 +5,8 @@ class LeaderboardScene extends cc.Scene
         super();
     }
 
-    onEnter(){
+    onEnter()
+    {
         super.onEnter();
         this.addChild(new LeaderboardLayer());
     }

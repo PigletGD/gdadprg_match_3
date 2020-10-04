@@ -21,7 +21,7 @@ class MainMenuLandscapeLayout extends ccui.Layout
                 color: cc.color(0, 0, 0, 255),
                 stroke: 4
             }));
-        
+
         // Handles all menu button creation
         this.createRowOfButtons();
 
@@ -42,31 +42,34 @@ class MainMenuLandscapeLayout extends ccui.Layout
         this.addChild(buttonLayout);
 
 
-        for(let i = 0; i < 3; i++)
+        for (let i = 0; i < 3; i++)
         {
-          // Creates three vertical layouts to divide the buttons
-                let divisions = 3;
-                 // Setting up properties of vertical layout
-                let vertLayout = new ccui.VBox();
-                vertLayout.setName("Choices"+i);
-                vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-                vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
-                vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
-                 vertLayout.setPositionPercent(cc.p(i / divisions, -1.0));
+            // Creates three vertical layouts to divide the buttons
+            let divisions = 3;
+            // Setting up properties of vertical layout
+            let vertLayout = new ccui.VBox();
+            vertLayout.setName("Choices" + i);
+            vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
+            vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
+            vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
+            vertLayout.setPositionPercent(cc.p(i / divisions, -1.0));
 
-                vertLayout.addComponent(new FitToParent());
-                buttonLayout.addChild(vertLayout);
+            vertLayout.addComponent(new FitToParent());
+            buttonLayout.addChild(vertLayout);
 
             // Binds specific properties to a button depending on index
-            if (i === 0) {
+            if (i === 0)
+            {
                 this.createButton(vertLayout, "PLAY", this.onClickPlay);
 
             }
-            else if (i === 1) {
+            else if (i === 1)
+            {
                 this.createButton(vertLayout, "RULES", this.onClickRules);
 
             }
-            else {
+            else
+            {
                 this.createButton(vertLayout, "LEADERBOARD", this.onClickLeaderboard);
             }
         }
@@ -87,7 +90,8 @@ class MainMenuLandscapeLayout extends ccui.Layout
         button.setTitleText(text);
         button.setName(text);
 
-        if (!GameManager.getInstance().isNameSet) {
+        if (!GameManager.getInstance().isNameSet)
+        {
             button.setTouchEnabled(false);
         }
 
@@ -141,7 +145,7 @@ class MainMenuPortraitLayout extends PortraitLayout
     onEnter()
     {
         super.onEnter();
-        
+
         // Instantiates input name popup here if user is not created
         // Also here to render after everything else
         if (!GameManager.getInstance().isNameSet)
@@ -249,7 +253,8 @@ class MainMenuPortraitLayout extends PortraitLayout
         button.setTitleText(text);
         button.setName(text);
 
-        if (!GameManager.getInstance().isNameSet) {
+        if (!GameManager.getInstance().isNameSet)
+        {
             button.setTouchEnabled(false);
         }
 

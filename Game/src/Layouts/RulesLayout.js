@@ -56,7 +56,7 @@ class RulesLandscapeLayout extends LandscapeLayout
         buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         buttonLayout.setSizePercent(cc.p(0.25, 0.2));
         buttonLayout.addComponent(new FitToParent());
-        
+
         // Layout for anchoring
         let layoutParameter = new ccui.RelativeLayoutParameter();
         layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_BOTTOM);

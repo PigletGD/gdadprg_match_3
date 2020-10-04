@@ -32,11 +32,12 @@ class MainGameScene extends cc.Scene
 		{
 			GameManager.getInstance().gameState = GAME_STATE_RESULTS;
 
-			if(GameManager.getInstance().highscore < GameManager.getInstance().score){
+			if (GameManager.getInstance().highscore < GameManager.getInstance().score)
+			{
 				GameManager.getInstance().highscore = GameManager.getInstance().score;
 				UserService.getInstance().updateScore(GameManager.getInstance().score);
 			}
-			
+
 			this.addChild(new ResultsPopupLayout());
 			GameManager.getInstance().pauseGame();
 			this.isAccessed = true;
