@@ -7,7 +7,7 @@
     "server": "http-server -o -p 9090 .",
     "watch": "onchange 'src/**/*.js' 'main.js' -- npm run compile",
     "serve": "concurrently --kill-others \"npm run server\" \"npm run watch\"",
-    "deploy": "npm run compile && jslist && cocos compile -p web -m release -o ../Backend/public"
+    "deploy": "npm run compile && cocos compile -p web -m release -o ../Backend/public"
   },
   "author": "Edisoni",
   "license": "MIT",
