@@ -23,11 +23,6 @@ class MainMenuLandscapeLayout extends ccui.Layout
 
         this.createRowOfButtons();
 
-        if (!GameManager.getInstance().isNameSet)
-        {
-            this.getParent().addChild(new InputNamePopupLayout());
-        }
-
         this.addComponent(new FitToWindow());
         this.addComponent(new EnableOnLandscape());
     }
@@ -41,46 +36,37 @@ class MainMenuLandscapeLayout extends ccui.Layout
         buttonLayout.setPositionPercent(cc.p(0.5, 0.5));
         buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         buttonLayout.setSizePercent(cc.p(1.0, 0.5));
+        buttonLayout.setName("Buttons");
         this.addChild(buttonLayout);
 
-        // Creates three vertical layouts to divide the buttons
-        for (let i = 0; i < 3; i++)
+
+        for(let i = 0; i < 3; i++)
         {
-            this.createVerticalLayout(buttonLayout, i, 3);
-        }
-    }
+          // Creates three vertical layouts to divide the buttons
+                let divisions = 3;
+                 // Setting up properties of vertical layout
+                let vertLayout = new ccui.VBox();
+                vertLayout.setName("Choices"+i);
+                vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
+                vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
+                vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
+                 vertLayout.setPositionPercent(cc.p(i / divisions, -1.0));
 
-    createVerticalLayout(parent, index, divisions)
-    {
-        // Setting up properties of vertical layout
-        let vertLayout = new ccui.VBox();
-        vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-        vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
-        vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
-        vertLayout.setPositionPercent(cc.p(index / divisions, -1.0));
+                vertLayout.addComponent(new FitToParent());
+                buttonLayout.addChild(vertLayout);
 
-        //vertLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        //vertLayout.setBackGroundColor(cc.color((255/divisions) * index + 50, 0, 0,255));
-
-        vertLayout.addComponent(new FitToParent());
-        parent.addChild(vertLayout);
-
-        // Creates the three buttons to be attached to the vertical layout with functions to be binded
-        switch (index)
-        {
-            case 0:
+            if (i === 0) {
                 this.createButton(vertLayout, "PLAY", this.onClickPlay);
-                break;
-            case 1:
-                this.createButton(vertLayout, "RULES", this.onClickRules);
-                break;
-            case 2:
-                this.createButton(vertLayout, "LEADERBOARD", this.onClickRules);
-                break;
-            default:
-                console.log("ERROR: Invalid Index");
-        }
 
+            }
+            else if (i === 1) {
+                this.createButton(vertLayout, "RULES", this.onClickRules);
+
+            }
+            else {
+                this.createButton(vertLayout, "LEADERBOARD", this.onClickLeaderboard);
+            }
+        }
     }
 
     // Create a button
@@ -93,9 +79,14 @@ class MainMenuLandscapeLayout extends ccui.Layout
         button.setCapInsets(cc.rect(20, 20, 20, 20));
         button.setContentSize(cc.size(300, 125));
 
-        button.setTitleFontSize(48);
+        button.setTitleFontSize(40);
         button.setTitleFontName("Pixel");
         button.setTitleText(text);
+        button.setName(text);
+
+        if (!GameManager.getInstance().isNameSet) {
+            button.setTouchEnabled(false);
+        }
 
         let layoutParameter = new ccui.LinearLayoutParameter();
         layoutParameter.setGravity(ccui.LinearLayoutParameter.CENTER_HORIZONTAL);
@@ -124,6 +115,12 @@ class MainMenuLandscapeLayout extends ccui.Layout
         cc.director.runScene(new RulesScene());
     }
 
+    //Go to leaderboard scene
+    onClickLeaderboard()
+    {
+        cc.director.runScene(new LeaderboardScene());
+    }
+
     // Creates pop-up quit confirmation menu
     onClickQuit()
     {
@@ -141,6 +138,12 @@ class MainMenuPortraitLayout extends PortraitLayout
     onEnter()
     {
         super.onEnter();
+        
+        // TODO: Check if we need to not generate the input layout when a non-unique id is found
+        if (!GameManager.getInstance().isNameSet)
+        {
+            this.getParent().addChild(new InputNamePopupLayout(this));
+        }
 
         this.createTitle();
         this.createColumnOfButtons();
@@ -188,6 +191,7 @@ class MainMenuPortraitLayout extends PortraitLayout
         buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         buttonLayout.setSizePercent(cc.p(0.70, 0.45));
         buttonLayout.addComponent(new FitToParent());
+        buttonLayout.setName("Buttons");
 
         // Debug to see the rect bounds of the layout
         //buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
@@ -216,11 +220,13 @@ class MainMenuPortraitLayout extends PortraitLayout
         //vertLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
         //vertLayout.setBackGroundColor(cc.color(150, 0, 0,255));
         vertLayout.addComponent(new FitToParent());
+        vertLayout.setName("Choices");
         parent.addChild(vertLayout);
 
         // Creates the three buttons to be attached to the vertical layout with functions to be binded
         this.createButton(vertLayout, "PLAY", this.onClickPlay);
         this.createButton(vertLayout, "RULES", this.onClickRules);
+        this.createButton(vertLayout, "LEADERBOARD", this.onClickLeaderboard);
         // this.createButton(vertLayout, "LEADERBOARD", this.onClickRules);
     }
 
@@ -229,17 +235,23 @@ class MainMenuPortraitLayout extends PortraitLayout
     {
         // Sets ups button with 9-slice
         let button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
-        button.setName(text);
+
         button.setScale9Enabled(true);
         button.setCapInsets(cc.rect(20, 20, 20, 20));
         button.setContentSize(cc.size(300, 125));
-        button.setTitleFontSize(48);
+
+        button.setTitleFontSize(40);
         button.setTitleFontName("Pixel");
         button.setTitleText(text);
+        button.setName(text);
+
+        if (!GameManager.getInstance().isNameSet) {
+            button.setTouchEnabled(false);
+        }
 
         let layoutParameter = new ccui.LinearLayoutParameter();
         layoutParameter.setGravity(ccui.LinearLayoutParameter.CENTER_HORIZONTAL);
-        layoutParameter.setMargin(0, 0, 0, 0);
+        layoutParameter.setMargin(0, -10, 0, 0);
         button.setLayoutParameter(layoutParameter);
 
         button.addComponent(new FitToParent());
@@ -262,6 +274,12 @@ class MainMenuPortraitLayout extends PortraitLayout
     onClickRules()
     {
         cc.director.runScene(new RulesScene());
+    }
+
+    //Go to leaderboard scene
+    onClickLeaderboard()
+    {
+        cc.director.runScene(new LeaderboardScene());
     }
 
     // Creates pop-up quit confirmation menu

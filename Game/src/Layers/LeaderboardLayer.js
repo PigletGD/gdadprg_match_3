@@ -10,6 +10,8 @@ class LeaderboardLayer extends cc.LayerColor
         super.onEnter();
         this.scheduleUpdate();
 
+        UserService.getInstance().getLeaderboardRankings();
+
         let titleBackground = new Background("TitleBackground", res.TitleBackground_png);
 		this.addChild(titleBackground);
 

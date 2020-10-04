@@ -1,14 +1,17 @@
 class InputNamePopupLayout extends ccui.Layout
 {
-	constructor()
+	constructor(loadedFrom)
 	{
 		super();
+		this.origin = loadedFrom;
+
 		this.setContentSize(cc.winSize);
 		this.scheduleUpdate();
 		this.addComponent(new FitToWindow());
 
 		this.createPopup();
 		this.createButtons();
+
 	}
 
 	createPopup()
@@ -26,12 +29,12 @@ class InputNamePopupLayout extends ccui.Layout
 		let inputNamePrompt = new Text2("InputNamePrompt");
 		inputNamePrompt.setFontName(res.PixelFont.name);
 		inputNamePrompt.setString("What is your name?");
-		inputNamePrompt.setFontSize(32); // TODO: Make an auto-size feature
+		inputNamePrompt.setFontSize(45); // TODO: Make an auto-size feature
 		inputNamePrompt.setAnchorPoint(0.5, 0.5);
 
 		let promptLayoutParameter = new ccui.RelativeLayoutParameter();
 		promptLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
-		promptLayoutParameter.setMargin(0, 30, 0, 0);
+		promptLayoutParameter.setMargin(0, 50, 0, 0);
 
 		inputNamePrompt.setLayoutParameter(promptLayoutParameter);
 
@@ -43,12 +46,12 @@ class InputNamePopupLayout extends ccui.Layout
 		textField.setTouchEnabled(true);
 		textField.setFontName(res.PixelFont.name);
 		textField.setPlaceHolder("Input your name");
-		textField.setPlaceHolderColor("#ffffff");
-		textField.setFontSize(28);
+		textField.setPlaceHolderColor(cc.color(200, 200, 200, 255));
+		textField.setFontSize(30);
 		textField.setAnchorPoint(0.5, 0.5);
-		textField.setString("Input your name");
+		textField.setString("");
 		textField.setMaxLengthEnabled(true);
-		textField.setMaxLength(18);
+		textField.setMaxLength(12);
 
 		textField.addEventListener(this.onTextFieldUpdate, this);
 		textField.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -76,11 +79,12 @@ class InputNamePopupLayout extends ccui.Layout
 		this.acceptButton.setTitleText("Accept");
 		this.acceptButton.setTouchEnabled(false);
 
+
 		this.acceptButton.addComponent(new FitToParent());
 
 		let resumeLayoutParameter = new ccui.RelativeLayoutParameter();
 		resumeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
-		resumeLayoutParameter.setMargin(0, 0, 0, 30);
+		resumeLayoutParameter.setMargin(0, 0, 0, 50);
 
 		this.acceptButton.setLayoutParameter(resumeLayoutParameter);
 
@@ -96,30 +100,38 @@ class InputNamePopupLayout extends ccui.Layout
 			case ccui.TextField.EVENT_DETACH_WITH_IME:
 				{
 					let text = sender.getString();
-					if (text !== "Input your name")
+					if (text !== "")
 					{
 						this.acceptButton.setTouchEnabled(true);
+						console.log(text);
+						this.inputtedName = text;
+					}
+					else
+					{
+						this.acceptButton.setTouchEnabled(false);
 					}
 				} break;
+
 		}
 	}
 	onClickAccept()
 	{
+		console.log("accepted " + this.inputtedName);
+		UserService.getInstance().createUser(this.inputtedName, 0);
 		GameManager.getInstance().nameHasSet();
-
-		// Send data
 		this.popUp.playExitAnimation(this, this.onFinish);
 	}
 	onFinish()
 	{
 		// Unpause Game Here
 		GameManager.getInstance().resumeGame();
-		// Disable button interaction
-
-		let parent = this.getParent();
-		// parent.getChildByName("MainGameLandscapeLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
-		// parent.getChildByName("MainGamePortraitLayout").getChildByName("Button Layout").getChildByName("PAUSE").setEnabled(true);
-
-		parent.removeChild(this);
+		// Enable button interaction
+		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices0").getChildByName("PLAY").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices1").getChildByName("RULES").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices2").getChildByName("LEADERBOARD").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("PLAY").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("RULES").setTouchEnabled(true);
+		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("LEADERBOARD").setTouchEnabled(true);
+		this.origin.removeChild(this);
 	}
 }

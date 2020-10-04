@@ -13,18 +13,14 @@ class ResultsPopupLayout extends ccui.Layout
 
     createPopup()
     {
-        this.addChild(new Popup());
+        this.popUp = new Popup();
+        this.addChild(this.popUp);
+        this.popUp.playEntranceAnimation();
     }
 
     createButtons()
     {
         let popUp = this.popUp;
-
-        // Popup window animation
-        this.popUp.setScale(0.0);
-        let scaleTo = new cc.ScaleTo(0.2, 1.0);
-        scaleTo = new cc.EaseBackOut(scaleTo);
-        this.popUp.runAction(scaleTo);
 
         // Start of score text setup
         let score = GameManager.getInstance().score;
@@ -83,19 +79,28 @@ class ResultsPopupLayout extends ccui.Layout
         mainMenuButton.addClickEventListener(this.onClickMainMenu.bind(this));
         popUp.addChild(mainMenuButton);
     }
+
     onClickRetry()
+    {
+        this.popUp.playExitAnimation(this, this.retryGame);
+    }
+
+    retryGame()
     {
         GameManager.getInstance().resumeGame();
         GameManager.getInstance().score = 0;
         cc.director.runScene(new MainGameScene());
     }
-    onFinish()
-    {
-        GameManager.getInstance().resumeGame();
-        this.getParent().removeChild(this);
-    }
+
     onClickMainMenu()
+    {
+        this.popUp.playExitAnimation(this, this.goToMainMenu);
+    }
+
+    goToMainMenu()
     {
         cc.director.runScene(new MainMenuScene());
     }
+
+
 }

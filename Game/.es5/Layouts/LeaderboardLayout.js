@@ -23,8 +23,66 @@ var LeaderboardLandscapeLayout = function (_LandscapeLayout) {
 		key: "onEnter",
 		value: function onEnter() {
 			_get(LeaderboardLandscapeLayout.prototype.__proto__ || Object.getPrototypeOf(LeaderboardLandscapeLayout.prototype), "onEnter", this).call(this);
-			this.createRulesText(this);
-			this.createButton(this, "BACK", this.onClickBack);
+			// this.createLeaderboardTitleText(this);
+			// this.createButton(this, "BACK", this.onClickBack);
+
+			var layout = new ccui.Layout(cc.winSize);
+			layout.setAnchorPoint(0.5, 0.5);
+			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
+			layout.setPositionPercent(cc.p(0.5, 0.5));
+			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
+			layout.setSizePercent(cc.p(1.0, 1.0));
+			// layout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
+			// layout.setBackGroundColor(cc.color(0, 0, 150, 255));
+			layout.addComponent(new FitToParent());
+
+			var layoutParameter = new ccui.RelativeLayoutParameter();
+			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_BOTTOM);
+			layoutParameter.setMargin(0, 0, 0, 0);
+			layout.setLayoutParameter(layoutParameter);
+
+			var rules = "Leaderboard";
+
+			layout.addChild(new Text("Leaderboard", rules, res.PixelFont.name, 48, cc.p(0.5, 0.9), {
+				color: cc.color(0, 0, 0, 255),
+				stroke: 4
+			}));
+
+			var entries = [{ "rank": 0, "name": "TEST", "score": 100 }, { "rank": 0, "name": "TEST", "score": 100 }, { "rank": 0, "name": "TEST", "score": 100 }];
+
+			var buttonLayout = new ccui.Layout(cc.winSize);
+			buttonLayout.setAnchorPoint(0.5, 0.5);
+			buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
+			buttonLayout.setPositionPercent(cc.p(0.5, 0.5));
+			buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
+			buttonLayout.setSizePercent(cc.p(1.0, 1.0));
+			buttonLayout.setName("Buttons");
+			this.addChild(buttonLayout);
+
+			var divisions = 3;
+			for (var i = 0; i < divisions; i++) {
+				// Setting up properties of vertical layout
+				var vertLayout = new ccui.VBox();
+				vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
+				vertLayout.setSizePercent(cc.p(1 / divisions, 1.0));
+				vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
+				vertLayout.setPositionPercent(cc.p(i / divisions, -1.0));
+
+				vertLayout.addComponent(new FitToParent());
+				buttonLayout.addChild(vertLayout);
+
+				if (i === 0) {
+					this.createTextPercent(vertLayout, "RANK", "Rank", 0.5, 0.0, 30);
+				}
+				if (i === 1) {
+					this.createTextPercent(vertLayout, "RANK", "Name", 0.5, 0.0, 30);
+				}
+				if (i === 2) {
+					this.createTextPercent(vertLayout, "RANK", "Score", 0.5, 0.0, 30);
+				}
+			}
+
+			this.addChild(layout);
 		}
 	}, {
 		key: "createTextPercent",
@@ -37,29 +95,69 @@ var LeaderboardLandscapeLayout = function (_LandscapeLayout) {
 			parent.addChild(text);
 			text.addComponent(new FitToParent());
 		}
+
+		/****
+  Entry
+  {
+  	"rank": 0
+  	"name": <name>,
+  	"score": <score>
+  }
+  */
+
 	}, {
-		key: "createRulesText",
-		value: function createRulesText(parent) {
-			var rulesLayout = new ccui.Layout(cc.winSize);
-			rulesLayout.setAnchorPoint(0.5, 0.5);
-			rulesLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
-			rulesLayout.setPositionPercent(cc.p(0.5, 0.7));
-			rulesLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-			rulesLayout.setSizePercent(cc.p(0.9, 0.8));
-			rulesLayout.addComponent(new FitToParent());
+		key: "createLeaderboardEntry",
+		value: function createLeaderboardEntry(parent, entriesInfo) {
+			// let vertLayout = new ccui.VBox();
+			// vertLayout.setContentSize(cc.winSize);
+			//  vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
+			//  vertLayout.setSizePercent(cc.p(0.5, 0.5));
+			//  vertLayout.setPositionType(ccui.Widget.SIZE_PERCENT);
+			//  vertLayout.setPositionPercent(cc.p(0.0, 0.0));
+
+			// for (let i = 0; i < entriesInfo.length; i++)
+			// {
+			// 	vertLayout.addChild(this.createEntryContainer(entriesInfo[i]));
+			// }
+
+			parent.addChild(this.createEntryContainer(entriesInfo[0]));
+		}
+	}, {
+		key: "createEntryContainer",
+		value: function createEntryContainer(entry) {
+
+			var hortLayout = new ccui.HBox();
+
+			var rankText = new Text2("RankText");
+			rankText.setFontName(res.PixelFont.name);
+			rankText.setString("Rank");
+			rankText.setFontSize(30);
+			rankText.setAnchorPoint(0.0, 0.5);
+
+			var layoutParameter = new ccui.LinearLayoutParameter();
+			layoutParameter.setGravity(ccui.LinearLayoutParameter.TOP);
+			layoutParameter.setMargin(50, 0, 0, 0);
+			rankText.setLayoutParameter(layoutParameter);
+
+			hortLayout.addChild(rankText);
+			return hortLayout;
+		}
+	}, {
+		key: "createLeaderboardTitleText",
+		value: function createLeaderboardTitleText(parent) {
+			var layout = new ccui.Layout(cc.winSize);
+			layout.setAnchorPoint(0.5, 0.5);
+			layout.setPositionType(ccui.Widget.POSITION_PERCENT);
+			layout.setPositionPercent(cc.p(0.5, 0.5));
+			layout.setSizeType(ccui.Widget.SIZE_PERCENT);
+			layout.setSizePercent(cc.p(1.0, 1.0));
+			layout.addComponent(new FitToParent());
 
 			var layoutParameter = new ccui.RelativeLayoutParameter();
 			layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
 			layoutParameter.setMargin(0, 10, 0, 0);
-			rulesLayout.setLayoutParameter(layoutParameter);
-			parent.addChild(rulesLayout);
-
-			var rules = "RULES:\n\n1.) Click on two adjacent \ntiles to swap their places\n\n2.) Match three or more adjacent \nsame type tiles to earn points\n\n3.) Gain as much points as \npossible within two minutes";
-
-			rulesLayout.addChild(new Text("Rules", rules, res.PixelFont.name, 48, cc.p(0.5, 0.5), {
-				color: cc.color(0, 0, 0, 255),
-				stroke: 4
-			}));
+			layout.setLayoutParameter(layoutParameter);
+			parent.addChild(layout);
 		}
 
 		// Create a button
@@ -104,6 +202,7 @@ var LeaderboardLandscapeLayout = function (_LandscapeLayout) {
 	}, {
 		key: "onClickBack",
 		value: function onClickBack() {
+			ScoreManager.getInstance().printAllUsers();
 			cc.director.runScene(new MainMenuScene());
 		}
 	}]);

@@ -20,9 +20,27 @@ var Text = function (_ccui$Text) {
 		_this.setPositionType(ccui.Widget.POSITION_PERCENT);
 		_this.setPositionPercent(cc.p(positionByPercent.x, positionByPercent.y));
 		_this.enableOutline(outlineProp.color, outlineProp.stroke);
+
 		_this.addComponent(new FitToParent());
 		return _this;
 	}
 
 	return Text;
+}(ccui.Text);
+
+var Text2 = function (_ccui$Text2) {
+	_inherits(Text2, _ccui$Text2);
+
+	function Text2(name) {
+		_classCallCheck(this, Text2);
+
+		var _this2 = _possibleConstructorReturn(this, (Text2.__proto__ || Object.getPrototypeOf(Text2)).call(this));
+
+		_this2.setName(name);
+		_this2.setPositionType(ccui.Widget.POSITION_PERCENT);
+		_this2.addComponent(new FitToParent());
+		return _this2;
+	}
+
+	return Text2;
 }(ccui.Text);

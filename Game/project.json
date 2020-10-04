@@ -12,11 +12,15 @@
         "extensions"
     ],
     "jsListOrder": [
+        "src/Lib/*.js",
         "src/Components/Layout/ResizeListener.js",
         "src/**/*.js"
     ],
     "jsList": [
+        "src/Lib/polyfill.js",
         "src/Components/Layout/ResizeListener.js",
+        "src/Api/Backend.js",
+        "src/Api/UserApi.js",
         "src/Components/CountdownComponent.js",
         "src/Components/GameLayerResizerAnchorLeft.js",
         "src/Components/Layout/EnableOnLandscape.js",
@@ -47,13 +51,17 @@
         "src/Layouts/RulesLayout.js",
         "src/Managers/BoardManager.js",
         "src/Managers/GameManager.js",
+        "src/Managers/ScoreManager.js",
         "src/Managers/TileManager.js",
+        "src/Managers/UserManager.js",
         "src/resource.js",
+        "src/Scenes/HttpTestScene.js",
         "src/Scenes/LeaderboardScene.js",
         "src/Scenes/MainGameScene.js",
         "src/Scenes/MainMenuScene.js",
         "src/Scenes/PrototypeScene.js",
         "src/Scenes/RulesScene.js",
+        "src/Services/UserService.js",
         "src/UIElements/Popup.js",
         "src/UIElements/Text.js",
         "src/Utils.js"
