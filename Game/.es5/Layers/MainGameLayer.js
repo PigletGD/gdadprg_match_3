@@ -31,9 +31,6 @@ var MainGameLayer = function (_cc$LayerColor) {
             this.addComponent(new GameLayerResizerAnchorLeft(60));
             this.createBoard();
         }
-
-        // Test function as I couldn't get board manager to work
-
     }, {
         key: "createBoard",
         value: function createBoard() {

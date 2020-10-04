@@ -1,22 +1,22 @@
 class BackendRequest {
     static _generateRequest(method, url, resolve, reject){
         let request = cc.loader.getXMLHttpRequest();
-        request.open(method, url)
+        request.open(method, url);
         request.setRequestHeader("Content-Type","application/json");
         request.onreadystatechange = function () {
             if (request.readyState == 4) {
                 let result = {}
                 if(request.status >= 200 && request.status < 400){
-                    result.status = request.status
+                    result.status = request.status;
                     if(request.status != 204){
-                        result.body = JSON.parse(request.response)
+                        result.body = JSON.parse(request.response);
                     }
-                    resolve(result)
+                    resolve(result);
                 }
                 else{
-                    result.status = request.status
-                    result.body = request.response
-                    reject(result)
+                    result.status = request.status;
+                    result.body = request.response;
+                    reject(result);
                 }
             }
         };

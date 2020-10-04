@@ -27,8 +27,6 @@ class MainGameLandscapeLayout extends ccui.RelativeBox
         statsLayout.setAnchorPoint(0.0, 0.0);
         statsLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         statsLayout.setSizePercent(cc.p(0.2, 0.5));
-        //statsLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        //statsLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
         statsLayout.addComponent(new FitToParent());
 
         let layoutParameter = new ccui.RelativeLayoutParameter();
@@ -68,7 +66,6 @@ class MainGameLandscapeLayout extends ccui.RelativeBox
         this.timeText.setLayoutParameter(timeLayoutParameter);
         vertLayout.addChild(this.timeText);
 
-
         this.scoreText = new Text(
             "Score",
             "Score",
@@ -99,8 +96,6 @@ class MainGameLandscapeLayout extends ccui.RelativeBox
         buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
         buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         buttonLayout.setSizePercent(cc.p(0.20, 0.15));
-        //buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        //buttonLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
         buttonLayout.addComponent(new FitToParent());
 
         let layoutParameter = new ccui.RelativeLayoutParameter();
@@ -120,7 +115,6 @@ class MainGameLandscapeLayout extends ccui.RelativeBox
         button.setTitleText(text);
         button.setPositionType(ccui.Widget.POSITION_PERCENT);
         button.setPositionPercent(cc.p(0.5, 0.5));
-        //button.setAnchorPoint(cc.p(1.0, 1.0));
         button.addComponent(new FitToParent());
 
         // Binds function to the button for click event
@@ -189,31 +183,6 @@ class MainGamePortraitLayout extends ccui.RelativeBox
 
     createStatsText(parent)
     {
-        // let statsLayout = new ccui.Layout(cc.winSize);
-        // statsLayout.setAnchorPoint(0.0, 0.0);
-        // statsLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-        // statsLayout.setSizePercent(cc.p(0.2, 0.5));
-        // //statsLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        // //statsLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
-        // statsLayout.addComponent(new FitToParent());
-
-        // let layoutParameter = new ccui.RelativeLayoutParameter();
-        // layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_CENTER_VERTICAL);
-        // layoutParameter.setMargin(0, 0, 0, 0);
-        // statsLayout.setLayoutParameter(layoutParameter);
-        // parent.addChild(statsLayout);
-
-        // let uiContainer = new ccui.ImageView();
-        // uiContainer.loadTexture(res.TPHoloder_png);
-        // uiContainer.addComponent(new FitToParent());
-        // uiContainer.setAnchorPoint(0.05, -0.45);
-        // statsLayout.addChild(uiContainer);
-
-        // let vertLayout = new ccui.VBox();
-        // vertLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
-        // vertLayout.setSizePercent(cc.p(0.7, 0.7));
-        // uiContainer.addChild(vertLayout);
-
         this.timeText = new Text(
             "Time",
             "Time",
@@ -260,8 +229,6 @@ class MainGamePortraitLayout extends ccui.RelativeBox
         buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
         buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
         buttonLayout.setSizePercent(cc.p(0.20, 0.15));
-        //buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-        //buttonLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
         buttonLayout.addComponent(new FitToParent());
 
         let layoutParameter = new ccui.RelativeLayoutParameter();
@@ -281,7 +248,6 @@ class MainGamePortraitLayout extends ccui.RelativeBox
         button.setTitleText(text);
         button.setPositionType(ccui.Widget.POSITION_PERCENT);
         button.setPositionPercent(cc.p(0.5, 0.5));
-        //button.setAnchorPoint(cc.p(1.0, 1.0));
         button.addComponent(new FitToParent());
 
         // Binds function to the button for click event

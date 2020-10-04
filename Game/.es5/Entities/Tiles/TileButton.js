@@ -10,8 +10,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var currentID = 0;
-
 var TileButton = function (_ccui$Button) {
 	_inherits(TileButton, _ccui$Button);
 
@@ -23,7 +21,6 @@ var TileButton = function (_ccui$Button) {
 		_this.scheduleUpdate();
 
 		_this.size = size;
-		_this.id = currentID;
 		_this.isSelected = false;
 		_this.row = row;
 		_this.col = column;
@@ -39,8 +36,6 @@ var TileButton = function (_ccui$Button) {
 		_this.tileType = tileType;
 
 		_this.isMatchFound = false;
-
-		currentID++;
 
 		_this.initSpriteFromType();
 

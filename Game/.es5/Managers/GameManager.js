@@ -63,6 +63,14 @@ var GameManager = function () {
 		set: function set(val) {
 			this._score = val;
 		}
+	}, {
+		key: "highscore",
+		get: function get() {
+			return this._highscore;
+		},
+		set: function set(val) {
+			this._highscore = val;
+		}
 	}], [{
 		key: "getInstance",
 		value: function getInstance() {
@@ -70,6 +78,7 @@ var GameManager = function () {
 				GameManager._sharedInstance = new GameManager();
 				GameManager._sharedInstance._gameState = GAME_STATE_INACTIVE;
 				GameManager._sharedInstance._score = 0;
+				GameManager._sharedInstance._highscore = 0;
 				GameManager._sharedInstance._hasSetName = false;
 			}
 

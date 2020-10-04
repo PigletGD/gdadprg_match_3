@@ -1,9 +1,4 @@
-// TODO: BoardManager
-// It creates a board.
-// It handles creating additional tiles when a match is found.
-// It stores all the tile types to be generated as tiles
-// OPTIONAL: Create a certain board type.
-// OPTIONAL: Shuffle when no match can be found.
+
 
 /********************************
 BoardManager manages the game boards.

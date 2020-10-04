@@ -11,7 +11,6 @@ class InputNamePopupLayout extends ccui.Layout
 
 		this.createPopup();
 		this.createButtons();
-
 	}
 
 	createPopup()
@@ -29,7 +28,7 @@ class InputNamePopupLayout extends ccui.Layout
 		let inputNamePrompt = new Text2("InputNamePrompt");
 		inputNamePrompt.setFontName(res.PixelFont.name);
 		inputNamePrompt.setString("What is your name?");
-		inputNamePrompt.setFontSize(45); // TODO: Make an auto-size feature
+		inputNamePrompt.setFontSize(45);
 		inputNamePrompt.setAnchorPoint(0.5, 0.5);
 
 		let promptLayoutParameter = new ccui.RelativeLayoutParameter();
@@ -41,7 +40,6 @@ class InputNamePopupLayout extends ccui.Layout
 		popUp.addUIElement(inputNamePrompt);
 
 		// Text field setup
-
 		let textField = new ccui.TextField();
 		textField.setTouchEnabled(true);
 		textField.setFontName(res.PixelFont.name);
@@ -62,7 +60,6 @@ class InputNamePopupLayout extends ccui.Layout
 		textLayoutParameter2.setMargin(0, 0, 0, 0);
 
 		textField.setLayoutParameter(textLayoutParameter2);
-
 		textField.addComponent(new FitToParent());
 
 		popUp.addUIElement(textField);
@@ -79,14 +76,13 @@ class InputNamePopupLayout extends ccui.Layout
 		this.acceptButton.setTitleText("Accept");
 		this.acceptButton.setTouchEnabled(false);
 
-
 		this.acceptButton.addComponent(new FitToParent());
 
-		let resumeLayoutParameter = new ccui.RelativeLayoutParameter();
-		resumeLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
-		resumeLayoutParameter.setMargin(0, 0, 0, 50);
+		let acceptBLayoutParameter = new ccui.RelativeLayoutParameter();
+		acceptBLayoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_BOTTOM_CENTER_HORIZONTAL);
+		acceptBLayoutParameter.setMargin(0, 0, 0, 50);
 
-		this.acceptButton.setLayoutParameter(resumeLayoutParameter);
+		this.acceptButton.setLayoutParameter(acceptBLayoutParameter);
 
 		this.acceptButton.addClickEventListener(this.onClickAccept.bind(this));
 
@@ -111,24 +107,28 @@ class InputNamePopupLayout extends ccui.Layout
 						this.acceptButton.setTouchEnabled(false);
 					}
 				} break;
-
 		}
 	}
 	onClickAccept()
 	{
-		console.log("accepted " + this.inputtedName);
 		UserService.getInstance().createUser(this.inputtedName, 0);
 		GameManager.getInstance().nameHasSet();
 		this.popUp.playExitAnimation(this, this.onFinish);
 	}
 	onFinish()
 	{
+		// Reloads scores to adjust
+		UserService.getInstance().getAllUsersInfo();
+
 		// Unpause Game Here
 		GameManager.getInstance().resumeGame();
-		// Enable button interaction
+
+		// Enable button interaction - landscape
 		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices0").getChildByName("PLAY").setTouchEnabled(true);
 		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices1").getChildByName("RULES").setTouchEnabled(true);
 		this.origin.getParent().getChildByName("MainMenuLandscapeLayout").getChildByName("Buttons").getChildByName("Choices2").getChildByName("LEADERBOARD").setTouchEnabled(true);
+
+		// Enable button interaction - portrait
 		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("PLAY").setTouchEnabled(true);
 		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("RULES").setTouchEnabled(true);
 		this.origin.getParent().getChildByName("MainMenuPortraitLayout").getChildByName("Buttons").getChildByName("Choices").getChildByName("LEADERBOARD").setTouchEnabled(true);

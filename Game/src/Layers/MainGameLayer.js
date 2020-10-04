@@ -16,7 +16,6 @@ class MainGameLayer extends cc.LayerColor
         this.createBoard();
     }
 
-    // Test function as I couldn't get board manager to work
     createBoard()
     {
         this.board = BoardManager.getInstance().createBoard(cc.size(8, 8), this.getContentSize());

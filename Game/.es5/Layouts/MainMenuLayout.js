@@ -28,17 +28,14 @@ var MainMenuLandscapeLayout = function (_ccui$Layout) {
             _get(MainMenuLandscapeLayout.prototype.__proto__ || Object.getPrototypeOf(MainMenuLandscapeLayout.prototype), "onEnter", this).call(this);
             this.setContentSize(cc.winSize);
 
+            // Title text
             this.addChild(new Text("Title", "Toiree", res.PixelFont.name, 60, cc.p(0.5, 0.7), {
                 color: cc.color(0, 0, 0, 255),
                 stroke: 4
             }));
 
+            // Handles all menu button creation
             this.createRowOfButtons();
-
-            // TODO: Check if we need to not generate the input layout when a non-unique id is found
-            if (!GameManager.getInstance().isNameSet) {
-                this.getParent().addChild(new InputNamePopupLayout(this));
-            }
 
             this.addComponent(new FitToWindow());
             this.addComponent(new EnableOnLandscape());
@@ -70,10 +67,11 @@ var MainMenuLandscapeLayout = function (_ccui$Layout) {
                 vertLayout.addComponent(new FitToParent());
                 buttonLayout.addChild(vertLayout);
 
+                // Binds specific properties to a button depending on index
                 if (i === 0) {
                     this.createButton(vertLayout, "PLAY", this.onClickPlay);
                 } else if (i === 1) {
-                    this.createButton(vertLayout, "RULES", this.onClickPlay);
+                    this.createButton(vertLayout, "RULES", this.onClickRules);
                 } else {
                     this.createButton(vertLayout, "LEADERBOARD", this.onClickLeaderboard);
                 }
@@ -92,7 +90,7 @@ var MainMenuLandscapeLayout = function (_ccui$Layout) {
             button.setCapInsets(cc.rect(20, 20, 20, 20));
             button.setContentSize(cc.size(300, 125));
 
-            button.setTitleFontSize(48);
+            button.setTitleFontSize(40);
             button.setTitleFontName("Pixel");
             button.setTitleText(text);
             button.setName(text);
@@ -166,6 +164,12 @@ var MainMenuPortraitLayout = function (_PortraitLayout) {
         value: function onEnter() {
             _get(MainMenuPortraitLayout.prototype.__proto__ || Object.getPrototypeOf(MainMenuPortraitLayout.prototype), "onEnter", this).call(this);
 
+            // Instantiates input name popup here if user is not created
+            // Also here to render after everything else
+            if (!GameManager.getInstance().isNameSet) {
+                this.getParent().addChild(new InputNamePopupLayout(this));
+            }
+
             this.createTitle();
             this.createColumnOfButtons();
         }
@@ -210,6 +214,7 @@ var MainMenuPortraitLayout = function (_PortraitLayout) {
             buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
             buttonLayout.setSizePercent(cc.p(0.70, 0.45));
             buttonLayout.addComponent(new FitToParent());
+            buttonLayout.setName("Buttons");
 
             // Debug to see the rect bounds of the layout
             //buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
@@ -240,11 +245,13 @@ var MainMenuPortraitLayout = function (_PortraitLayout) {
             //vertLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
             //vertLayout.setBackGroundColor(cc.color(150, 0, 0,255));
             vertLayout.addComponent(new FitToParent());
+            vertLayout.setName("Choices");
             parent.addChild(vertLayout);
 
             // Creates the three buttons to be attached to the vertical layout with functions to be binded
             this.createButton(vertLayout, "PLAY", this.onClickPlay);
             this.createButton(vertLayout, "RULES", this.onClickRules);
+            this.createButton(vertLayout, "LEADERBOARD", this.onClickLeaderboard);
             // this.createButton(vertLayout, "LEADERBOARD", this.onClickRules);
         }
 
@@ -255,17 +262,23 @@ var MainMenuPortraitLayout = function (_PortraitLayout) {
         value: function createButton(parent, text, bindingFunction) {
             // Sets ups button with 9-slice
             var button = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
-            button.setName(text);
+
             button.setScale9Enabled(true);
             button.setCapInsets(cc.rect(20, 20, 20, 20));
             button.setContentSize(cc.size(300, 125));
-            button.setTitleFontSize(48);
+
+            button.setTitleFontSize(40);
             button.setTitleFontName("Pixel");
             button.setTitleText(text);
+            button.setName(text);
+
+            if (!GameManager.getInstance().isNameSet) {
+                button.setTouchEnabled(false);
+            }
 
             var layoutParameter = new ccui.LinearLayoutParameter();
             layoutParameter.setGravity(ccui.LinearLayoutParameter.CENTER_HORIZONTAL);
-            layoutParameter.setMargin(0, 0, 0, 0);
+            layoutParameter.setMargin(0, -10, 0, 0);
             button.setLayoutParameter(layoutParameter);
 
             button.addComponent(new FitToParent());
@@ -292,6 +305,14 @@ var MainMenuPortraitLayout = function (_PortraitLayout) {
         key: "onClickRules",
         value: function onClickRules() {
             cc.director.runScene(new RulesScene());
+        }
+
+        //Go to leaderboard scene
+
+    }, {
+        key: "onClickLeaderboard",
+        value: function onClickLeaderboard() {
+            cc.director.runScene(new LeaderboardScene());
         }
 
         // Creates pop-up quit confirmation menu

@@ -5,6 +5,5 @@ class Background extends cc.Sprite
         super(spriteFilePath);
         this.setName(name);
         this.setAnchorPoint(0.0, 0.0);
-        //this.originalSpriteSize = spriteFilePath.getContentSize();
     }
 }

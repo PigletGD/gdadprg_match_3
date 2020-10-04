@@ -27,19 +27,9 @@ var RulesLandscapeLayout = function (_LandscapeLayout) {
             this.createButton(this, "BACK", this.onClickBack);
         }
     }, {
-        key: "createTextPercent",
-        value: function createTextPercent(parent, name, message, x, y, size) {
-            var text = new ccui.Text(message, "Pixel", size);
-            text.setName(name);
-            text.setPositionType(ccui.Widget.POSITION_PERCENT);
-            text.setPositionPercent(cc.p(x, y));
-            text.enableOutline(cc.color(0, 0, 0, 255), 4);
-            parent.addChild(text);
-            text.addComponent(new FitToParent());
-        }
-    }, {
         key: "createRulesText",
         value: function createRulesText(parent) {
+            // Creates bounding box of text for sizing
             var rulesLayout = new ccui.Layout(cc.winSize);
             rulesLayout.setAnchorPoint(0.5, 0.5);
             rulesLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
@@ -48,12 +38,14 @@ var RulesLandscapeLayout = function (_LandscapeLayout) {
             rulesLayout.setSizePercent(cc.p(0.9, 0.8));
             rulesLayout.addComponent(new FitToParent());
 
+            // Creates relative box to anchor children to specific point
             var layoutParameter = new ccui.RelativeLayoutParameter();
             layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
             layoutParameter.setMargin(0, 10, 0, 0);
             rulesLayout.setLayoutParameter(layoutParameter);
             parent.addChild(rulesLayout);
 
+            // Rules text
             var rules = "RULES:\n\n1.) Click on two adjacent \ntiles to swap their places\n\n2.) Match three or more adjacent \nsame type tiles to earn points\n\n3.) Gain as much points as \npossible within two minutes";
 
             rulesLayout.addChild(new Text("Rules", rules, res.PixelFont.name, 48, cc.p(0.5, 0.5), {
@@ -67,16 +59,16 @@ var RulesLandscapeLayout = function (_LandscapeLayout) {
     }, {
         key: "createButton",
         value: function createButton(parent, text, bindingFunction) {
+            // Layout for precise placement
             var buttonLayout = new ccui.Layout(cc.winSize);
             buttonLayout.setAnchorPoint(0.5, 0.5);
             buttonLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
             buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
             buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
             buttonLayout.setSizePercent(cc.p(0.25, 0.2));
-            //buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-            //buttonLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
             buttonLayout.addComponent(new FitToParent());
 
+            // Layout for anchoring
             var layoutParameter = new ccui.RelativeLayoutParameter();
             layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_RIGHT_BOTTOM);
             layoutParameter.setMargin(0, 0, 0, 0);
@@ -94,7 +86,6 @@ var RulesLandscapeLayout = function (_LandscapeLayout) {
             button.setTitleText(text);
             button.setPositionType(ccui.Widget.POSITION_PERCENT);
             button.setPositionPercent(cc.p(0.5, 0.5));
-            //button.setAnchorPoint(cc.p(1.0, 1.0));
             button.addComponent(new FitToParent());
 
             // Binds function to the button for click event
@@ -131,22 +122,23 @@ var RulesPortraitLayout = function (_PortraitLayout) {
     }, {
         key: "createRulesText",
         value: function createRulesText(parent) {
+            // Creates bounding box of text for sizing
             var rulesLayout = new ccui.Layout(cc.winSize);
             rulesLayout.setAnchorPoint(0.5, 0.5);
             rulesLayout.setPositionType(ccui.Widget.POSITION_PERCENT);
             rulesLayout.setPositionPercent(cc.p(0.5, 0.7));
             rulesLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
             rulesLayout.setSizePercent(cc.p(0.9, 0.8));
-            //rulesLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-            //rulesLayout.setBackGroundColor(cc.color(0, 150, 0, 255));
             rulesLayout.addComponent(new FitToParent());
 
+            // Creates relative box to anchor children to specific point
             var layoutParameter = new ccui.RelativeLayoutParameter();
             layoutParameter.setAlign(ccui.RelativeLayoutParameter.PARENT_TOP_CENTER_HORIZONTAL);
             layoutParameter.setMargin(0, 10, 0, 0);
             rulesLayout.setLayoutParameter(layoutParameter);
             parent.addChild(rulesLayout);
 
+            // Rules text
             var rules = "RULES:\n\n1.) Click on two\nadjacent tiles to\nswap their places\n\n2.) Match three or\nmore adjacent same\ntype tiles to earn\npoints\n\n3.) Gain as much\npoints as possible\nwithin two minutes";
 
             rulesLayout.addChild(new Text("Rules", rules, res.PixelFont.name, 48, cc.p(0.5, 0.5), {
@@ -166,8 +158,6 @@ var RulesPortraitLayout = function (_PortraitLayout) {
             buttonLayout.setPositionPercent(cc.p(0.5, 0.7));
             buttonLayout.setSizeType(ccui.Widget.SIZE_PERCENT);
             buttonLayout.setSizePercent(cc.p(0.45, 0.2));
-            // buttonLayout.setBackGroundColorType(ccui.Layout.BG_COLOR_SOLID);
-            // buttonLayout.setBackGroundColor(cc.color(0, 0, 150, 255));
             buttonLayout.addComponent(new FitToParent());
 
             var layoutParameter = new ccui.RelativeLayoutParameter();
@@ -187,7 +177,6 @@ var RulesPortraitLayout = function (_PortraitLayout) {
             button.setTitleText(text);
             button.setPositionType(ccui.Widget.POSITION_PERCENT);
             button.setPositionPercent(cc.p(0.5, 0.5));
-            //button.setAnchorPoint(cc.p(1.0, 1.0));
             button.addComponent(new FitToParent());
 
             // Binds function to the button for click event

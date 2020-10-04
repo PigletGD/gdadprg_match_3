@@ -35,10 +35,7 @@ class ResultsPopupLayout extends ccui.Layout
 
         popUp.addChild(scoreText);
 
-        // End of pause text setup
-
         // Start of resume button setup
-
         let retryButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
         retryButton.setScale9Enabled(true);
@@ -57,10 +54,7 @@ class ResultsPopupLayout extends ccui.Layout
         retryButton.addClickEventListener(this.onClickRetry.bind(this));
         popUp.addChild(retryButton);
 
-        // End of resume button setup
-
         // Start of main menu button setup
-
         let mainMenuButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
         mainMenuButton.setScale9Enabled(true);
@@ -94,6 +88,7 @@ class ResultsPopupLayout extends ccui.Layout
 
     onClickMainMenu()
     {
+        UserService.getInstance().getAllUsersInfo();
         this.popUp.playExitAnimation(this, this.goToMainMenu);
     }
 

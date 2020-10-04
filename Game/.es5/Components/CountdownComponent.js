@@ -10,7 +10,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// Time is in seconds
+//A component that is counts down from a value to zero.
+// Time is in seconds.
 var CountdownComponent = function (_cc$Component) {
 	_inherits(CountdownComponent, _cc$Component);
 
@@ -34,9 +35,6 @@ var CountdownComponent = function (_cc$Component) {
 		value: function onEnter() {
 			_get(CountdownComponent.prototype.__proto__ || Object.getPrototypeOf(CountdownComponent.prototype), "onEnter", this).call(this);
 		}
-
-		//TODO: Refactor
-
 	}, {
 		key: "update",
 		value: function update(delta) {

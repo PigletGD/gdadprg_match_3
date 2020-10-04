@@ -11,6 +11,7 @@ class MainMenuLandscapeLayout extends ccui.Layout
         super.onEnter();
         this.setContentSize(cc.winSize);
 
+        // Title text
         this.addChild(new Text("Title",
             "Toiree",
             res.PixelFont.name,
@@ -20,7 +21,8 @@ class MainMenuLandscapeLayout extends ccui.Layout
                 color: cc.color(0, 0, 0, 255),
                 stroke: 4
             }));
-
+        
+        // Handles all menu button creation
         this.createRowOfButtons();
 
         this.addComponent(new FitToWindow());
@@ -55,6 +57,7 @@ class MainMenuLandscapeLayout extends ccui.Layout
                 vertLayout.addComponent(new FitToParent());
                 buttonLayout.addChild(vertLayout);
 
+            // Binds specific properties to a button depending on index
             if (i === 0) {
                 this.createButton(vertLayout, "PLAY", this.onClickPlay);
 
@@ -139,7 +142,8 @@ class MainMenuPortraitLayout extends PortraitLayout
     {
         super.onEnter();
         
-        // TODO: Check if we need to not generate the input layout when a non-unique id is found
+        // Instantiates input name popup here if user is not created
+        // Also here to render after everything else
         if (!GameManager.getInstance().isNameSet)
         {
             this.getParent().addChild(new InputNamePopupLayout(this));

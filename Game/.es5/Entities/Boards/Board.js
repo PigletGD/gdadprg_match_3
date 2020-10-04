@@ -54,6 +54,11 @@ var Board = function (_cc$DrawNode) {
 			this._array[row * this._boardSize.height + col] = newTileButtonTest;
 			this.addChild(newTileButtonTest);
 		}
+
+		// Sets a tile at a specific tile position to selected.
+		// Handles the user interaction logic of the board.
+		// Press a tile then another tile will swap their positions in the board
+
 	}, {
 		key: "setSelectedTile",
 		value: function setSelectedTile(tilePos) {
@@ -127,12 +132,14 @@ var Board = function (_cc$DrawNode) {
 				}
 			}
 		}
+
+		// Checks the board for tiles that have a match
+
 	}, {
 		key: "validateMatches",
 		value: function validateMatches() {
 			var _this2 = this;
 
-			// Checks the board for tiles that have a match
 			var result = void 0,
 			    tempResult = void 0;
 
@@ -142,7 +149,6 @@ var Board = function (_cc$DrawNode) {
 				if (tempResult) {
 					result = tempResult;
 					this._array[i].isMatchFound = true;
-					console.log("Match found");
 				}
 			}
 
@@ -170,8 +176,6 @@ var Board = function (_cc$DrawNode) {
 			// then do whatever when found a match
 			if (vertical >= 2) vertMatch = true;
 			if (horizontal >= 2) horiMatch = true;
-			//console.log(vertMatch);
-			//console.log(horiMatch);
 			return vertMatch || horiMatch;
 		}
 	}, {
@@ -242,14 +246,14 @@ var Board = function (_cc$DrawNode) {
 
 			return similarTiles;
 		}
+
+		// Removes tiles in the list that have a match
+
 	}, {
 		key: "removeMatches",
 		value: function removeMatches() {
-			// Removes tiles in the list that have a match
 			for (var i = 0; i < this._array.length; i++) {
 				if (this._array[i].isMatchFound) {
-					console.log("Delete tile");
-
 					this._array[i].parent.removeChild(this._array[i]);
 					this._array[i] = null;
 					this.rewardScore(10);
@@ -261,6 +265,10 @@ var Board = function (_cc$DrawNode) {
 		value: function rewardScore(score) {
 			GameManager.getInstance().addScore(score);
 		}
+
+		// Locates an empty space in the board,
+		// then the necessary tiles in the column of the empty space will move down until the space is filled.
+
 	}, {
 		key: "shiftTilesDown",
 		value: function shiftTilesDown() {
@@ -268,11 +276,12 @@ var Board = function (_cc$DrawNode) {
 				this.swapUntilTop(col);
 			}
 		}
+
+		// Swaps all the tiles in the column until the empty tile reaches the top row.
+
 	}, {
 		key: "swapUntilTop",
 		value: function swapUntilTop(colNumber) {
-			console.log(colNumber);
-
 			var i = 0;
 			var j = 1;
 
@@ -315,7 +324,6 @@ var Board = function (_cc$DrawNode) {
 			for (var i = 0; i < this.boardSize.height; i++) {
 				for (var j = 0; j < this.boardSize.width; j++) {
 					if (this._array[i * this.boardSize.height + j] === null) {
-						console.log("Row " + i + ", Col " + j);
 						BoardManager.getInstance().generateTile(i, j);
 					}
 				}

@@ -1,5 +1,3 @@
-var currentID = 0;
-
 class TileButton extends ccui.Button
 {
 	constructor(tileType,
@@ -14,7 +12,6 @@ class TileButton extends ccui.Button
 		this.scheduleUpdate();
 
 		this.size = size;
-		this.id = currentID;
 		this.isSelected = false;
 		this.row = row;
 		this.col = column;
@@ -30,8 +27,6 @@ class TileButton extends ccui.Button
 		this.tileType = tileType;
 
 		this.isMatchFound = false;
-
-		currentID++;
 
 		this.initSpriteFromType();
 

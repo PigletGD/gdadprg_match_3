@@ -21,8 +21,8 @@ class PausePopupLayout extends ccui.Layout
     createButtons()
     {
         let popUp = this.popUp;
-        // Start of pause text setup
 
+        // Start of pause text setup
         let pauseText = new ccui.Text("PAUSED GAME", "Pixel", 60);
         pauseText.setAnchorPoint(0.5, 0.5);
         pauseText.addComponent(new FitToParent());
@@ -34,10 +34,7 @@ class PausePopupLayout extends ccui.Layout
 
         popUp.addUIElement(pauseText);
 
-        // End of pause text setup
-
         // Start of resume button setup
-
         let resumeButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
         resumeButton.setScale9Enabled(true);
@@ -57,10 +54,7 @@ class PausePopupLayout extends ccui.Layout
 
         popUp.addUIElement(resumeButton);
 
-        // End of resume button setup
-
         // Start of main menu button setup
-
         let mainMenuButton = new ccui.Button(res.Button9Slice_png, res.Button9SliceSelected_png);
 
         mainMenuButton.setScale9Enabled(true);
@@ -86,6 +80,7 @@ class PausePopupLayout extends ccui.Layout
             this.popUp.playExitAnimation(this, this.onFinish);
         }
     }
+
     onFinish()
     {
         // Unpause Game Here
@@ -97,6 +92,7 @@ class PausePopupLayout extends ccui.Layout
 
         parent.removeChild(this);
     }
+    
     onClickMainMenu()
     {
         this.popUp.playExitAnimation(this, this.goToMainMenu);

@@ -16,10 +16,7 @@ class Text extends ccui.Text
 
 		this.addComponent(new FitToParent());
 	}
-
-
 }
-
 
 class Text2 extends ccui.Text
 {
@@ -30,6 +27,4 @@ class Text2 extends ccui.Text
 		this.setPositionType(ccui.Widget.POSITION_PERCENT);
 		this.addComponent(new FitToParent());
 	}
-
-
 }

@@ -95,36 +95,25 @@ router.get('/:id', async function(req, res, next) {
   
 });
 
-router.get('/leaderboard', async function(req, res, next){
-  console.log("arrived to router");
-
-  let rankings = await RedisClient.ZRANGEAsync(0, -1, "WITHSCORES");
-
-  if(rankings === null){
-    res.sendStatus(404);
-    return;
-  }
-
-  res.send({rankings: rankings});
-});
-
 router.get('/', async function(req, res, next) {
+  // Get every single key in the array
   let users = await RedisClient.KEYSAsync(user_key("*"));
-  const resut = new Array();
+  const result = new Array();
 
   if(users ===  null){
     res.sendStatus(404)
     return;
   }
 
+  // Push it into the array
   for (let i = 0; i < users.length; i++)
     {
         //console.log("hi");
         test = await RedisClient.HGETALLAsync(users[i]);
-        resut.push(test);
+        result.push(test);
     }
 
-  res.send({users: resut});
+  res.send({users: result});
   
 });
 
